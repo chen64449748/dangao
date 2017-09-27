@@ -1,0 +1,129 @@
+@charset "utf-8";
+/* 全局样式 */
+html {
+	width: 100%;
+	height: 100%;
+	background-color: #f3f3f3;
+	color: #212121;
+	font-size: 62.5%;
+	line-height: 150%;
+	font-family: "微软雅黑", "黑体", "Microsoft YaHei", "SimSun", Helvetica, Arial, sans-serif;
+	word-break: break-all;
+}
+body {
+	position: relative;
+	width: 100%;
+	max-width: 640px;
+	min-height: 100%;
+	font-size: 1.4rem;
+	margin: 0 auto;
+	overflow-x: hidden;
+}
+* {
+	margin: 0;
+	padding: 0;
+}
+ul, 
+li {
+	list-style-type: none;
+}
+img {
+	border: 0px;
+	max-width: 100%;
+	line-height: 0;
+}
+a {color: #212121;}
+/* 点击样式 */
+a, 
+a:hover, 
+a:visited,
+div:active,
+input:focus, 
+textarea:focus {
+	text-decoration: none;
+	outline: none;
+	-webkit-tap-highlight-color:transparent;
+	-ms-tap-highlight-color:transparent;
+	-moz-tap-highlight-color:transparent;
+	-o-tap-highlight-color:transparent;
+}
+
+/* 可编辑容器字体间距 */
+input,
+textarea {
+	padding: 0;
+	margin: 0;
+	line-height: 100%;
+	border: none;
+}
+
+/* checkbox样式 */
+
+/*专题导航*/
+.zt-nav {
+  height: 45px;
+  background-color: #fff;
+}
+header {
+	width: 100%;
+	max-width: 640px;
+	position: fixed;
+	top: 0;
+	z-index: 10;
+	box-shadow: 1px 1px 10px rgba(0,0,0,.1);
+}
+header .on {
+	border-bottom: 2px #2ab4e8 solid;
+	color: #2ab4e8;
+	height: 43px;
+}
+
+/* 内容块 */
+.section {
+	position: relative;
+	top: 45px;
+	padding-bottom: 50px;
+	z-index: 8;
+}
+
+/* 底部 */
+footer,
+aside {
+	width: 100%;
+	max-width: 640px;
+	position: fixed;
+	bottom: 0;
+	z-index: 10;
+	box-shadow: 1px -1px 10px rgba(0,0,0,.1);
+}
+aside.bs-n {box-shadow: none;}
+footer a.on {color: #2ab4e8;}
+footer a img:nth-child(1) {display: none;}
+footer a img:nth-child(2) {display: block;}
+footer a.on img:nth-child(1) {display: block;}
+footer a.on img:nth-child(2) {display: none;}
+
+/******** 后续将废弃：使用频率太低 ********/
+.menu-bottom {
+	height: 30px;
+	padding: 10px 0;
+	bottom: 0;
+	box-shadow: -1px -1px 10px rgba(0,0,0,.1);
+}
+
+/******** 已废弃
+nav.blue {
+  height: 45px;
+  line-height: 45px;
+  box-shadow: 1px 1px 10px rgba(238,238,238,.9);
+}
+nav.blue .on:before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #2ab4e8;
+}
+*******/

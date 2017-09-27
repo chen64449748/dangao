@@ -1,0 +1,743 @@
+@charset "utf-8";
+/* CSS Document */
+
+/* 显示隐藏开关 */
+.dsp-blk {display: block;}
+.db {display: block;}
+.dn {display: none;}
+
+
+/*************************************************
+*												 *
+*						布局                     *
+*                                                *
+**************************************************/
+
+/* 浮动布局 */
+.fl {float: left;}
+.fr {float: right;}
+.cl {
+	clear: both;
+	padding: 0;
+	margin: 0;
+}
+.cb {clear: both;}
+
+/* 定位布局 */
+.pr {position: relative;}
+
+/* 层级 */
+.zi-s-1 {z-index: -1};
+.zi-0 {z-index: 0};
+.zi-1 {z-index: 1};
+.zi-2 {z-index: 2};
+.zi-7 {z-index: 7;}
+.zi-8 {z-index: 8;}
+.zi-9 {z-index: 9;}
+.zi-10 {z-index: 10;}
+.zi-11 {z-index: 11;}
+.zi-12 {z-index: 12;}
+.zi-19 {z-index: 19;}
+.zi-20 {z-index: 20;}
+.zi-21 {z-index: 21;}
+.zi-22 {z-index: 22;}
+.zi-100 {z-index: 100;}
+.zi-101 {z-index: 101;}
+.zi-102 {z-index: 102;}
+
+/* 盒模型 */
+.bs-bb {box-sizing: border-box;}
+
+/* flex布局 */
+.df {display: flex;}
+.fd-r {flex-direction: row;}
+.fd-rr {flex-direction: row-reverse;}
+.fd-c {flex-direction: column;}
+.fd-cr {flex-direction: column-reverse;}
+.jc-ct {justify-content: center;}
+.jc-fs {justify-content: flex-start;}
+.jc-fe {justify-content: flex-end;}
+.ai-ct {align-items: center;}
+.ai-fs {align-items: flex-start;}
+.ai-fe {align-items: flex-end;}
+.as-fs {align-self: flex-start;}
+.as-fe {align-self: flex-end;}
+.fb-1 {flex-basis: 1;}
+.fb-10 {flex-basis: 10px;}
+.fb-20 {flex-basis: 20px;}
+.fb-30 {flex-basis: 30px;}
+.fb-40 {flex-basis: 40px;}
+.fb-50 {flex-basis: 50px;}
+.fb-60 {flex-basis: 60px;}
+.fb-70 {flex-basis: 70px;}
+.fb-80 {flex-basis: 80px;}
+.fb-90 {flex-basis: 90px;}
+.fb-100 {flex-basis: 100px;}
+.fb-120 {flex-basis: 120px;}
+.fb-10p {flex-basis: 10%;}
+.fb-20p {flex-basis: 20%;}
+.fb-25p {flex-basis: 25%;}
+.fb-30p {flex-basis: 30%;}
+.fb-33p {flex-basis: 33.33%;}
+.fb-40p {flex-basis: 40%;}
+.fb-50p {flex-basis: 50%;}
+.fb-60p {flex-basis: 60%;}
+.fb-70p {flex-basis: 70%;}
+.fb-80p {flex-basis: 80%;}
+.fb-90p {flex-basis: 90%;}
+.fb-100p {flex-basis: 100%;}
+.fg-0 {flex-grow: 0;}
+.fg-1 {flex-grow: 1;}
+.fs-0 {flex-shrink: 0;}
+.fs-1 {flex-shrink: 1;}
+.fw-w {flex-wrap: wrap;}
+.fw-nw {flex-wrap: nowrap;}
+
+/* 宽度 */
+.wd-30 {width: 30px;}
+.wd-60 {width: 60px;}
+.wd-80 {width: 80px;}
+.wd-100 {width: 100px;}
+.wd-150 {width: 150px;}
+.wd-5p {width: 5%;}
+.wd-10p {width: 10%;}
+.wd-15p {width: 15%;}
+.wd-20p {width: 20%;}
+.wd-25p {width: 25%;}
+.wd-30p {width: 30%;}
+.wd-33p {width: 33.3%;}
+.wd-35p {width: 34%;}
+.wd-40p {width: 40%;}
+.wd-45p {width: 45%;}
+.wd-50p {width: 50%;}
+.wd-55p {width: 55%;}
+.wd-58p {width: 58%;}
+.wd-60p {width: 60%;}
+.wd-65p {width: 65%;}
+.wd-70p {width: 70%;}
+.wd-75p {width: 75%;}
+.wd-80p {width: 80%;}
+.wd-85p {width: 85%;}
+.wd-90p {width: 90%;}
+.wd-95p {width: 95%;}
+.wd-100p {width: 100%;}
+
+/* 高度 */
+.ht-16 {height: 16px;}
+.ht-20 {height: 20px;}
+.ht-30 {height: 30px;}
+.ht-32 {height: 32px;}
+.ht-35 {height: 35px;}
+.ht-36 {height: 36px;}
+.ht-40 {height: 40px;}
+.ht-42 {height: 42px;}
+.ht-45 {height: 45px;}
+.ht-48 {height: 48px;}
+.ht-50 {height: 50px;}
+.ht-60 {height: 60px;}
+.ht-80 {height: 80px;}
+.ht-82 {height: 82px;}
+.ht-100 {height: 100px;}
+
+/* 外边距 */
+.mh-40 {max-height: 40px;}
+.mxh-80 {max-height: 80px;}
+.ml-2 {margin-left: 2px;}
+.ml-4 {margin-left: 4px;}
+.ml-5 {margin-left: 5px;}
+.ml-8 {margin-left: 8px;}
+.ml-10 {margin-left: 10px;}
+.ml-10p {margin-left: 10%;}
+.ml-20 {margin-left: 20px;}
+.ml-s-4 {margin-left: -4px;}
+.mr-2 {margin-right: 2px;}
+.mr-4 {margin-right: 4px;}
+.mr-5 {margin-right: 5px;}
+.mr-6 {margin-right: 6px;}
+.mr-8 {margin-right: 8px;}
+.mr-10 {margin-right: 10px;}
+.mr-15 {margin-right: 15px;}
+.mr-20 {margin-right: 20px;}
+.mr-2p {margin-right: 2%;}
+.mr-5p {margin-right: 5%;}
+.mb-5 {margin-bottom: 5px;}
+.mb-6 {margin-bottom: 6px;}
+.mb-10 {margin-bottom: 10px;}
+.mt-1 {margin-top: 1px;}
+.mt-2 {margin-top: 2px;}
+.mt-4 {margin-top: 4px;}
+.mt-5 {margin-top: 5px;}
+.mt-6 {margin-top: 6px;}
+.mt-8 {margin-top: 8px;}
+.mt-10 {margin-top: 10px;}
+.mt-12 {margin-top: 12px;}
+.mt-15 {margin-top: 15px;}
+.mt-18 {margin-top: 18px;}
+.mt-20 {margin-top: 20px;}
+.mt-30 {margin-top: 30px;}
+.mt-40 {margin-top: 40px;}
+.mt-50 {margin-top: 50px;}
+.mt-s-1 {margin-top: -1px;}
+.mt-s-2 {margin-top: -2px;}
+.mt-s-4 {margin-top: -4px;}
+.mt-s-8 {margin-top: -8px;}
+
+/* 内边距 */
+.pl-10p {padding-left: 10%;}
+.pl-30 {padding-left: 30px;}
+.pr {position: relative;}
+.pa {position: absolute;}
+.pt-2 {padding-top: 2px;}
+.pt-3 {padding-top: 3px;}
+.pt-4 {padding-top: 4px;}
+.pt-5 {padding-top: 5px;}
+.pt-6 {padding-top: 6px;}
+.pt-8 {padding-top: 8px;}
+.pt-10 {padding-top: 10px;}
+.pt-15 {padding-top: 15px;}
+.pb-5 {padding-bottom: 5px;}
+.pb-10 {padding-bottom: 10px;}
+.pd-0 {padding: 0;}
+.pd-2 {padding: 2px;}
+.pd-4 {padding: 4px;}
+.pd-5 {padding: 5px;}
+.pd-8 {padding: 8px;}
+.pd-10 {padding: 10px;} 
+.pd-20 {padding: 20px;} 
+.pd-0005 {padding:0 5px;}
+.pd-0010 {padding:0 10px;}
+.pd-002p {padding:0 2%;}
+.pd-003p {padding:0 3%;}
+.pd-004p {padding:0 4%;}
+.pd-005p {padding:0 5%;}
+.pd-0204 {padding:2px 4px;}
+.pd-0210 {padding:2px 10px;}
+.pd-0215 {padding:2px 15px;}
+.pd-0410 {padding:4px 10px;}
+.pd-0420 {padding:4px 20px;}
+.pd-0500 {padding: 5px 0;}
+.pd-055p {padding:5px 5%;}
+.pd-0510p {padding:5px 10%;}
+.pd-0802 {padding: 8px 2px;}
+.pd-0820 {padding:8px 20px;}
+.pd-0840 {padding:8px 40px;}
+.pd-1020 {padding:10px 20px;}
+.pd-102p {padding:10px 2%;}
+.pd-103p {padding:10px 3%;}
+.pd-104p {padding:10px 4%;}
+.pd-1000 {padding: 10px 0;}
+.pd-105p {padding:10px 5%;}
+.pd-2000 {padding: 20px 0;}
+
+/* 模块居中 */
+.ma {margin: 0 auto;}
+
+/* 溢出隐藏 */
+.oh {overflow: hidden;}
+.of-hd {overflow: hidden;}
+
+
+/*************************************************
+*												 *
+*				     色值系列                    *
+*                                                *
+**************************************************/
+
+/* 背景色 */
+.bgcl-wt {background-color: white;}
+.bc-wt {background-color: #fff;}
+.bc-sv {background-color: #9e9e9e;}
+.bc-rd {background-color: #da2021;}
+.bc-rs {background-color: #e10337;}
+.bc-gr {background-color: #c9c9c9;}
+.bc-grn {background-color: #2ac47c;}
+.bc-sm {background-color: #e0e0e0;}
+.bc-yl {background-color: #ffc12e;}
+.bc-bl {background-color: #2bb4e8;}
+.bc-og {background-color: #ffc12e;}
+.bc-f5 {background-color: #f5f5f5;}
+.bc-fa {background-color: #fafafa;}
+.bc-f0 {background-color: #f0f0f0;}
+.bc-f {background-color: #fff;}
+.bc-tp {background-color: transparent;}
+.bc-pp {background-color: #6aa2ed;}
+.bc-nb {background-color: #34314c;}
+.bc-rd-d {background-color: #e71d36;}
+.bc-og {background-color: #ff9500;}
+.bc-3 {background-color:#333;}
+.bc-6 {background-color:#666;}
+.bc-9 {background-color: #999;}
+.bc-c {background-color:#ccc;}
+.bc-d {background-color:#ddd;}
+.bc-e {background-color:#eee;}
+
+/* 字体颜色 */
+.cl-wt {color: #fff;}
+.cl-0 {color: #000;}
+.cl-3 {color: #333;}
+.cl-6 {color: #666;}
+.cl-7 {color: #777;}
+.cl-8 {color: #888;}
+.cl-9 {color: #999;}
+.cl-gr {color: #666;}
+.cl-dk {color: #666;}
+.cl-sv {color: #999;}
+.cl-c {color: #ccc;}
+.cl-f {color: #fff;}
+.cl-bl {color: #2bb4e8;}
+.cl-dkbl {color: #2d61ff;}
+.cl-db {color: #2f5eba;}
+.cl-rs {color: #e10337;}
+.cl-rd {color: #e71d36;}
+.cl-pk {color: #c986c7;}
+.cl-og {color: #ffc12e;}
+.cl-yl {color: #ffc12e;}
+.cl-pp {color: #3b4aac;}
+.cl-grn {color: #2ac47c;}
+.cl-br {color: #ff7473;}
+.cl-bl-d {color: #5da5fd;}
+.cl-bl-l {color: #2ab4e8;}
+.cl-nb {color: #34314c;}
+.cl-rd-d {color: #e71d36;}
+.cl-grn-d {color: #109b5a;}
+.cl-grn-l {color: #2ac47c;}
+.cl-og-l {color: #ff9500;}
+
+
+/*************************************************
+*												 *
+*				     字体系列                    *
+*                                                *
+**************************************************/
+
+/* 字体类型 */
+.ff-ht {font-family: "黑体";}
+.fw-bd {font-weight: bold;}
+.fw-b {font-weight: bold;}
+
+/* 字体大小 */
+.fs-8 {font-size: 8px;}
+.fs-9 {font-size: 9px;}
+.fs-10 {font-size: 1rem;}
+.fs-11 {font-size: 1.1rem;}
+.fs-12 {font-size: 1.2rem;}
+.fs-13 {font-size: 1.3rem;}
+.fs-14 {font-size: 1.4rem;}
+.fs-15 {font-size: 1.5rem;}
+.fs-16 {font-size: 1.6rem;}
+.fs-17 {font-size: 1.7rem;}
+.fs-18 {font-size: 1.8rem;}
+.fs-19 {font-size: 1.9rem;}
+.fs-20 {font-size: 2.0rem;}
+.fs-21 {font-size: 2.1rem;}
+.fs-22 {font-size: 2.2rem;}
+.fs-23 {font-size: 2.3rem;}
+.fs-24 {font-size: 2.4rem;}
+.fs-25 {font-size: 2.5rem;}
+
+/* 字体行间距 */
+.lh-0 {line-height: 0;}
+.lh-14 {line-height: 14px;}
+.lh-15 {line-height: 15px;}
+.lh-16 {line-height: 16px;}
+.lh-20 {line-height: 20px;}
+.lh-25 {line-height: 25px;}
+.lh-30 {line-height: 30px;}
+.lh-32 {line-height: 32px;}
+.lh-35 {line-height: 35px;}
+.lh-36 {line-height: 36px;}
+.lh-40 {line-height: 40px;}
+.lh-45 {line-height: 45px;}
+.lh-50 {line-height: 50px;}
+.lh-60 {line-height: 60px;}
+.lh-80 {line-height: 80px;}
+.lh-100 {line-height: 100px;}
+.ta-ct {text-align: center;}
+.ta-lf {text-align: left;}
+.ta-rt {text-align: right;}
+.ts-1-02 {text-shadow: 1px 1px rgba(0,0,0,.6);}
+.ts-1-yl8 {text-shadow: 1px 1px rgba(249,170,77,.8);}
+
+
+/*************************************************
+*												 *
+*				     装饰系列                    *
+*                                                *
+**************************************************/
+
+/* 圆角 */
+.br-2 {border-radius: 2px;}
+.br-4 {border-radius: 4px;}
+.br-5 {border-radius: 5px;}
+.br-10 {border-radius: 10px;}
+.br-15 {border-radius: 15px;}
+.br-20 {border-radius: 20px;}
+.br-30 {border-radius: 30px;}
+
+/* 10像素圆 */
+.circle-10 {
+	width: 10px;
+	height: 10px;
+	border-radius: 10px;
+}
+
+/* 40像素圆 */
+.circle-40 {
+	width: 40px;
+	height: 40px;
+	border-radius: 40px;
+}
+
+/* 边框 */
+.bb-4{border-bottom: 4px #f2f2f2 solid;}
+.bb-t-og {border-bottom: 2px #ffc12e solid;}
+.bb-1{border-bottom: 1px #f2f2f2 solid;}
+.bb-1-rs {border-bottom: 1px #c2182d solid;}
+.bb-1-e {border-bottom: 1px #eee solid;}
+.bb-1-e1-d {border-bottom: 1px #e1e1e1 dashed;}
+.bb-1-6 {border-bottom: 1px #666 solid;}
+.bb-2-e {border-bottom: 2px #eee solid;}
+.bb-3-db {border-bottom: 3px #2089b1 solid;}
+.bb-3-dg {border-bottom: 3px #20955e solid;}
+.bb-3-rd {border-bottom: 3px #b01629 solid;}
+.bd-grn {border: 1px #2ac47c solid;}
+.bd-1-og {border: 1px #ffc12e solid;}
+.bd-1-sv {border: 1px #9e9e9e solid;}
+.bd-1-gr {border: 1px #e1e1e1 solid;}
+.bd-1-yl {border: 1px #ffc12e solid;}
+.bd-1-rs {border: 1px #e10337 solid;}
+.bd-1-rd-d {border: 1px #e10337 dashed;}
+.bd-1-rdd {border: 1px #e10337 solid;}
+.bd-1-wt {border: 1px #fff solid;}
+.bd-1-grnd {border: 1px #109b5a solid;}
+.bd-1-c {border: 1px #ccc solid;}
+.bd-1-3 {border: 1px #333 solid;}
+.bd-1-6 {border: 1px #666 solid;}
+.bd-1-e {border: 1px #eee solid;}
+.bd-1-f {border: 1px #fff solid;}
+.bd-1-f3 {border: 1px #f3f3f3 solid;}
+.bd-1-f5 {border: 1px #f5f5f5 solid;}
+.bd-1-bl {border: 1px #2bb4e8 solid;}
+.bd-2-wt {border: 2px #fff solid;}
+.bd-2-f {border: 2px #fff solid;}
+.bt-1-e {border-top: 1px #eee solid;}
+.bt-1-f {border-top: 1px #fff solid;}
+.bt-2-e {border-top: 2px #eee solid;}
+.bt-2-f {border-top: 2px #fff solid;}
+.bn {border: none;}
+
+/******** 后续将废弃：命名不规范 ********/
+.after-1-pp:after {
+	content: "";
+	position: absolute;
+	right: 0;
+	top: 5%;
+	width: 1px;
+	height: 90%;
+	background-color: #6391e0;
+}
+.after-1-gr:after {
+	content: "";
+	position: absolute;
+	right: 0;
+	top: 5%;
+	width: 1px;
+	height: 90%;
+	background-color: #c9c9c9;
+}
+.right-2-e:after {
+	content: "";
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 2px;
+	height: 50%;
+	top: 25%;
+	background-color: #eee;
+}
+
+/* 伪类边框 */
+.right-1-c:after {
+	content: "";
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 1px;
+	height: 100%;
+	background-color: #ccc;
+}
+.right-1-c-50p:after {
+	content: "";
+	position: absolute;
+	right: 0;
+	top: 25%;
+	width: 1px;
+	height: 50%;
+	background-color: #ccc;
+}
+.right-1-e:after {
+	content: "";
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 1px;
+	height: 100%;
+	background-color: #eee;
+}
+.bottom-1-e:after {
+	content: "";
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	height: 1px;
+	background-color: #eee;
+}
+.bottom-2-bl:after {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	width: 100%;
+	height: 2px;
+	background-color: #2bb4e8;
+	content: "";
+}
+
+/* 透明度 */
+.op-10 {opacity: .1;}
+.op-20 {opacity: .2;}
+.op-30 {opacity: .3;}
+.op-38 {opacity: .38;}
+.op-40 {opacity: .4;}
+.op-50 {opacity: .5;}
+.op-60 {opacity: .6;}
+.op-70 {opacity: .7;}
+.op-80 {opacity: .8;}
+.op-90 {opacity: .9;}
+.op-100 {opacity: 1;}
+
+/* 鼠标可点击 */
+.cp {cursor: pointer;}
+
+/******** css3 ********/
+
+/* 延时 */
+.tt-1 {transition: .1s;}
+
+/* 旋转 */
+.rt-45 {
+	transform: rotate(45deg);
+	transform-origin: center 50%;
+}
+.rt-s-45 {
+	transform: rotate(-45deg);
+	transform-origin: center 50%;
+}
+.rt-s-90 {
+	transform: rotate(-90deg);
+	transform-origin: center 50%;
+}
+.rt-90 {
+	transform: rotate(90deg);
+	transform-origin: center 50%;
+}
+.rt-180 {
+	transform: rotate(180deg);
+	transform-origin: center 50%;
+}
+
+/* 背景色渐变 */
+.blg {
+	background: -moz-linear-gradient(top, rgba(0,0,0,0), rgba(0,0,0,.6));
+	background: -webkit-gradient(linear,top,from(rgba(0,0,0,0)),to(rgba(0,0,0,.6)));
+	background: -webkit-linear-gradient(top, rgba(0,0,0,0), rgba(0,0,0,.6));
+	background: -o-linear-gradient(top, rgba(0,0,0,0), rgba(0,0,0,.6));
+}
+
+/* 模块投影 */
+.bs-1-10-c {box-shadow: 1px 1px 10px #ccc;}
+.bs-0-10-yl {box-shadow: 0 0 10px #fdff2c;}
+
+
+/*************************************************
+*												 *
+*				     功能模块                    *
+*                                                *
+**************************************************/
+
+/* 返回到顶部 */
+.totop {
+	position: fixed;
+	right: 2%;
+	bottom: 62px;
+	z-index: 8;
+}
+
+/******** 后续将废弃：样式不设置display，拿出来做成开关 ********/
+.ly {
+	max-width: 640px;
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top: 0;
+	background-color: rgba(0,0,0,.34);
+	display: none;
+	z-index: 20;
+}
+/* 遮罩层 */
+.ly-op-5 {
+	max-width: 640px;
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top: 0;
+	background-color: rgba(0,0,0,.5);
+	z-index: 20;
+}
+
+/******** 后续将废弃：居中不用js控制 ********/
+.alert-wd-80p {
+	width: 80%;
+	max-width: 512px;
+	margin: 0 auto;
+	position: fixed;
+	top: 15%;
+	box-shadow: 1px 1px 50px #444;
+	display: none;
+	z-index: 21;
+}
+.alert-wd-80p-ts {
+	width: 80%;
+	max-width: 512px;
+	margin: 0 10%;
+	position: fixed;
+	top: 15%;
+	box-shadow: 1px 1px 50px #444;
+	display: none;
+	z-index: 21;
+}
+.alert-wd-50p {
+	width: 50%;
+	max-width: 320px;
+	margin: 0 auto;
+	position: fixed;
+	top: 15%;
+	box-shadow: 1px 1px 50px #444;
+	display: none;
+	z-index: 21;
+}
+.alert-wd-box {
+	width: 100%;
+	max-width: 640px;
+	position: fixed;
+	top: 15%;
+}
+
+/******** 解决js控制居中弹跳bug —— 样式控制居中 ********/
+
+/* 弹窗盒子 */
+.alert-box {
+	max-width: 640px;
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top: 0;
+	z-index: 20;
+}
+
+/* 盒子居底 */
+.bottom-box {
+	position: absolute;
+	bottom: 0;
+}
+
+/* 盒子居右上角 */
+.topright-box {
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+
+/******** 后续将废弃：fixed布局使用语义化标签 ********/
+.fix-width {
+	position: fixed;
+	width: 100%;
+	max-width: 640px;
+}
+
+/* 字体溢出隐藏 */
+.to-hd {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+/* 表单透明底 */
+.input-tp {background-color: transparent;}
+.textarea-tp {background-color: transparent;}
+
+/******** 后续将废弃：图片方形模块不使用js控制，防止拉扯以及ajax调用不生效，改成放置在背景里 ********/
+.box-block {
+	text-align: center;
+	vertical-align: middle;
+	/*overflow: hidden;*/
+	/*background-color: #fff;*/
+}
+
+/******** 后续将废弃：多余，使用db ********/
+.a-db {
+	width: 100%;
+	height: 100%;
+	display: block;
+}
+
+/******** 后续将废弃：使用频率低 ********/
+.pic-circle-40 {
+	width: 40px;
+	height: 40px;
+	border-radius: 40px;
+}
+.pic-circle-20p {
+	width: 100%;
+	height: 100%;
+	border-radius: 100%;
+}
+
+/******** 后续将废弃：使用频率低 ********/
+.search-icon {
+	position: absolute;
+	right: 6%;
+	top: 16px;
+}
+
+/******** 后续将废弃：使用频率低 ********/
+.audio-stop,
+.audio-move {display: none;}
+
+/* 展开隐藏默认样式 */
+div[class*='btn-fold'] {display: none;}
+
+/******** 已废弃 
+.oh-touch {
+	max-height: 235px;
+	overflow: hidden;
+}
+.box-block img {
+	opacity: 0;
+}
+a.a-dsp {
+	width: 100%;
+	height: 100%;
+	display: block;
+}
+a.a-db {
+	width: 100%;
+	height: 100%;
+	display: block;
+}
+.input-bn {border: none;}
+.cb-after:after {
+	content: "";
+	clear: both;
+}
+*******/

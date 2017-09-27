@@ -1,0 +1,12 @@
+/*纵向滑屏*/
+/*直播间*/
+.swiper-container.zb-room-vertical {
+    width: 100%;
+    height: 100%;
+}
+.swiper-container.zb-room-vertical .swiper-slide {
+    height: auto;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.swiper-container.zb-room-vertical .swiper-scrollbar {display: none;}

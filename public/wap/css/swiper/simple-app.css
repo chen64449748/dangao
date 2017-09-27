@@ -1,0 +1,64 @@
+@charset: "utf-8";
+@media screen and (min-width:640px) {
+    .swiper-nav .swiper-slide {width: 128px;}
+}
+@media screen and (min-width:414px) and (max-width:640px) {
+    .swiper-nav .swiper-slide {width: 82.8px;}
+}
+@media screen and (min-width:375px) and (max-width:413px) {
+    .swiper-nav .swiper-slide {width: 75px;}
+}
+.swiper-nav {
+	height: 45px;
+	background-color: #eb758c;
+	color: #fff;
+	overflow: hidden;
+}
+.swiper-nav .swiper-slide {
+	height: 45px;
+	cursor: pointer;
+	line-height: 15px;
+	font-size: 10px;
+	color: #fff;
+	text-align: center;
+	min-width: 64px;
+	float: left;
+	position: relative;
+}
+.swiper-nav .swiper-slide p {margin-top: 8px;font-size: 14px;}
+.swiper-nav .swiper-slide span {line-height: 45px;font-size: 14px;}
+/*自定义*/
+/*.swiper-nav .swiper-slide .arrow {
+	position: absolute;
+	bottom: -6px;
+	left: 50%;
+	margin-left: -3px;
+	width: 0;
+	height: 0;
+	border-top: 6px #e71d36 solid;
+	border-right: 6px transparent solid;
+	border-bottom: 0 #e71d36 solid;
+	border-left: 6px transparent solid;
+}*/
+.swiper-nav .active-nav {
+	background-color: #e95572;
+}
+.swiper-wrapper {min-width: 100%;}
+
+.swiper-pages {
+	height: 100%;
+}
+.scroll-container {
+	height: 100%;
+	width: 100%;
+}
+.scroll-container .swiper-slide {
+	width: 100%;
+}
+
+/*上一张下一张*/
+.device {
+    position: relative;
+    top: 50px;
+    left: 0;
+}

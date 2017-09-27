@@ -1,0 +1,52 @@
+/**********************************************直播*********************************************/
+/*轮播*/
+.flexslider {
+  position:relative;
+  overflow:hidden;
+  width: 100%;
+}
+.flexslider .slides {
+  position:relative;
+  z-index:1;
+  width: 100%;
+  overflow: hidden;
+}
+.flexslider .slides li {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+}
+.flexslider .flex-control-nav {
+  position:absolute;
+  bottom:10px;
+  z-index:2;
+  width:100%;
+  text-align:center;
+}
+.flexslider .flex-control-nav li {
+  display:inline-block;
+  width:8px;
+  height:8px;
+  margin:0 3px;
+  *display:inline;
+  zoom:1;
+}
+.flexslider .flex-control-nav a {
+  display:inline-block;
+  width:8px;
+  height:8px;
+  border-radius: 8px;
+  background-color: #fff;
+  line-height:40px;
+  overflow:hidden;
+  border:1px #ccc solid;
+}
+.flexslider .flex-control-nav .flex-active {background-color: #696967;}
+/*直播间购物车*/
+.flexslider.zb-room-shop .flex-control-nav {display: none;}
+/************************************专题**********************************************/
+.zt-flexslider .flex-control-nav {
+  text-align: right;
+  right: 10px;
+}

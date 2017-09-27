@@ -1,0 +1,152 @@
+@extends('wap.header')
+
+@section('content')
+<!-- 搜索 -->
+<div class="box_fix1">
+    <div class="md_search">
+        <a href="goods"><img src="/wap/images/mdimages/icon/search.png" height="12" class="ic_sc"></a>
+        <input type="text" placeholder="搜索" class="mgt_10" />
+    </div>
+</div>
+
+<!--==================轮播图====================-->
+<div class="flexslider fix_patch1">
+    <ul class="slides">
+        <li><a href="<!--{$sv.url}-->"><img src="/wap/20170623091904111.jpg" alt="" width="100%"></a></li>
+        <li><a href="<!--{$sv.url}-->"><img src="/wap/20170623091904111.jpg" alt="" width="100%"></a></li>
+        <li><a href="<!--{$sv.url}-->"><img src="/wap/1467603508.jpg" alt="" width="100%"></a></li>
+    </ul>
+</div>
+
+
+<!--===================菜单=====================-->
+<div>
+    <div class="md_menu">
+        
+        <a href="<!--{$v.url|replace:'http://md.bookuu.com':$mdwd_www}-->"  class="fl"><img src="/wap/20170926101954.jpg" alt="<!--{$v.title}-->"  height="80"><span><!--{$v.title}--></span></a>
+        
+        <a href="<!--{$v.url|replace:'http://md.bookuu.com':$mdwd_www}-->"  class="fl"><img src="/wap/20170926103230.jpg" alt="<!--{$v.title}-->"  height="80"><span><!--{$v.title}--></span></a>
+
+        <a href="<!--{$v.url|replace:'http://md.bookuu.com':$mdwd_www}-->"  class="fl"><img src="/wap/20170926103506.jpg" alt="<!--{$v.title}-->"  height="80"><span><!--{$v.title}--></span></a>
+
+        <div class="cl"></div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function(){
+        var h=($('.img2').height())/2;
+        $('.img1').each(function(){
+            $(this).height(h);
+        })
+    })
+    $(window).bind('resize load',function(){
+        var h=($('.img2').height())/2;
+        $('.img1').each(function(){
+            $(this).height(h);
+        })
+    })
+</script>
+
+<!--===================主题馆====================-->
+<div class="bgcl_wt">
+    <div>
+        <a href="javascript:void(0);" class="mgt_10 a_lk">
+            <span class="fl spr"></span>
+            <span class="fl fs_15">主题馆</span>
+            <img src="/wap/images/mdimages/icon/more.png" alt="" height="12" class="fr" style="margin-top: 4px;">
+            
+            <div class="cl"></div>
+        </a>
+    </div>
+    <ul class="md_block2">
+        
+        <a href="<!--{$themev.url|replace:'http://md.bookuu.com':$mdwd_www}-->" class="fl"><img src="/wap/20170926101954.jpg" width="100%" height="200"></a>
+        <a href="<!--{$themev.url|replace:'http://md.bookuu.com':$mdwd_www}-->" class="fl"><img src="/wap/20170926101954.jpg" width="100%" height="200"></a>
+        <a href="<!--{$themev.url|replace:'http://md.bookuu.com':$mdwd_www}-->" class="fl"><img src="/wap/20170926101954.jpg" width="100%" height="200"></a>
+        <a href="<!--{$themev.url|replace:'http://md.bookuu.com':$mdwd_www}-->" class="fl"><img src="/wap/20170926101954.jpg" width="100%" height="200"></a>
+        <a href="<!--{$themev.url|replace:'http://md.bookuu.com':$mdwd_www}-->" class="fl"><img src="/wap/20170926101954.jpg" width="100%" height="200"></a>
+        <a href="<!--{$themev.url|replace:'http://md.bookuu.com':$mdwd_www}-->" class="fl"><img src="/wap/20170926101954.jpg" width="100%" height="200"></a>
+        <div class="cl"></div>
+    </ul>
+
+</div>
+
+<!--==================热销TOP10===================-->
+<div class="bgcl_wt mgt_10 pdb_10">
+    <div class="pdb_10">
+        <a href="javascript:void(0);" class="mgt_10 a_lk">
+            <span class="fl spr"></span>
+            <span class="fl fs_15">热销TOP10</span>
+            <img src="/wap/images/mdimages/icon/more.png" alt="" height="12" class="fr" style="margin-top: 4px;">
+            
+            <div class="cl"></div>
+        </a>
+    </div>
+    <div class="md_block3">
+
+        
+        <div class="div_img fl">
+            <div class="div_buding pd_08"><a href="detail.php?id=<!--{$hottopv.goods_id}-->" class="dsp_blk"><img src="/wap/20170926101954.jpg" width="100%"></a></div>
+            <div class="pdlr_03">
+                <a href="javascript:void(0);" class="a_ttl">热销产品1</a>
+                <div class="div_shop">
+                    <span class="fs_12 cl_rd fl">￥29.9</span>
+                    <a href="javascript:void(0);" onclick="addcart(<!--{$hottopv.goods_id}-->);"><img src="/wap/images/mdimages/icon/shop.png" height="16" class="fr"></a>
+                    <div class="cl"></div>
+                </div>
+            </div>
+        </div>
+
+       
+        
+        <div class="div_img fl">
+            <div class="div_buding pd_08"><a href="detail.php?id=<!--{$hottopv.goods_id}-->" class="dsp_blk"><img src="/wap/20170926101954.jpg" width="100%"></a></div>
+            <div class="pdlr_03">
+                <a href="javascript:void(0);" class="a_ttl">热销产品2</a>
+                <div class="div_shop">
+                    <span class="fs_12 cl_rd fl">￥29.9</span>
+                    <a href="javascript:void(0);" onclick="addcart(<!--{$hottopv.goods_id}-->);"><img src="/wap/images/mdimages/icon/shop.png" height="16" class="fr"></a>
+                    <div class="cl"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="cl"></div>
+    </div>
+</div>
+
+
+<!-- 回到顶部 -->
+<a href="#" class="md_totop"><img src="/wap/images/mdimages/icon/top.png" height="24"></a>
+<div style="height: 60px;"></div>
+
+
+
+<script src="/wap/js/swiper/swiper.min.js"></script>
+
+</script>
+<script type="text/javascript">
+    $(".md_nav a").eq(0).addClass('hv');
+
+    function openshop(){
+        $.getJSON("/index.php",{act:'openshop'},
+                function(data){window.location.href=data.url;}
+        )
+    }
+
+    function addcart(id){
+        if(!id){
+            alert('商品不存在'); return false;
+        }
+        $.getJSON("/index.php",{act:'shoppingcart', gid:id},
+             function(data){
+                 if(data.info){
+                     alert(data.info); return false;
+                 }
+                 alert(data.msg); return false;
+             }
+        )
+    }
+</script>
+@stop
