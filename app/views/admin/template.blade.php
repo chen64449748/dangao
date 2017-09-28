@@ -55,7 +55,7 @@
             </div>
           </div>
           <ul class="cl-vnavigation">
-            @include('silde')     
+            @include('admin.silde')     
           </ul>
         </div>
       </div>

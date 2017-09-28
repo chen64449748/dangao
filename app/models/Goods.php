@@ -66,73 +66,55 @@ class Goods extends Eloquent
 		foreach ($goods_data as $key => $goods) {
 			$now_index = $key + 1;
 
-			if (!$goods['goods_number']) {
-				throw new Exception("第".$now_index.'个货品单 货号必填');
-			}
-
-			$company_sign = Sign::find($goods['company_sign_id']);
-
-			if ($company_sign->company_id != $goods['company_id']) {
-				throw new Exception("品牌与公司不匹配，请等品牌加载完再添加");
-			}
-
 			$a_type = array(
 				'goods_number'=> $goods['goods_number'],
-				'company_id' => $goods['company_id'],
-				'company_sign_id' => $goods['company_sign_id'],
 			);
 
 			if ($a_goods = $this->fetch($a_type)) {
 				$goods_id = $a_goods->id;
 				throw new Exception("已存在货号".$goods_id);
-			} else {
+			} 
 
-				// 新增
-				$goods_sku = $goods['goods_sku']; // 对应关联的sku
-				$num_type = $goods['num_type'];
-				$sku_price = $goods['sku_price']; // 里面有 价格 库存  价格库存对照属性
-				unset($goods['goods_sku'], $goods['num_type'], $goods['sku_price']);
-				$goods['created_at'] = $now_date;
-		
-				$goods_id = $this->insertGetId($goods);
+			// 新增
+			$goods_sku = $goods['goods_sku']; // 对应关联的sku
+			$sku_price = $goods['sku_price']; // 里面有 价格 库存  价格库存对照属性
+			unset($goods['goods_sku'], $goods['num_type'], $goods['sku_price']);
+			$goods['created_at'] = $now_date;
+	
+			$goods_id = $this->insertGetId($goods);
 
-				if (!$goods_id) {
-					throw new Exception("系统错误 添加货品失败");
-				}
-
-				// 添加goods sku关联  这张表用于读取 价格库存sku
-				GoodsSku::add($goods_sku, $goods_id);
-
-				foreach ($sku_price as $sku_pv) {
-					
-					if (!isset($sku_pv['stock'])) {
-						throw new Exception("第".$now_index.'个货品单 没填库存');
-					}
-
-					if (!isset($sku_pv['price'])) {
-						//throw new Exception("第".$now_index.'个货品单 没填价格');
-						$sku_pv['price'] = '';
-					}
-
-					if (!is_numeric($sku_pv['stock'])) {
-						throw new Exception("第".$now_index.'个货品单 库存非数字');
-					}
-
-					// 插入价格 和 库存
-					SkuPrice::add($sku_pv, $goods_id);
-
-				}
-				
-				// 数量类型
-				NumType::add($num_type, $goods_id);
+			if (!$goods_id) {
+				throw new Exception("系统错误 添加货品失败");
 			}
 
-			$result[$goods['company_id']][$goods['company_sign_id']] = $goods_id;
+			// 添加goods sku关联  这张表用于读取 价格库存sku
+			GoodsSku::add($goods_sku, $goods_id);
+
+			foreach ($sku_price as $sku_pv) {
+				
+				if (!isset($sku_pv['stock'])) {
+					throw new Exception("第".$now_index.'个货品单 没填库存');
+				}
+
+				if (!isset($sku_pv['price'])) {
+					//throw new Exception("第".$now_index.'个货品单 没填价格');
+					$sku_pv['price'] = '';
+				}
+
+				if (!is_numeric($sku_pv['stock'])) {
+					throw new Exception("第".$now_index.'个货品单 库存非数字');
+				}
+
+				// 插入价格 和 库存
+				SkuPrice::add($sku_pv, $goods_id);
+
+			}
+
+			$result[] = $goods_id;
+
+			return $result;
 
 		}
-
-		return $result;
-
 	}
 
 	// 修改商品

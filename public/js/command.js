@@ -15,13 +15,6 @@ function goodsAdd(callback)
 		var now_index = index + 1;
 		// 循环货品单
 		var a_goods = {};
-		var company_id = $(this).find('.company_id').find('option:selected').val();
-		var company_sign_id = $(this).find('.company_sign_id').find('option:selected').val();
-		if (!company_id || !company_sign_id) {
-			window.wxc.xcConfirm('公司名称与品牌名称必填, 第' + now_index + '个货品单', window.wxc.xcConfirm.typeEnum.info);
-			add_flag = false;
-			return;
-		}
 
 		var goods_number = $(this).find('.goods_number').val();
 		var goods_desc = $(this).find('.goods_desc').val();
@@ -33,38 +26,11 @@ function goodsAdd(callback)
 			return;
 		}
 
-		a_goods.company_id = company_id;
-		a_goods.company_sign_id = company_sign_id;
+	
 		a_goods.goods_number = goods_number;
 		a_goods.goods_desc = goods_desc;
-		a_goods.num_type = [];
 		a_goods.goods_sku = [];
 		a_goods.sku_price = [];
-		// var num_type_num = $(this).find('.num_type_div').find('.control-group').size();
-
-		// if (num_type_num == 0) {
-		// 	return window.wxc.xcConfirm('第' + now_index + '个货品单 请添加数量类型', window.wxc.xcConfirm.typeEnum.info);
-		// }
-
-		$(this).find('.num_type_div').find('.control-group').each(function () {
-
-			var num_type_o = {};
-
-			var num_type_name = $(this).find('.num_type_name').val();
-			var num_type_value = $(this).find('.num_type_value').val();
-
-			if (!num_type_name || !num_type_value) {
-				window.wxc.xcConfirm('第' + now_index + '个货品单 数量类型必填', window.wxc.xcConfirm.typeEnum.info);
-				add_flag = false;
-				return;
-			}
-
-			num_type_o.num_type_name = num_type_name;
-			num_type_o.num_type_value = num_type_value;
-
-			a_goods.num_type.push(num_type_o);
-
-		});
 
 		
 		var goods_sku_num = $(this).find('.skus_select').find('input:checked').size();

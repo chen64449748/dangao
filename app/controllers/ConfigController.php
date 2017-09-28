@@ -6,12 +6,12 @@ class ConfigController extends BaseController
 	public function configList()
 	{
 		$skus = Sku::get();
-
+		
 		$view_data = array(
 			'skus' => $skus,
 		);
 
-		return View::make('config.config', $view_data);
+		return View::make('admin.config.config', $view_data);
 	}
 
 

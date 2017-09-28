@@ -6,110 +6,59 @@ class GoodsController extends BaseController
 	public function goodsList()
 	{
 		$goods_m = new Goods();
-		$company_m = new Company();
-		$sign_m = new Sign();
 		$type = array();
 
 		$id = Input::get('id', '');
-		$company_id = Input::get('company_id', '');
-		$company_sign_id = Input::get('company_sign_id', '');
+
 		$goods_desc = Input::get('goods_desc', '');
 		$goods_number = Input::get('goods_number', '');
 
 		$id && $type['id'] = $id;
 		$goods_desc && $type['goods_desc'] = $goods_desc;
 		$goods_number && $type['goods_number'] = $goods_number;
-		$company_id && $type['company_id'] = $company_id;
-		$company_sign_id && $type['company_sign_id'] = $company_sign_id;
-		
 
 
 		//读取在合作的公司
-		$company = $company_m->getList(array('is_make'=> 1));
-		$sign = $sign_m->getList(array('is_make'=> 1));
 		$goods = $goods_m->getListPage($type);
 
 		$view_data = array(
 			'goods' => $goods,
-			'company' => $company,
-			'sign' => $sign,
 			'goods_desc' => $goods_desc,
 			'goods_number' => $goods_number,
-			'company_id' => $company_id,
-			'company_sign_id' => $company_sign_id,
 		);
 
 		$append = array(
 			'goods_desc' => $goods_desc,
 			'goods_number' => $goods_number,
-			'company_id' => $company_id,
-			'company_sign_id' => $company_sign_id,
 		);
 
 		$goods->appends($append);
 
-		return View::make('goods.list', $view_data);
+		return View::make('admin.goods.list', $view_data);
 	}
 
 	function goodsAdd()
 	{
-		$company_m = new Company();
-		$sign_m = new Sign();
 
-		$company_id = Input::get('company_id', '');
-		$company_sign_id = Input::get('company_sign_id', '');
-
-		$company = $company_m->getList(array('is_make'=> 1));
-		$sign = $sign_m->getList(array('is_make'=> 1));
-	
 		$view_data = array(
-			'company' => $company,
-			'sign' => $sign,
-			'company_id' => $company_id,
-			'company_sign_id' => $company_sign_id,
+			
 		);
 
-		return View::make('goods.add', $view_data);
+		return View::make('admin.goods.add', $view_data);
 	}
 
 	// 获取发货单
 	function goodsAddOrder()
 	{
-		$company_m = new Company();
-		$sign_m = new Sign();
-
-		$company_id = Input::get('company_id', '');
-		$company_sign_id = Input::get('company_sign_id', '');
-
-		$company = $company_m->getList(array('is_make'=> 1));
-
-		if (!$company->toArray()) {
-			return 1; //没有公司	
-		}
-		
-
-		$a_company = '';
-		$company_id && $a_company = Company::find($company_id);
-		$a_company ? $select_company_id = $a_company->id : $select_company_id = $company[0]->id;
-
-		$sign = $sign_m->getList(array('is_make'=> 1, 'company_id'=> $select_company_id));
 	
-
-		if (!$sign->toArray()) {
-			return 2;
-		}
 
 		$skus = Sku::get();
 
 		$view_data = array(
-			'company' => $company,
-			'sign' => $sign,
-			'company_id' => $company_id,
-			'company_sign_id' => $company_sign_id,
 			'skus' => $skus,
 		);
 
-		return View::make('goods.order', $view_data);
+		return View::make('admin.goods.order', $view_data);
 	}
 
 	// 获取关联sku价格库存
@@ -238,7 +187,7 @@ class GoodsController extends BaseController
 			'sku_name' => $sku_name,
 			'combine_values' => $combine_values,
 		);
-		return View::make('goods.goodsSku', $view_data);
+		return View::make('admin.goods.goodsSku', $view_data);
 	}
 
 	
@@ -271,33 +220,22 @@ class GoodsController extends BaseController
 		$id = Input::get('id', '');
 
 		$goods_m = new Goods();
-		$company_m = new Company();
-		$sign_m = new Sign();
-
 		$goods = $goods_m->fetch(array('id'=> $id));
 
 		if (!$goods) {
 			return Redirect::to('goods/list');
 		}
 
-		$company = $company_m->getList(array('is_make'=> 1));
-		$sign = $sign_m->getList(array('is_make'=> 1));
-
-		$num_type = NumType::where('goods_id', $id)->get();
 		$skus = Sku::get();
-
 		$sku_value_ids = GoodsSku::getGoodsSkuIds($goods->id);
 
 		$view_data = array(
 			'goods' => $goods,
-			'company'=> $company,
-			'sign' => $sign,
-			'num_type'=> $num_type,
 			'skus' => $skus,
 			'sku_value_ids' => $sku_value_ids,
 		);
 
-		return View::make('goods.detail', $view_data);
+		return View::make('admin.goods.detail', $view_data);
 	}
 
 	function goodsDetailUpdate()

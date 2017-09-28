@@ -1,4 +1,4 @@
-@extends('template')
+@extends('admin.template')
 
 @section('content')
 <div class="page-head">
@@ -15,25 +15,6 @@
 <!--搜索条件-->
 	<form class="form-inline" method="get">
 	<div class="control-group fl">
-		<select name="company_id" class="" id="">
-			<option value="">所有公司</option>
-			@foreach ($company as $c_item) 
-		
-			<option @if ($c_item->id == $company_id) selected="selected" @endif value="{{$c_item->id}}">{{$c_item->company_name}}</option>
-
-			@endforeach
-
-		</select>
-	
-		<select name="company_sign_id" class="" id="">
-			<option value="">所有品牌</option>
-			@foreach ($sign as $s_item) 
-		
-			<option @if ($s_item->id == $company_sign_id) selected="selected" @endif value="{{$s_item->id}}">{{$s_item->company_sign}}</option>
-
-			@endforeach
-
-		</select>
 
 		<input type="text" name="goods_number" class="input" placeholder="输入货号" value="{{$goods_number}}">
 	

@@ -1,4 +1,4 @@
-@extends('template')
+@extends('admin.template')
 
 @section('content')
 
@@ -51,7 +51,6 @@
 <script>
 
 	getSign('#goods_order');
-	addNumType();
 	skuRead();
 
 	$('.goods_add').click(function () {
@@ -79,21 +78,11 @@
 	});
 
 	$('#add_goods_order').click(function () {
-		var company_id = '{{$company_id}}';
-		var company_sign_id = '{{$company_sign_id}}';
 		
 		var send_data = {
-			'company_id' : company_id,
-			'company_sign_id' : company_sign_id,
+			
 		};
 		$.post('/goods/add/order', send_data, function (data) {
-			if (data == 1) {
-				return window.wxc.xcConfirm('先添加公司', window.wxc.xcConfirm.typeEnum.error);
-			}
-
-			if (data == 2) {
-				return window.wxc.xcConfirm('先添加品牌', window.wxc.xcConfirm.typeEnum.error);
-			}
 
 			$('#goods_order').append(data);
 
