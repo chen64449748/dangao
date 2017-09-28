@@ -10,7 +10,7 @@
 		
 		<a href="javascript:history.back(-1);" class="marginleft10 lf"><img src="/wap/images/icon/back.png" style="position:relative; top: 6px;" alt="" height="16"></a>
 
-		<div class="searches2 lf" style="margin-left: 70px; "><img src="/wap/images/icon/search.png" onclick="alert(1)" alt="" height="12">
+		<div class="searches2 lf" style="margin-left: 10px; "><img src="/wap/images/icon/search.png"  alt="" height="12">
             <input type="text"/>
         </div>
 
@@ -71,7 +71,7 @@
 
 	<div class="layer"></div>
 	<a href="javascript:scroll(0,0);" class="totop"><img src="/wap/images/icon/totop.png" alt="" height="35"></a>
-    
+    @include('wap.menu')
     <!-- infinite scroll 无限加载 -->
     <script src="/wap/js/loading/infinitescroll.min.js"></script>
     <script>
