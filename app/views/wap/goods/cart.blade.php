@@ -2,16 +2,17 @@
 
 @section('content')
 <div class="top">
-		<span>购物车</span>
-		<a href="javascript:history.back(-1);" class="lf marginleft10">
-			<img src="/wap/images/icon/back.png" alt="" height="16" style="position: relative; top: 16px;" ></a> 
-			<a href="javascript:void(0);" class="anniu03 marginright10 rt margintop05 disabled" id="del">删除</a>
-			<br class="clear" />
-	</div>
-	<div style="height: 44px;"></div>
-	<div class="content">
-		<div class="gwc" style="margin: auto;overflow: hidden;">
-	    <table cellpadding="0" cellspacing="0" class="gwc_tb2 paddingbuding01" id="count" width="100%">
+	<span>购物车</span>
+	<a href="javascript:history.back(-1);" class="lf marginleft10">
+		<img src="/wap/images/icon/back.png" alt="" height="16" style="position: relative; top: 16px;" ></a> 
+		<a href="javascript:void(0);" class="anniu03 marginright10 rt margintop05 disabled" id="del">删除</a>
+		<br class="clear" />
+</div>
+<div style="height: 44px;"></div>
+
+<div class="content">
+	<div class="gwc" style="margin: auto;overflow: hidden;">
+    <table cellpadding="0" cellspacing="0" class="gwc_tb2 paddingbuding01" id="count" width="100%">
 		<tr>
 			<td class="tb2_td1" width="30" align="center" style="position: relative;">
 			
@@ -21,7 +22,7 @@
 
 			</td>	
 			<td class="tb2_td2" align="center" width="100">
-				<div class="div_buding"><a href="/detail.php?id=<!--{$goods.goods_id}-->" style="height: 100%;display: block;"> <img src="/wap/20170926101954.jpg"alt="" width="100%"></a></div>
+				<div class="div_buding"><a href="/detail/1" style="height: 100%;display: block;"> <img src="/wap/20170926101954.jpg"alt="" width="100%"></a></div>
 				<div class="font_size01 color_red align_center"></div>
 			</td>
 			<td>
@@ -38,9 +39,9 @@
 						<td class="count" style="border:none;">
 							<div style="margin-top: 10px;">
 								<div class="count lf">
-									<a href="javascript:void(0);" id="" class="sub lf shoppingcart_min "  data-index="<!--{$key}-->">-</a>
+									<a href="javascript:void(0);" id="" class="sub lf shoppingcart_min" >-</a>
 	                                <input type="text" value="1" class="text lf number_box">
-									<a href="javascript:void(0);" id="" class="add rt shoppingcart_add" data-index="<!--{$key}-->">+</a>
+									<a href="javascript:void(0);" id="" class="add rt shoppingcart_add" >+</a>
 									<br class="clear" />
 								</div>
 								<a href="javascript:void(0);" class="rt marginright10"><img src="/wap/images/icon/delete.png" onclick="deleteShopCart(<!--{$key}-->)" height="16"></a>
@@ -53,14 +54,15 @@
 		</tr>
 	</table>
 
+	</div>
+</div>
 
-
-<!-- <div class="align_center">
+<div class="align_center">
     <img src="/wap/images/icon/dingdan3.png" alt="" height="48" style="margin: 50px 0 10px 0;">
     <div class="color_gray font_size02">您的购物车为空</div>
-    <a href="/index.php" class="anniu03 margintop10 marginbottom10 jz" style="background-color: #e7526f;">去逛逛</a>
+    <a href="/goods" class="anniu03 margintop10 marginbottom10 jz" style="background-color: #e7526f;">去逛逛</a>
 </div>
- -->
+
 
 
 
@@ -109,9 +111,8 @@
 		</div>
 	</div>
 	<div style="height: 60px;"></div>
-</div>
-</div>
 
+@include('wap.menu')
 <script>		
 confirm('123', function() {});
 </script>

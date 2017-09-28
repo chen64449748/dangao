@@ -15,31 +15,9 @@
     <script type="text/javascript" src="/wap/js/jqs.js"></script>
     <script type="text/javascript" src="/wap/js/public.js"></script>
 
-    <!--weixin-->
-    <!--{if $wx}-->
+
     <script type="text/javascript" src="/wap/js/jweixin-1.0.0.js"></script>
-    <script type="text/javascript">
-
-        wx.config({
-            debug: false,
-            appId: '<!--{$wx.appId}-->',
-            timestamp: <!--{$wx.timestamp}-->,
-            nonceStr: '<!--{$wx.nonceStr}-->',
-            signature: '<!--{$wx.signature}-->',
-            jsApiList: [
-                'onMenuShareAppMessage',
-                'onMenuShareTimeline',
-                'onMenuShareQQ',
-                'onMenuShareWeibo',
-                'onMenuShareQZone',
-                'chooseWXPay'
-            ]
-        });
-
-    </script>
-
     <script type="text/javascript" src="/wap/js/weixin.js"></script>
-    <!--{/if}-->
 
 <meta name="description" content="<!--{$describe[0].title}-->" />
 <meta name="keywords" content="<!--{$shopinfo.shop_name}-->-<!--{$shopName.val}-->"/>
@@ -214,6 +192,5 @@
 
 <body>
 @yield('content')
-@include('wap.menu')
 </body>
 </html>

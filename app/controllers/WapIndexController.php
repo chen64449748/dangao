@@ -11,7 +11,10 @@ class WapIndexController extends WapController {
 	
 	function index()
 	{
-		return View::make('wap.index');
+		$view_data = array(
+			'active' => 'index',
+		);
+		return View::make('wap.index', $view_data);
 	}
 
 }

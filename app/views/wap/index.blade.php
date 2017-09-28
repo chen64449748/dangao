@@ -48,28 +48,18 @@
     })
 </script>
 
-<!--===================主题馆====================-->
-<div class="bgcl_wt">
-    <div>
-        <a href="javascript:void(0);" class="mgt_10 a_lk">
-            <span class="fl spr"></span>
-            <span class="fl fs_15">主题馆</span>
-            <img src="/wap/images/mdimages/icon/more.png" alt="" height="12" class="fr" style="margin-top: 4px;">
-            
-            <div class="cl"></div>
-        </a>
-    </div>
-    <ul class="md_block2">
-        
-        <a href="<!--{$themev.url|replace:'http://md.bookuu.com':$mdwd_www}-->" class="fl"><img src="/wap/20170926101954.jpg" width="100%" height="200"></a>
-        <a href="<!--{$themev.url|replace:'http://md.bookuu.com':$mdwd_www}-->" class="fl"><img src="/wap/20170926101954.jpg" width="100%" height="200"></a>
-        <a href="<!--{$themev.url|replace:'http://md.bookuu.com':$mdwd_www}-->" class="fl"><img src="/wap/20170926101954.jpg" width="100%" height="200"></a>
-        <a href="<!--{$themev.url|replace:'http://md.bookuu.com':$mdwd_www}-->" class="fl"><img src="/wap/20170926101954.jpg" width="100%" height="200"></a>
-        <a href="<!--{$themev.url|replace:'http://md.bookuu.com':$mdwd_www}-->" class="fl"><img src="/wap/20170926101954.jpg" width="100%" height="200"></a>
-        <a href="<!--{$themev.url|replace:'http://md.bookuu.com':$mdwd_www}-->" class="fl"><img src="/wap/20170926101954.jpg" width="100%" height="200"></a>
-        <div class="cl"></div>
-    </ul>
 
+
+<!--==================精选活动====================-->
+<div class="bgcl_wt pdb_10">
+    <a href="/active" class="mgt_10 a_lk">
+        <span class="fl spr"></span>
+        <span class="fl fs_15" style="position: relative; top : -6px;">精选活动</span>
+        <img src="/wap/images/mdimages/icon/more.png" alt="" height="12" class="fr" style="margin-top: 4px;">
+        <div class="cl"></div>
+    </a>
+
+    <div class="pdlr_02 mgt_10"><a href="" class="dsp_blk"><img src="/wap/1467603508.jpg" width="100%"></a></div>
 </div>
 
 <!--==================热销TOP10===================-->
@@ -77,9 +67,7 @@
     <div class="pdb_10">
         <a href="javascript:void(0);" class="mgt_10 a_lk">
             <span class="fl spr"></span>
-            <span class="fl fs_15">热销TOP10</span>
-            <img src="/wap/images/mdimages/icon/more.png" alt="" height="12" class="fr" style="margin-top: 4px;">
-            
+            <span class="fl fs_15" style="position: relative; top : -6px;">热销</span>
             <div class="cl"></div>
         </a>
     </div>
@@ -122,7 +110,7 @@
 <div style="height: 60px;"></div>
 
 
-
+@include('wap.menu')
 <script src="/wap/js/swiper/swiper.min.js"></script>
 
 </script>
