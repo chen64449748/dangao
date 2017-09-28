@@ -24,7 +24,6 @@ Route::get('user', array('as'=> 'user', 'uses'=> 'WapUserController@index'));
 
 
 // Route::group(array('before'=> 'login'), function() {
-	
 
 	// 货品
 	Route::get('goods/list', array('as'=> 'goods.list', 'uses'=> 'GoodsController@goodsList'));
