@@ -12,7 +12,7 @@
 	<!-- banner -->
 	<div class="flexslider">
 		<ul class="slides cp">
-			<li><div class="div_buding"><span><img src="/wap/20170623091904111.jpg" alt="" width="100%"></span></div></li>
+			<li><div class="div_buding"><span><img src="{{$goods->goods_img}}" alt="" width="100%"></span></div></li>
 		</ul>
         
         <div style="position: absolute;bottom: 0;z-index: 10;width: 100%;height: 35px;background-color: #099;padding:0 2%;overflow: hidden;">
@@ -25,13 +25,13 @@
         
 	</div>
 	<div class="bg01 paddingbuding01 bdbottom01">
-		<div class="font_size02 sku_name">蛋糕1</div>
-		<div class="font_size01 color_silver">小蛋糕</div>
+		<div class="font_size02 sku_name">{{$goods->goods_title}}</div>
+		<!-- <div class="font_size01 color_silver">小蛋糕</div> -->
 	</div>
 	<div class="bg01 paddingbuding01">
 		
-			<span class="font_size04 color_red lf sku_sale_price">￥50</span>
-			<del class="font_size01 color_silver marginleft08 lf">市场价:￥299</del>  
+			<span class="font_size04 color_red lf sku_sale_price">￥{{$goods->show_price}}</span>
+			<!-- <del class="font_size01 color_silver marginleft08 lf">市场价:￥299</del> -->
 			<span style="font-size: 10px;color: #e71d36;border-radius: 2px;border:1px #e71d36 solid;padding:2px 6px;margin-left: 5px;">运费：60元包邮</span>  </span>
 			<span class="marginleft10 font_size01"><span class="color_red">预售</span>现货<span class="color_red">缺货</span></span>
 			<br class="clear" />
@@ -42,8 +42,8 @@
 	<table cellpadding="0" cellspacing="5" width="100%" class="bg01 bdbottom01 font_size01 imgbuding" style="border-collapse: separate;padding: 5px 0;">
 		<tr>
 			<td width="33.3%" align="center"><span style="background-color: #fc5e1f;width: 50px;color: #fff;font-size: 12px;text-align: center;border-radius: 10px;padding:2px 12px;">配送</span><!--{/if}-->   <span class="rt">|</span><br class="clear" /></td>
-			<td width="33.3%" align="center">销量:<span class="goods_used">10</span>件<span class="rt">|</span><br class="clear" /></td>
-			<td align="center">库存:<span class="good_usable">10</span>件</td>
+			<td width="33.3%" align="center">销量:<span class="goods_used">{{$goods->sale_num}}</span>件<span class="rt">|</span><br class="clear" /></td>
+			<td align="center">库存:<span class="good_usable">10</span>件 充足</td>
 		</tr>
 	</table>
 <!-- 	<table cellpadding="0" cellspacing="5" width="100%" class="bg01 font_size01 imgbuding" style="border-collapse: separate;">
@@ -87,7 +87,6 @@
 			<span class="font_size01 color_silver line_height20">客服热线:16464481654</span>
 		</span>
 		<span class="rt">
-			
 			<span><img src="/wap/images/icon/tel.png" alt="" height="12" style="margin-top: 7px;"></span>
 		</span>
 		<br class="clear" />
@@ -111,7 +110,9 @@
 	</div>
 	
 	<!-- 详情 -->
-	<div class="paddingbuding01 margintop10 bg01">详情介绍</div>
+	<div class="paddingbuding01 margintop10 bg01">
+		{{$goods->content}}
+	</div>
 	
 
     

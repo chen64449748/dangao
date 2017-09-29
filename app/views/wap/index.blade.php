@@ -73,33 +73,19 @@
     </div>
     <div class="md_block3">
 
-        
+        @foreach ($hot as $hot_goods) 
         <div class="div_img fl">
-            <div class="div_buding pd_08"><a href="detail.php?id=<!--{$hottopv.goods_id}-->" class="dsp_blk"><img src="/wap/20170926101954.jpg" width="100%"></a></div>
+            <div class="div_buding pd_08"><a href="detail/{{$hot_goods->id}}" class="dsp_blk"><img src="{{$hot_goods->goods_img}}" width="100%"></a></div>
             <div class="pdlr_03">
-                <a href="javascript:void(0);" class="a_ttl">热销产品1</a>
+                <a href="javascript:void(0);" class="a_ttl">{{$hot_goods->goods_title}}</a>
                 <div class="div_shop">
-                    <span class="fs_12 cl_rd fl">￥29.9</span>
+                    <span class="fs_12 cl_rd fl">￥{{$hot_goods->show_price}}</span>
                     <a href="javascript:void(0);" onclick="addcart(<!--{$hottopv.goods_id}-->);"><img src="/wap/images/mdimages/icon/shop.png" height="16" class="fr"></a>
                     <div class="cl"></div>
                 </div>
             </div>
         </div>
-
-       
-        
-        <div class="div_img fl">
-            <div class="div_buding pd_08"><a href="detail.php?id=<!--{$hottopv.goods_id}-->" class="dsp_blk"><img src="/wap/20170926101954.jpg" width="100%"></a></div>
-            <div class="pdlr_03">
-                <a href="javascript:void(0);" class="a_ttl">热销产品2</a>
-                <div class="div_shop">
-                    <span class="fs_12 cl_rd fl">￥29.9</span>
-                    <a href="javascript:void(0);" onclick="addcart(<!--{$hottopv.goods_id}-->);"><img src="/wap/images/mdimages/icon/shop.png" height="16" class="fr"></a>
-                    <div class="cl"></div>
-                </div>
-            </div>
-        </div>
-
+        @endforeach
         <div class="cl"></div>
     </div>
 </div>

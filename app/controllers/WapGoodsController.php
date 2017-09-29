@@ -13,10 +13,17 @@ class WapGoodsController extends WapController
 	}
 
 	// 商品详情
-	function detail()
+	function detail($goods_id)
 	{
+		$goods_m = new Goods(); 
 
-		return View::make('wap.goods.detail');
+		$goods = $goods_m->fetch(array('id'=> $goods_id));
+
+		$view_data = array(
+			'goods' => $goods,
+		);
+
+		return View::make('wap.goods.detail', $view_data);
 	}
 
 	// 购物车

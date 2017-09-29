@@ -51,11 +51,19 @@ class Goods extends Eloquent
 
 	function fetch($type = array(), $fetch = array())
 	{
-		$select = $this->select($fetch ? $fetch : array('goods.*'));
+		$select = $this->select($fetch ? $fetch : array('goods.*', 'content'));
+
+		$select->leftJoin('goods_content', 'goods_content.goods_id', '=', 'goods.id');
 
 		$this->_where($select, $type);
 
 		return $select->first();
+	}
+
+	// 获取推荐
+	function getHot()
+	{
+		return $this->where('is_hot', 1)->get();
 	}
 
 	function add($goods_data)

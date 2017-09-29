@@ -1,4 +1,4 @@
-@extends('wap.index')
+@extends('wap.header')
 
 @section('content')
 <div class="top" style="z-index: 103;">

@@ -57,6 +57,13 @@
 		</div>
 
 		<div class="control-group">
+			<label class="control-label">展示价格</label>
+			<div class="controls">
+				<input type="number" class="show_price" placeholder="填写展示价格" value="">
+			</div>
+		</div>
+
+		<div class="control-group">
 			<label class="control-label">分类</label>
 			<div class="controls">
 				<select class="category">
@@ -156,11 +163,17 @@ $('.update_goods').click(function () {
 		goods_img = $('.img-polaroid').attr('src'),
 		category_id = $('.category').find('option:selected').val(),
 		is_hot = $('.is_hot').find('option:selected').val(),
-		sale_num = $('.sale_num').val();
+		sale_num = $('.sale_num').val(),
+		show_price = $('.show_price').val();
 
 		if (isNaN(sale_num)) {
 			return window.wxc.xcConfirm('销量必须为数字', window.wxc.xcConfirm.typeEnum.info);
 		}
+
+		if (isNaN(show_price)) {
+			return window.wxc.xcConfirm('展示价格必须为数字', window.wxc.xcConfirm.typeEnum.info);
+		}
+
 
 		if (!goods_title) {
 			return window.wxc.xcConfirm('标题必须填', window.wxc.xcConfirm.typeEnum.info);
@@ -172,6 +185,7 @@ $('.update_goods').click(function () {
 	goods.category_id = category_id;
 	goods.is_hot = is_hot;
 	goods.sale_num = sale_num;
+	goods.show_price = show_price;
 	goods.sku_price = [];
 	goods.goods_sku = [];
 	goods.content = um.getContent();

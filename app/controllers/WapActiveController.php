@@ -5,7 +5,6 @@ class WapActiveController extends WapController
 {
 	function index()
 	{
-
 		$view_data = array(
 			'active' => 'active',	
 		);

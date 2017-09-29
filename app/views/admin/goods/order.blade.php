@@ -43,6 +43,13 @@
 	</div>
 
 	<div class="control-group">
+		<label class="control-label">展示价格</label>
+		<div class="controls">
+			<input type="number" class="show_price" placeholder="填写展示价格" value="">
+		</div>
+	</div>
+
+	<div class="control-group">
 		<label class="control-label">分类</label>
 		<div class="controls">
 			<select class="category">
