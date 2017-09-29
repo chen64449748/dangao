@@ -21,12 +21,19 @@ class Goods extends Eloquent
     	return $this->hasMany('GoodsSku', 'goods_id', 'id');
     }
 
+    public function content()
+    {
+    	return $this->hasOne('GoodsContent', 'goods_id', 'id');
+    }
+
+    public function category()
+    {
+    	return $this->belongsTo('Category', 'category_id', 'id');
+    }
+
 	function getList($type = array(), $fetch = array())
 	{
-		$select = $this->select($fetch ? $fetch : array('goods.*', 'company_sign.company_sign', 'company.company_name', 'company.company_faren'));
-
-		$select->leftJoin('company_sign', 'company_sign.id', '=', 'goods.company_sign_id');
-		$select->leftJoin('company', 'company.id', '=', 'goods.company_id');
+		$select = $this->select($fetch ? $fetch : array('goods.*'));
 
 		$this->_where($select, $type);
 
@@ -35,10 +42,7 @@ class Goods extends Eloquent
 
 	function getListPage($type = array(), $size = 15, $fetch = array())
 	{
-		$select = $this->select($fetch ? $fetch : array('goods.*', 'company_sign.company_sign', 'company.company_name', 'company.company_faren'));
-
-		$select->leftJoin('company_sign', 'company_sign.id', '=', 'goods.company_sign_id');
-		$select->leftJoin('company', 'company.id', '=', 'goods.company_id');
+		$select = $this->select($fetch ? $fetch : array('goods.*'));
 
 		$this->_where($select, $type);
 
@@ -47,10 +51,7 @@ class Goods extends Eloquent
 
 	function fetch($type = array(), $fetch = array())
 	{
-		$select = $this->select($fetch ? $fetch : array('goods.*', 'company_sign.company_sign', 'company.company_name', 'company.company_faren'));
-
-		$select->leftJoin('company_sign', 'company_sign.id', '=', 'goods.company_sign_id');
-		$select->leftJoin('company', 'company.id', '=', 'goods.company_id');
+		$select = $this->select($fetch ? $fetch : array('goods.*'));
 
 		$this->_where($select, $type);
 
@@ -66,19 +67,11 @@ class Goods extends Eloquent
 		foreach ($goods_data as $key => $goods) {
 			$now_index = $key + 1;
 
-			$a_type = array(
-				'goods_number'=> $goods['goods_number'],
-			);
-
-			if ($a_goods = $this->fetch($a_type)) {
-				$goods_id = $a_goods->id;
-				throw new Exception("已存在货号".$goods_id);
-			} 
-
 			// 新增
 			$goods_sku = $goods['goods_sku']; // 对应关联的sku
 			$sku_price = $goods['sku_price']; // 里面有 价格 库存  价格库存对照属性
-			unset($goods['goods_sku'], $goods['num_type'], $goods['sku_price']);
+			$content = $goods['content']; //  详情
+			unset($goods['goods_sku'], $goods['sku_price'], $goods['content']);
 			$goods['created_at'] = $now_date;
 	
 			$goods_id = $this->insertGetId($goods);
@@ -87,28 +80,35 @@ class Goods extends Eloquent
 				throw new Exception("系统错误 添加货品失败");
 			}
 
+			// 添加详情页
+			GoodsContent::insert(array(
+				'goods_id' => (int)$goods_id,
+				'content' => $content,
+			));
+
 			// 添加goods sku关联  这张表用于读取 价格库存sku
 			GoodsSku::add($goods_sku, $goods_id);
 
 			foreach ($sku_price as $sku_pv) {
 				
 				if (!isset($sku_pv['stock'])) {
-					throw new Exception("第".$now_index.'个货品单 没填库存');
+					throw new Exception('没填库存');
 				}
 
 				if (!isset($sku_pv['price'])) {
-					//throw new Exception("第".$now_index.'个货品单 没填价格');
-					$sku_pv['price'] = '';
+					throw new Exception('没填价格');
+					//$sku_pv['price'] = '';
 				}
 
 				if (!is_numeric($sku_pv['stock'])) {
-					throw new Exception("第".$now_index.'个货品单 库存非数字');
+					throw new Exception('库存非数字');
 				}
 
 				// 插入价格 和 库存
 				SkuPrice::add($sku_pv, $goods_id);
 
 			}
+
 
 			$result[] = $goods_id;
 
@@ -123,11 +123,12 @@ class Goods extends Eloquent
 
 
 		$goods_sku = isset($goods_data['goods_sku']) ? $goods_data['goods_sku'] : array();
-		$num_type = isset($goods_data['num_type']) ? $goods_data['num_type'] : array();
 		$sku_price = isset($goods_data['sku_price']) ? $goods_data['sku_price'] : array();
-		unset($goods_data['goods_sku'], $goods_data['num_type'], $goods_data['sku_price']);
+		$content = $goods_data['content'];
+		unset($goods_data['goods_sku'], $goods_data['content'], $goods_data['sku_price']);
 
 		$this->where('id', $goods_id)->update($goods_data);
+		GoodsContent::where('goods_id', $goods_id)->update(array('content'=> $content));
 
 		if (!$goods_sku) {
 			throw new Exception("至少勾选一个 价格库存关联");
@@ -171,10 +172,8 @@ class Goods extends Eloquent
 			Price::whereIn('id', $price_ids)->update(array('is_show'=> 0));
 			Stock::whereIn('price_id', $price_ids)->update(array('is_show'=> 0));
 		}
-		
-		NumType::where('goods_id', $goods_id)->delete();
-		NumType::add($num_type, $goods_id);
-		
+			
+
 
 
 	}
@@ -185,19 +184,9 @@ class Goods extends Eloquent
 			switch ($key) {
 				case 'id':
 					$select->where('goods.id', (int)$value);
-					break;		
-				case 'company_sign_id':
-					$select->where('goods.company_sign_id', (int)$value);
 					break;
-
-				case 'company_id':
-					$select->where('goods.company_id', (int)$value);
-					break;
-				case 'goods_number':
-					$select->where('goods.goods_number', (string)$value);
-					break;
-				case 'goods_desc':
-					$select->where('goods.goods_desc', 'like', '%'.(string)$value.'%');
+				case 'goods_title':
+					$select->where('goods.goods_title', 'like', '%'.(string)$value.'%');
 					break;
 			}
 		}

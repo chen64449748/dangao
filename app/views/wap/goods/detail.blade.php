@@ -12,10 +12,7 @@
 	<!-- banner -->
 	<div class="flexslider">
 		<ul class="slides cp">
-			
 			<li><div class="div_buding"><span><img src="/wap/20170623091904111.jpg" alt="" width="100%"></span></div></li>
-            <li><div class="div_buding"><span><img src="/wap/wu.jpg" alt="" width="100%"></span></div></li>
-
 		</ul>
         
         <div style="position: absolute;bottom: 0;z-index: 10;width: 100%;height: 35px;background-color: #099;padding:0 2%;overflow: hidden;">

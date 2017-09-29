@@ -21,9 +21,6 @@ body {
   margin-left: -20px;
 }
 
-* {
-  font-size: 18px;
-}
 
 h1,
 h2,
@@ -5576,6 +5573,7 @@ ul.timeline li > .date {
   }
   #head-nav {
     padding: 0;
+    z-index: 10;
   }
   #head-nav .navbar-nav {
     padding: 0 10px;

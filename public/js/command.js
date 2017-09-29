@@ -16,27 +16,38 @@ function goodsAdd(callback)
 		// 循环货品单
 		var a_goods = {};
 
-		var goods_number = $(this).find('.goods_number').val();
-		var goods_desc = $(this).find('.goods_desc').val();
+		var goods_title = $(this).find('.goods_title').val();
+		var goods_img = $(this).find('.img-polaroid').attr('src');
+		var category_id = $(this).find('.category').find('option:selected').val();
+		var is_hot = $(this).find('.is_hot').find('option:selected').val();
+		var sale_num = $(this).find('.sale_num').val();
 
+		if (isNaN(sale_num)) {
+			window.wxc.xcConfirm('销量必须为数字', window.wxc.xcConfirm.typeEnum.info);
+			add_flag = false;
+			return;
+		}
 
-		if (!goods_number) {
-			window.wxc.xcConfirm('第' + now_index + '个货品单 货号必填', window.wxc.xcConfirm.typeEnum.info);
+		if (!goods_title) {
+			window.wxc.xcConfirm('标题必填', window.wxc.xcConfirm.typeEnum.info);
 			add_flag = false;
 			return;
 		}
 
 	
-		a_goods.goods_number = goods_number;
-		a_goods.goods_desc = goods_desc;
+		a_goods.goods_title = goods_title;
+		a_goods.goods_img = goods_img;
+		a_goods.category_id = category_id;
+		a_goods.is_hot = is_hot;
+		a_goods.sale_num = sale_num;
 		a_goods.goods_sku = [];
 		a_goods.sku_price = [];
-
+		a_goods.content = um.getContent();
 		
 		var goods_sku_num = $(this).find('.skus_select').find('input:checked').size();
 		
 		if (goods_sku_num == 0) {
-			return window.wxc.xcConfirm('第' + now_index + '个货品单 必须勾选价格库存关联', window.wxc.xcConfirm.typeEnum.info);
+			return window.wxc.xcConfirm('必须勾选价格库存关联', window.wxc.xcConfirm.typeEnum.info);
 		}
 		// sku关联
 		$(this).find('.skus_select').find('input:checked').each(function () {
@@ -46,7 +57,7 @@ function goodsAdd(callback)
 		
 		// skuprice 价格库存填写
 		if ($(this).find('.sku_table table').size() == 0) {
-			return window.wxc.xcConfirm('第' + now_index + '个货品单 必须点击填写库存价格按钮', window.wxc.xcConfirm.typeEnum.info);
+			return window.wxc.xcConfirm('必须点击填写库存价格按钮', window.wxc.xcConfirm.typeEnum.info);
 		}
 		var sku_price_flag = true;
 		var sku_stock_num = 0;
@@ -65,12 +76,12 @@ function goodsAdd(callback)
 
 			if (price && !stock) {
 				sku_price_flag = false;
-				return window.wxc.xcConfirm('第' + now_index + '个货品单 填了价格必须填库存', window.wxc.xcConfirm.typeEnum.info);
+				return window.wxc.xcConfirm('填了价格必须填库存', window.wxc.xcConfirm.typeEnum.info);
 			}
 
 			if (isNaN(price)) {
 				sku_price_flag = false;
-				return window.wxc.xcConfirm('第' + now_index + '个货品单 价格必须是数字', window.wxc.xcConfirm.typeEnum.info);
+				return window.wxc.xcConfirm('价格必须是数字', window.wxc.xcConfirm.typeEnum.info);
 			}
 
 			
@@ -97,7 +108,7 @@ function goodsAdd(callback)
 		});
 
 		if (sku_stock_num == 0) {
-			return window.wxc.xcConfirm('第' + now_index + '个货品单 至少要填一个库存', window.wxc.xcConfirm.typeEnum.info);
+			return window.wxc.xcConfirm('至少要填一个库存', window.wxc.xcConfirm.typeEnum.info);
 		}
 
 		if (!sku_price_flag) {
@@ -123,7 +134,7 @@ function goodsAdd(callback)
 
 	var txt= "确定添加全部货品？";
 	var option = {
-		title: "添加货品",
+		title: "添加商品",
 		btn: parseInt("0011",2),
 		onOk: function(){
 			LayerShow('');
@@ -386,4 +397,22 @@ function checkall()
 		});
 	});
 	
+}
+
+function uploadImage(file, dir, callback)
+{
+	var form_data = new FormData();
+	form_data.append('img', file);
+	form_data.append('dir', dir);
+
+	var xhr = new XMLHttpRequest();
+
+	xhr.onreadystatechange = function () {
+        if(xhr.readyState == 4){
+        	callback(xhr.status, xhr.responseText);
+        }
+    }
+
+    xhr.open('POST', '/goods/imageUpload', true);
+    xhr.send(form_data)
 }

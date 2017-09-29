@@ -29,6 +29,8 @@ Route::get('user', array('as'=> 'user', 'uses'=> 'WapUserController@index'));
 	Route::get('goods/list', array('as'=> 'goods.list', 'uses'=> 'GoodsController@goodsList'));
 	Route::post('goods/get', array('as'=> 'goods.list', 'uses'=> 'GoodsController@goodsGet'));
 	Route::get('goods/add', array('as'=> 'goods.add', 'uses'=> 'GoodsController@goodsAdd'));
+	Route::post('goods/imageUpload', array('goods.imageUpload', 'uses'=> 'GoodsController@imageUpload'));
+	Route::post('goods/goodsHot', array('goods.goodsHot', 'uses'=> 'GoodsController@goodsHot'));
 	Route::post('goods/add/data', array('as'=> 'goods.add.data', 'uses'=> 'GoodsController@goodsAddData'));
 	Route::post('goods/add/order', array('as'=> 'goods.add.order', 'uses'=> 'GoodsController@goodsAddOrder'));
 	Route::get('goods/detail', array('as'=> 'goods.detail', 'uses'=> 'GoodsController@goodsDetail'));

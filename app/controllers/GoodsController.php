@@ -10,12 +10,12 @@ class GoodsController extends BaseController
 
 		$id = Input::get('id', '');
 
-		$goods_desc = Input::get('goods_desc', '');
-		$goods_number = Input::get('goods_number', '');
+		$goods_id = Input::get('goods_id', '');
+		$goods_title = Input::get('goods_title', '');
 
 		$id && $type['id'] = $id;
-		$goods_desc && $type['goods_desc'] = $goods_desc;
-		$goods_number && $type['goods_number'] = $goods_number;
+		$goods_id && $type['id'] = $goods_id;
+		$goods_title && $type['goods_title'] = $goods_title;
 
 
 		//读取在合作的公司
@@ -23,13 +23,13 @@ class GoodsController extends BaseController
 
 		$view_data = array(
 			'goods' => $goods,
-			'goods_desc' => $goods_desc,
-			'goods_number' => $goods_number,
+			'goods_id' => $goods_id,
+			'goods_title' => $goods_title,
 		);
 
 		$append = array(
-			'goods_desc' => $goods_desc,
-			'goods_number' => $goods_number,
+			'goods_id' => $goods_id,
+			'goods_title' => $goods_title,
 		);
 
 		$goods->appends($append);
@@ -39,9 +39,10 @@ class GoodsController extends BaseController
 
 	function goodsAdd()
 	{
+		$skus = Sku::get();
 
 		$view_data = array(
-			
+			'skus'=> $skus,
 		);
 
 		return View::make('admin.goods.add', $view_data);
@@ -50,15 +51,30 @@ class GoodsController extends BaseController
 	// 获取发货单
 	function goodsAddOrder()
 	{
-	
-
 		$skus = Sku::get();
+		$categorys = Category::where('pid', 0)->get();
 
 		$view_data = array(
 			'skus' => $skus,
+			'categorys' => $categorys,
 		);
 
 		return View::make('admin.goods.order', $view_data);
+	}
+	// 修改推荐 
+	function goodsHot()
+	{
+		$goods_id = Input::get('goods_id');
+
+		$goods = Goods::find($goods_id);
+		
+		if ($goods->is_hot) {
+			Goods::where('id', $goods_id)->update(array('is_hot'=> 0));
+		} else {
+			Goods::where('id', $goods_id)->update(array('is_hot'=> 1));
+		}
+
+		return Response::json(array('status'=> 1, 'message'=> '修改成功'));
 	}
 
 	// 获取关联sku价格库存
@@ -222,6 +238,8 @@ class GoodsController extends BaseController
 		$goods_m = new Goods();
 		$goods = $goods_m->fetch(array('id'=> $id));
 
+		$goods_content = GoodsContent::where('goods_id', $goods->id)->first();
+
 		if (!$goods) {
 			return Redirect::to('goods/list');
 		}
@@ -229,10 +247,13 @@ class GoodsController extends BaseController
 		$skus = Sku::get();
 		$sku_value_ids = GoodsSku::getGoodsSkuIds($goods->id);
 
+		$categorys = Category::where('pid', 0)->get();
 		$view_data = array(
 			'goods' => $goods,
 			'skus' => $skus,
 			'sku_value_ids' => $sku_value_ids,
+			'categorys' => $categorys,
+			'goods_content' => $goods_content,
 		);
 
 		return View::make('admin.goods.detail', $view_data);
@@ -321,4 +342,37 @@ class GoodsController extends BaseController
 		return Response::json($skus);
 	}
 
+
+	// 产品图片上传
+	function  imageUpload()
+	{
+		$file = Input::file('img');
+		$dir = Input::get('dir', '');
+		$upload_dir = './upload';
+
+		try {
+
+			if (!Input::hasFile('img')) {
+				throw new Exception("没有上传文件");
+			}
+
+			if ($dir) {
+				$upload_dir .= '/'.trim($dir, '/');
+			}
+			$ext = $file->getClientOriginalExtension();
+
+			$file_name = date('YmdHis').uniqid().'.'.trim($ext);
+
+			$file->move($upload_dir, $file_name);
+
+			$web_dir = ltrim($upload_dir, '.');
+			return Response::json(array('status'=> 1, 'url'=> $web_dir.'/'.$file_name));
+		} catch (Exception $e) {
+			return Response::json(array('status'=> 0, 'message'=> '上传失败:'.$e->getMessage()));
+		}
+		
+
+		
+
+	}
 }

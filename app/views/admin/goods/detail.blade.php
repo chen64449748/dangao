@@ -1,21 +1,22 @@
 @extends('admin.template')
 
 @section('content')
+<link href="/js/umeditor1.2.3/themes/default/css/umeditor.css" type="text/css" rel="stylesheet">
 
 <div class="page-head">
- 	<h2>货品</h2>
+ 	<h2>商品</h2>
  	<ol class="breadcrumb">
  
-    	<li><a href="#">货品</a></li>
-    	<li class="active">编辑货品</li>
+    	<li><a href="#">商品</a></li>
+    	<li class="active">编辑商品</li>
   	</ol>
 </div>
-<a href="/goods/list">返回列表</a>
+<a href="javascript:history.go(-1)" class="btn btn-info">返回列表</a>
 <div id="goods_order">
-	<div class="hpd form-horizontal get_order" style="width: 400px; margin-bottom: 40px;">
+	<div class="hpd form-horizontal get_order" style="width: 640px; margin-bottom: 40px;">
 				
 		<div class="control-group">
-			<label class="control-label order_num" style="font-size: 20px;">货品ID: {{$goods->id}}</label>
+			<label class="control-label order_num" style="font-size: 20px;">商品ID: {{$goods->id}}</label>
 			<div class="controls">
 				
 			</div>
@@ -23,16 +24,56 @@
 
 
 		<div class="control-group">
-			<label class="control-label">货号</label>
+			<label class="control-label">标题</label>
 			<div class="controls">
-				<input type="text" class="goods_number" placeholder="填写货号" value="{{$goods->goods_number}}">
+				<input type="text" class="goods_title" style="width: 640px;" placeholder="填写货号" value="{{$goods->goods_title}}">
 			</div>
 		</div>
 		
 		<div class="control-group">
-			<label class="control-label">货号描述</label>
+			<label class="control-label">图片上传</label>
 			<div class="controls">
-				<input type="text" class="goods_desc" placeholder="填写货品描述" value="{{$goods->goods_desc}}">
+				<form class="upload_from" enctype="multipart/form-data">
+					<input type="file" name="img" class="file_upload">
+					<input type="button" value="上传" class="btn btn-info u_btn">
+					<span style="color: red">640 * 640 效果最佳</span>
+				</form>
+				
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label">图片</label>
+			<div class="controls">
+				<img src="{{$goods->goods_img}}" width="640" height="640" class="img-polaroid">
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label">销量</label>
+			<div class="controls">
+				<input type="number" class="sale_num" placeholder="填写销量" value="{{$goods->sale_num}}">
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label">分类</label>
+			<div class="controls">
+				<select class="category">
+					@foreach ($categorys as $cat)
+					<option @if ($cat->id == $goods->category_id) selected @endif value="{{$cat->id}}">{{$cat->category}}</option> 
+					@endforeach
+				</select>
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label">是否推荐</label>
+			<div class="controls">
+				<select class="is_hot">
+					<option @if ($goods->is_hot == 0) selected @endif value="0">否</option>
+					<option @if ($goods->is_hot == 1) selected @endif value="1">是</option>
+				</select>
 			</div>
 		</div>
 
@@ -60,19 +101,32 @@
 
 		</div>
 
+		<!-- 富文本编辑 -->
+		<div class="control-group">
+			<label class="control-label">详情编辑</label>
+			<div class="controls">
+				<script type="text/plain" id="myEditor" style="width: 640px;height:640px;">
+				{{$goods_content->content}}
+				</script>
+			</div>
+		</div>
+
 		<div class="control-group delete">
 			<label class="control-label"></label>
 			<div class="controls">
 				<input type="button" class="update_goods btn btn-primary" value="修改">
 			</div>
-			</div>
+		</div>
 	</div>
 
 </div>
 @stop
 
 @section('script')
-
+<script type="text/javascript" src="/js/umeditor1.2.3/third-party/template.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="/js/umeditor1.2.3/umeditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="/js/umeditor1.2.3/umeditor.min.js"></script>
+<script type="text/javascript" src="/js/umeditor1.2.3/lang/zh-cn/zh-cn.js"></script>
 <script>
 $('.goods_nav').parent().addClass('active');
 $('input').iCheck('destroy');
@@ -84,6 +138,11 @@ $('input').iCheck({
 addNumType();
 skuRead("{{$goods->id}}");
 
+// 富文本
+var um = UM.getEditor('myEditor');
+
+$('.sku_read').click();
+
 $('.iCheck-helper').click(function() {
 	$(this).parents('.get_order').find('.sku_table').html('');
 });
@@ -93,44 +152,29 @@ $('.update_goods').click(function () {
 	var goods_id = '{{$goods->id}}';
 	var goods = {};
 
-	var goods_number = $('.goods_number').val(),
-		goods_desc = $('.goods_desc').val(),
-		company_id = $('.company_id').find('option:selected').val(),
-		company_sign_id = $('.company_sign_id').find('option:selected').val();
+	var goods_title = $('.goods_title').val(),
+		goods_img = $('.img-polaroid').attr('src'),
+		category_id = $('.category').find('option:selected').val(),
+		is_hot = $('.is_hot').find('option:selected').val(),
+		sale_num = $('.sale_num').val();
 
-		if (!goods_number || !company_id || !company_sign_id) {
-			return window.wxc.xcConfirm('货号必须填', window.wxc.xcConfirm.typeEnum.info);
+		if (isNaN(sale_num)) {
+			return window.wxc.xcConfirm('销量必须为数字', window.wxc.xcConfirm.typeEnum.info);
 		}
 
-	goods.goods_number = goods_number;
-	goods.goods_desc = goods_desc;
-	goods.company_sign_id = company_sign_id;
-	goods.company_id = company_id;
-	goods.num_type = [];
+		if (!goods_title) {
+			return window.wxc.xcConfirm('标题必须填', window.wxc.xcConfirm.typeEnum.info);
+		}
+
+
+	goods.goods_title = goods_title;
+	goods.goods_img = goods_img;
+	goods.category_id = category_id;
+	goods.is_hot = is_hot;
+	goods.sale_num = sale_num;
 	goods.sku_price = [];
 	goods.goods_sku = [];
-
-	var num_type_num = $('.num_type_div').find('.control-group').size();
-
-	$('.num_type_div').find('.control-group').each(function () {
-
-		var num_type_o = {};
-
-		var num_type_name = $(this).find('.num_type_name').val();
-		var num_type_value = $(this).find('.num_type_value').val();
-
-		if (!num_type_name || !num_type_value) {
-			window.wxc.xcConfirm('数量类型必填', window.wxc.xcConfirm.typeEnum.info);
-			add_flag = false;
-			return;
-		}
-
-		num_type_o.num_type_name = num_type_name;
-		num_type_o.num_type_value = num_type_value;
-
-		goods.num_type.push(num_type_o);
-
-	});
+	goods.content = um.getContent();
 
 	// sku关联
 	$('.skus_select').find('input:checked').each(function () {
@@ -205,9 +249,9 @@ $('.update_goods').click(function () {
 		'goods_id': goods_id,
 	}
 
-	var txt= "确定修改货品？";
+	var txt= "确定修改商品？";
 	var option = {
-		title: "修改货品",
+		title: "修改商品",
 		btn: parseInt("0011",2),
 		onOk: function(){
 			LayerShow('')

@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : local
-Source Server Version : 50540
+Source Server         : lzh
+Source Server Version : 50553
 Source Host           : localhost:3306
 Source Database       : cake
 
 Target Server Type    : MYSQL
-Target Server Version : 50540
+Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2017-09-28 23:10:30
+Date: 2017-09-29 17:41:59
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -27,19 +27,47 @@ CREATE TABLE `admin` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='管理员表';
 
 -- ----------------------------
+-- Table structure for category
+-- ----------------------------
+DROP TABLE IF EXISTS `category`;
+CREATE TABLE `category` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `pid` int(11) DEFAULT NULL,
+  `category` varchar(60) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `is_parent` smallint(6) DEFAULT '0' COMMENT '1 是父级 2 不是',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
 -- Table structure for goods
 -- ----------------------------
 DROP TABLE IF EXISTS `goods`;
 CREATE TABLE `goods` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `goods_number` varchar(255) NOT NULL COMMENT '货号',
-  `goods_desc` varchar(255) DEFAULT NULL COMMENT '货物 描述  圆领 尖领',
-  `company_id` int(11) NOT NULL,
-  `company_sign_id` int(11) NOT NULL,
+  `goods_title` varchar(255) NOT NULL COMMENT '标题',
+  `goods_img` varchar(255) DEFAULT NULL COMMENT '图片',
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
+  `sale_num` int(11) DEFAULT '0' COMMENT '销量',
+  `category_id` int(11) DEFAULT NULL,
+  `is_hot` tinyint(4) DEFAULT '0' COMMENT '是否热销 1 是 0 不是',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for goods_content
+-- ----------------------------
+DROP TABLE IF EXISTS `goods_content`;
+CREATE TABLE `goods_content` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `goods_id` int(11) NOT NULL,
+  `content` text COLLATE utf8_unicode_ci,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Table structure for goods_sku
@@ -52,7 +80,7 @@ CREATE TABLE `goods_sku` (
   `updated_at` datetime NOT NULL,
   `is_show` int(11) NOT NULL DEFAULT '1' COMMENT '1 显示 0 不显示 当原先已经勾选 之后取消勾选时修改为不显示',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=109 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=115 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for orders
@@ -100,8 +128,9 @@ CREATE TABLE `price` (
   `goods_id` int(11) NOT NULL,
   `updated_at` datetime NOT NULL,
   `is_show` int(11) NOT NULL DEFAULT '1' COMMENT '1 显示 0 不显示 修改货品是 如果已经填过的价格 不填  修改为不显示 填了改为显示',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`id`),
+  KEY `idx_goods_id` (`goods_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for sku
@@ -111,7 +140,7 @@ CREATE TABLE `sku` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `sku_name` varchar(255) NOT NULL COMMENT '属性名',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for sku_price
@@ -122,8 +151,9 @@ CREATE TABLE `sku_price` (
   `price_id` int(11) NOT NULL,
   `sku_value_id` int(11) NOT NULL,
   `updated_at` datetime NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=147 DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`id`),
+  KEY `idx_price_id` (`price_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=171 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for sku_value
@@ -134,7 +164,7 @@ CREATE TABLE `sku_value` (
   `sku_id` int(11) NOT NULL,
   `value` varchar(255) NOT NULL COMMENT '属性值',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for stock
@@ -148,4 +178,4 @@ CREATE TABLE `stock` (
   `price_id` int(11) NOT NULL,
   `is_show` int(11) NOT NULL DEFAULT '1' COMMENT '1显示 0 不显示  如果 货品修改时 已经填过的库存 不填那就不显示',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8;
