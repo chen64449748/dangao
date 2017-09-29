@@ -5,7 +5,7 @@
 		a{color: #757575;}
 	</style>
  
-
+	<input type="hidden" id="page_hide" value="2">
 	<div class="top2" style="z-index: 106;">
 		
 		<a href="javascript:history.back(-1);" class="marginleft10 lf"><img src="/wap/images/icon/back.png" style="position:relative; top: 6px;" alt="" height="16"></a>
@@ -22,24 +22,27 @@
 	<table cellpadding="0" cellspacing="0" width="100%" class="table03 imgbuding search_menu bdbottom01" style="padding-top:10px;">
 		<tr>
 			<td class="zonghe">
-				<a href=""  class="color_silver">默认</a>
+				<a href="/goods"  class="color_silver @if ($is_default) color_pink @endif">默认</a>
 				<span class="rt">|</span>
 				<br class="clear" />
 			</td>
 			<td>
-				<a href="" class="xiaoliang color_silver">销量<img src="/wap/images/icon/px1.png" alt="" height="12" class="marginleft08"></a>
+				<a href="@if ($sale_num_order_t == '') /goods?sale_num_order=desc&category_id={{$category_id}} @else /goods?sale_num_order={{$sale_num_order_t}}&category_id={{$category_id}} @endif" class="xiaoliang color_silver @if ($sale_num_order) color_pink @endif">销量<img src="@if ($sale_num_order == 'desc') /wap/images/icon/px2.png @elseif ($sale_num_order =='asc') /wap/images/icon/px1.png @endif" alt="" height="12" class="marginleft08"></a>
 				<span class="rt">|</span>
 				<br class="clear" />
 			</td>
 			<td>
-				<a href="" class="xiaoliang color_pink">价格<img src="/wap/images/icon/paixu.png" alt="" height="12" class="marginleft08"></a>
+				<a href="@if ($show_price_order_t == '') /goods?show_price_order=desc&category_id={{$category_id}} @else /goods?show_price_order={{$show_price_order_t}}&category_id={{$category_id}} @endif" class="xiaoliang @if ($show_price_order) color_pink @endif">价格<img src="@if ($show_price_order == 'desc') /wap/images/icon/px2.png @elseif ($show_price_order =='asc') /wap/images/icon/px1.png @endif" alt="" height="12" class="marginleft08"></a>
 				<span class="rt">|</span>
 				<br class="clear" />
 			</td>
 			<td>
 				<a href="javascript:viod(0);" class="fenlei">分类</a>
 				<div class="fenlei_div">
-					<a href="" class="lf marginright10 bg02">蛋糕<span>(100)</span></a>
+					<a href="/goods" class="lf marginright10 bg02">全部<span></span></a>
+					@foreach($categorys as $category)
+					<a href="/goods?category_id={{$category->id}}" @if ($category_id == $category->id) style="background: red; color: white;" @endif class="lf marginright10 bg02">{{$category->category}}<span></span></a>
+					@endforeach
 					<br class="clear">
 				</div>
 			</td>
@@ -48,32 +51,47 @@
 	</table>
 
 	<ul class="home_ul01 align_center" style="margin-top: 104px;">
-       
-        <li class="lf">
-        	<div style="border:1px #f5f5f5 solid;border-right-color: #fff;border-top-color: #fff;position: relative;">
-	            <div class="div_buding"><a href="" style="height: 100%;display: block;"><img src="/wap/20170926101954.jpg" alt="蛋糕1" width="100%"></a></div>
-	            <div class="font_size01 div02">蛋糕1</div>
-	            <div class="div01">
+	
+		@if (isset($goods[0]))
+	    	@foreach ($goods as $item)
+	        <li class="lf">
 
-	            	<span  style="background-color: #fc5e1f;color: #fff;font-size: 8px;border-radius: 10px;padding:0 5px;">包邮</span>
-	            	<span class="color_pink font_size00">￥29.9</span>
-	            	<del class=" color_silver" style="font-size: 9px;">￥109</del>
-                    <span style="background-color: #d50000;padding:2px 6px;color: #fff;font-size: 12px;position: absolute;left: 0;top: 0;max-width: 24px;text-align: left;line-height: 14px;">热销</span>
+	        	<div style="border:1px #f5f5f5 solid;border-right-color: #fff;border-top-color: #fff;position: relative;">
+		            <div class="div_buding"><a href="/detail/{{$item->id}}" style="height: 100%;display: block;"><img src="{{$item->goods_img}}" alt="{{$item->goods_title}}" width="100%"></a></div>
+		            <div class="font_size01 div02">{{$item->goods_title}}</div>
+		            <div class="div01">
+
+		            	<span  style="background-color: #fc5e1f;color: #fff;font-size: 8px;border-radius: 10px;padding:0 5px;">配送</span>
+		            	<span class="color_pink font_size00">￥{{$item->show_price}}</span>
+		            	<!-- <del class=" color_silver" style="font-size: 9px;">￥109</del> -->
+		            	@if ($item->is_hot)
+	                    <span style="background-color: #d50000;padding:2px 6px;color: #fff;font-size: 12px;position: absolute;left: 0;top: 0;max-width: 56px;text-align: left;line-height: 14px;">优惠活动</span>
+	                    @endif
+		            </div>
 	            </div>
-            </div>
-        </li>
+	        </li>
+	        @endforeach
+	    @else    
+	        <div class="align_center">
+		        <img src="/wap/images/icon/wudingdan.png" alt="" height="48" style="margin: 100px 0 10px 0;">
+		        <div class="color_gray font_size02">对不起，没有找到您要的商品</div>
+		    </div>
+        @endif
     </ul>
 	
-	<!-- <div class="align_center">
-        <img src="/wap/images/icon/wudingdan.png" alt="" height="48" style="margin: 100px 0 10px 0;">
-        <div class="color_gray font_size02">对不起，没有找到您要的商品</div>
-    </div> -->
+	<div style="clear: both;"></div>
+
+	<div class="foot_loding">
+		
+	</div>
+
+		
 
 	<div class="layer"></div>
 	<a href="javascript:scroll(0,0);" class="totop"><img src="/wap/images/icon/totop.png" alt="" height="35"></a>
     @include('wap.menu')
-    <!-- infinite scroll 无限加载 -->
-    <script src="/wap/js/loading/infinitescroll.min.js"></script>
+
+    <script src="/wap/js/loading.js"></script>		
     <script>
 
         $(function(){
@@ -116,16 +134,37 @@
 			})
 
 
-            // infinite scroll 无限加载
-            $('.align_center').infinitescroll({
-                navSelector: '.qd-page',
-                nextSelector: '.qd-page .next',
-                itemSelector: '.align_center li',
-                loading: {
-                    msgText: '　正在加载...',
-                    img: '/wap/images/loading.gif',
-            finishedMsg: '没有更多了'}
-        	});
+            loading('.foot_loding', '/goods/loading', {}, function (goods) {
+            	// home_ul01
+            	if (goods.status != 1) {
+            		return;
+            	}
+
+            	$('#page_hide').val(Number($('#page_hide').val()) + 1);
+
+    			var data = goods.data;
+    			console.log(data);
+            	for (var i in data) {
+            		var goods_html = '<li class="lf">\
+			        	<div style="border:1px #f5f5f5 solid;border-right-color: #fff;border-top-color: #fff;position: relative;">\
+				            <div class="div_buding"><a href="/detail/'+ data[i].id +'" style="height: 100%;display: block;"><img src="'+ data[i].goods_img +'" alt="' +data[i].goods_title + '" width="100%"></a></div>\
+				            <div class="font_size01 div02">' + data[i].goods_title +'</div>\
+				            <div class="div01">\
+				            	<span  style="background-color: #fc5e1f;color: #fff;font-size: 8px;border-radius: 10px;padding:0 5px;">配送</span>\
+				            	<span class="color_pink font_size00">￥'+ data[i].show_price +'</span>';
+
+				    if (data[i].is_hot) {
+				    	goods_html += '<span style="background-color: #d50000;padding:2px 6px;color: #fff;font-size: 12px;position: absolute;left: 0;top: 0;max-width:56px;text-align: left;line-height: 14px;">推荐</span>';
+				    }
+
+					goods_html += '</div>\
+							            </div>\
+							        </li>';          
+
+            		$('.home_ul01').append(goods_html);
+            	}
+            });
+
         });
     </script>
 

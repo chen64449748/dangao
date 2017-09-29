@@ -49,6 +49,19 @@ class Goods extends Eloquent
 		return $select->paginate($size);
 	}
 
+	function getGoods($type = array(), $order = array(), $offset = 0, $limit = 20)
+	{
+		$select = $this->select(array('goods.*'));
+
+		$this->_where($select, $type);
+
+		$this->_order($select, $order);
+	
+		$select->skip($offset)->take($limit);
+
+		return $select->get();
+	}
+
 	function fetch($type = array(), $fetch = array())
 	{
 		$select = $this->select($fetch ? $fetch : array('goods.*', 'content'));
@@ -186,6 +199,25 @@ class Goods extends Eloquent
 
 	}
 
+
+	private function _order(&$select, $order) {
+
+		foreach ($order as $key => $value) {
+			switch ($key) {
+				case 'created_at':
+					$select->orderBy('goods.created_at', $value);
+					break;
+				case 'sale_num':
+					$select->orderBy('goods.sale_num', $value);
+					break;
+				case 'show_price':
+					$select->orderBy('goods.show_price', $value);
+					break;
+			}
+		}
+
+	}
+
 	private function _where(&$select, $type) {
 
 		foreach ($type as $key => $value) {
@@ -195,6 +227,9 @@ class Goods extends Eloquent
 					break;
 				case 'goods_title':
 					$select->where('goods.goods_title', 'like', '%'.(string)$value.'%');
+					break;
+				case 'category_id':
+					$select->where('goods.category_id', (int)$value);
 					break;
 			}
 		}

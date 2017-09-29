@@ -17,9 +17,9 @@
         
         <div style="position: absolute;bottom: 0;z-index: 10;width: 100%;height: 35px;background-color: #099;padding:0 2%;overflow: hidden;">
             <div style="line-height: 35px;color: #fff;">
-                <span class="font_size03">￥68.00</span>&nbsp;
-                <del class="font_size01 color_gray">￥125.00 </del>&nbsp;
-                <!--{if $rush_purchase_info.all_set_number}--><span class="font_size01">活动价</span>&nbsp;<!--{/if}-->
+                <!-- <span class="font_size03">￥68.00</span>&nbsp;
+                <del class="font_size01 color_gray">￥125.00 </del>&nbsp; -->
+                <span class="font_size01">优惠活动中</span>&nbsp;
             </div>
         </div>
         
@@ -55,7 +55,7 @@
 	</table> -->
 
 	<!-- 优惠 -->
-	<div class="paddingbuding01 margintop10 bg01">
+	<!-- <div class="paddingbuding01 margintop10 bg01">
 		<div class="paddingbuding02 zk_yc">
 			<span class="lf line_height20">优惠活动</span>
 			<div class="lf biaoqians">
@@ -76,7 +76,7 @@
 			</table>
 		</div>
 
-	</div>
+	</div> -->
 
 
 
@@ -92,7 +92,7 @@
 		<br class="clear" />
 	</a>
 	
-	<div class="paddingbuding01 margintop10 bg01">
+	<!-- <div class="paddingbuding01 margintop10 bg01">
 		<div class="paddingbuding02 zk_yc font_size02">商品参数<img src="/wap/images/icon/arrow.png" alt="" width="14" class="rt"><br class="clear" /></div>
 		<div class="font_size02 color_silver txt">
 			<table cellpadding="0" cellspacing="0" width="100%" class="table02">
@@ -107,7 +107,7 @@
 					</tr>
 			</table>
 		</div>
-	</div>
+	</div> -->
 	
 	<!-- 详情 -->
 	<div class="paddingbuding01 margintop10 bg01">
@@ -129,33 +129,22 @@
 
     
 	<div class="home_box01 margintop10 bdbottom01">
-		<div class="home_title01"><span class="font_size02 color_blue">猜你喜欢</span></div>
+		<div class="home_title01"><span class="font_size02 color_blue">推荐</span></div>
 	</div>
-	<ul class="home_ul02 align_center">
+	<ul class="home_ul02 align_center" style="padding-bottom: 50px;">
 		
+		@foreach ($hot as $hot_goods)
         <li class="lf">
         	<div style="border:1px #f5f5f5 solid;border-right-color: #fff;border-top-color: #fff;">
-	            <div class="div_buding"><a href="/detail" style="height: 100%;display: block;"><img src="/wap/20170926101954.jpg" alt="<!--{$cv.goods_name}-->" width="100%"></a></div>
-	            <div class="font_size01 div02">蛋糕2</div>
-	            <div class="div01"><span class="font_size01 color_pink">￥59</span>&nbsp;<del class="font_size00 color_silver">￥299</del></div>
+	            <div class="div_buding"><a href="/detail/{{$hot_goods->id}}" style="height: 100%;display: block;"><img src="{{$hot_goods->goods_img}}" alt="{{$hot_goods->goods_title}}" width="100%"></a></div>
+	            <div class="font_size01 div02">{{$hot_goods->goods_title}}</div>
+	            <div class="div01">
+	            	<span class="font_size01 color_pink">￥{{$hot_goods->show_price}}</span>&nbsp;
+	            	<!-- <del class="font_size00 color_silver">￥299</del> -->
+	            </div>
             </div>
         </li>
-
-        <li class="lf">
-        	<div style="border:1px #f5f5f5 solid;border-right-color: #fff;border-top-color: #fff;">
-	            <div class="div_buding"><a href="/detail" style="height: 100%;display: block;"><img src="/wap/20170926101954.jpg" alt="<!--{$cv.goods_name}-->" width="100%"></a></div>
-	            <div class="font_size01 div02">蛋糕2</div>
-	            <div class="div01"><span class="font_size01 color_pink">￥59</span>&nbsp;<del class="font_size00 color_silver">￥299</del></div>
-            </div>
-        </li>
-
-        <li class="lf">
-        	<div style="border:1px #f5f5f5 solid;border-right-color: #fff;border-top-color: #fff;">
-	            <div class="div_buding"><a href="/detail" style="height: 100%;display: block;"><img src="/wap/20170926101954.jpg" alt="<!--{$cv.goods_name}-->" width="100%"></a></div>
-	            <div class="font_size01 div02">蛋糕2</div>
-	            <div class="div01"><span class="font_size01 color_pink">￥59</span>&nbsp;<del class="font_size00 color_silver">￥299</del></div>
-            </div>
-        </li>
+        @endforeach
         <br class="clear">
     </ul>
     
@@ -177,7 +166,7 @@
 			</td>
 			<td align="center" width="70%">
                 <a href="javascript:;" class="anniu08 marginright10 rt gm"  >立即购买</a>
-				<a href="javascript:;" class="anniu07 marginright10 addproduct rt cart" style="background-color:#c9c9c9;">加入购物车</a>
+				<a href="javascript:;" class="anniu07 marginright10 addproduct rt cart" >加入购物车</a>
 				<br class="clear" />
 			</td>
 		</tr>
