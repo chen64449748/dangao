@@ -16,6 +16,37 @@ class WapCartController extends WapController
 		return View::make('wap.goods.cart', $view_data);
 	}
 
+	// 获取sku选择属性
+
+	function getSkuSelect()
+	{
+		$goods_id = Input::get('goods_id', '');
+
+		$goods = Goods::find($goods_id);
+		try {
+			
+			if (!$goods) {
+				throw new Exception("没有找到该商品");
+			}
+
+			$price_m = new Price();
+
+			$return = array(
+				'goods'=> $goods,
+			);
+
+			$sku_prices = $price_m->getPriceSkuList($goods_id);
+
+			$return['sku_prices'] = $sku_prices;
+
+			return Response::json(array('status'=> 1, 'data'=> $return));
+
+		} catch (Exception $e) {
+			echo $e->getMessage();
+		}
+		
+	}
+
 	function goodsAddCart()
 	{
 		// user_id session

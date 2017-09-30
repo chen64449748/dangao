@@ -186,11 +186,92 @@
         padding:8px 0 0 8px;
     }
 
+    #goods_sku { width: 100%; max-width: 640px; height: 530px; background: white; position: fixed; bottom: -558px; z-index: 10000; }
+    #goods_sku .sku_submit { background: #e7526f; position: absolute; bottom: 0; max-width: 640px; width: 100%;}
+    #goods_sku .sku_header {height: 90px;}
+
+    #goods_sku .select_goods_img {
+        width: 100px;
+        height: 100px;
+        position: absolute;
+        top: -28px;
+        left: 10px;
+        border-radius: 4px;
+        overflow: hidden;
+        border: 1px solid rgba(0,0,0,.1);
+        padding: 1px;
+        background-color: #fff;
+    }
+
+    #goods_sku .select_goods_price {
+        color: #FF0036;
+        margin-left: 130px;
+        font-size: 14px;
+        line-height: 18px;
+        padding-right: 20px;
+        width: 260px;
+        padding-top: 24px;
+    }
+
+    #goods_sku .sku_close {
+        position: absolute; top: 10px; right: 10px;
+        width: 25px; height: 25px;
+        background-image: url('/wap/images/icon_close.png');  
+    }
+
+    .sku_hr {
+        border-bottom: 1px solid rgba(0,0,0,0.1); 
+        width: 90%;
+        margin: 0 auto;
+        clear: both;
+    }
+
+    .sku_list {
+        height: 400px;
+        overflow-y: scroll; 
+    }
+
+    .sku_list li {
+        padding: 10px 5%;
+        
+    }
+    .sku_list .select_sku_name{
+
+        color: #666;
+        font-size: 13px;
+        font-weight: 400;
+        padding-bottom: 10px;
+        padding-top: 10px;
+    }
+
+    .sku_list li .items a {
+        position: relative;
+        display: inline-block;
+        border: 1px solid #f5f5f5;
+        background-color: #f5f5f5;
+        padding: 6px 12px;
+        border-radius: 8px;
+        font-size: 13px;
+        margin: 0 8px 8px 0;
+        color: #555;
+    }
+
+    .sku_list li .items a.checked {
+        border-color: #FF0036;
+        background-color: #FF0036;
+        color: #fff;
+    }
+
+
 </style>
 <title>蛋糕</title>
 </head>
 
 <body>
 @yield('content')
+
+@include('wap.sku_select')
+
 </body>
 </html>
+<script type="text/javascript" src="/wap/js/cart.js"></script>

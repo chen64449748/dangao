@@ -20,7 +20,7 @@
 					<input type="checkbox" value=""  name="newslist" id="newslist" class="md-md_arrow checkbox-blue check"/>
 				</div>
 
-			</td>	
+			</td>
 			<td class="tb2_td2" align="center" width="100">
 				<div class="div_buding"><a href="/detail/1" style="height: 100%;display: block;"> <img src="/wap/20170926101954.jpg"alt="" width="100%"></a></div>
 				<div class="font_size01 color_red align_center"></div>

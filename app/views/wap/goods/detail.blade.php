@@ -165,8 +165,8 @@
 
 			</td>
 			<td align="center" width="70%">
-                <a href="javascript:;" class="anniu08 marginright10 rt gm"  >立即购买</a>
-				<a href="javascript:;" class="anniu07 marginright10 addproduct rt cart" >加入购物车</a>
+                <a href="javascript:;" class="anniu08 marginright10 rt gm buy"  >立即购买</a>
+				<a href="javascript:;" data-id="{{$goods->id}}" class="anniu07 marginright10 addproduct rt cart" >加入购物车</a>
 				<br class="clear" />
 			</td>
 		</tr>
@@ -213,6 +213,22 @@
 		getTime();
 		
 
+		$('.cart').click(function () {
+			var goods_id = $(this).data('id');
+			sku_select_show(goods_id, function (sku_value_ids) {
+				
+				$.post('/cart/add', {goods_id: goods_id, sku_value_ids: sku_value_ids}, function (data) {
+					alert(data.message);
+					if (data.status == 1) {
+						$('.gouwuche_count').text( Number($('.gouwuche_count').text()) + 1 );
+					}
+				});
+
+			});
+		});
+
+		shoppingcart_add();
+		shoppingcart_min();
 
 	</script>
 

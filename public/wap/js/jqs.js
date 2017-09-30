@@ -188,7 +188,7 @@ $(document).ready(function(){
         if ($('.text').val() == 1) {
             $('.sub').css({'color': '#ddd', 'cursor': 'no-drop'});
         }
-        if ($('.text').val() == usable) {
+        if ($('.text').val() == 'usable') {
             $('.add').css({'color': '#ddd', 'cursor': 'no-drop'});
         }
     })
@@ -390,7 +390,7 @@ function in_array($item, $array) {
 function alert(msg, callback) {
     var w_h = $(window).height();
     $("#alert-msg-info").remove();
-    var div = '<div id="alert-msg-info" style="width: 100%;max-width: 640px;height: 100%;opacity:0.8;position: fixed;text-align: center;z-index: 9999;top:0;padding-top: ' + (w_h - 20) / 2 + 'px">' +
+    var div = '<div id="alert-msg-info" style="width: 100%;max-width: 640px;height: 100%;opacity:0.8;position: fixed;text-align: center;z-index: 20000;top:0;padding-top: ' + (w_h - 20) / 2 + 'px">' +
         '<a style="padding: 10px;background-color:#000000;color: #fff;border-radius: 5px;font-size: 14px;">' + msg + '</a></div>';
     $('body').append(div);
     t = setTimeout(function () {
@@ -456,11 +456,34 @@ function confirm(msg, callback) {
     });
 }
 
+
+
 //弹框提醒
 function remind(content, title) {
     $.gDialog.alert(content, {
         title: title,
         animateIn: "bounceIn",
         animateOut: "bounceOut"
+    });
+}
+
+function shoppingcart_add(callback) 
+{
+    $('.shoppingcart_add').click(function () {
+        var now = $('.number_box').val();
+        $('.number_box').val(Number(now) + 1);
+        callback(Number(now) + 1);
+    });  
+}
+
+function shoppingcart_min(callback)
+{
+    $('.shoppingcart_min').click(function () {
+        var now = $('.number_box').val();
+        if (now > 1) {
+            $('.number_box').val(Number(now) - 1);
+            callback(Number(now) - 1);
+        }
+        
     });
 }
