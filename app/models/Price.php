@@ -60,7 +60,7 @@ class Price extends Eloquent
 	{
 		$return_arr = array();
 		$price_list = $this->where('goods_id', $goods_id)->where('is_show', 1)->get();
-		
+
 		$price_ids = array();
 
 		foreach ($price_list as $p_v) {
@@ -76,11 +76,14 @@ class Price extends Eloquent
 		// 组合价格 变量
 		$return_arr['price_list'] = array();
 		$return_arr['can_select'] = array();
+
+		$all_sku_value_ids = array();
 		foreach ($price_list as $ddd=> &$value) {
 			$sku_value_ids = array();
 			$combine_key = '';
 			foreach ($value->skuPrices as $k => $v) {
 				$sku_value_ids[] = $v->sku_value_id;
+				$all_sku_value_ids[] = $v->sku_value_id;
 				$return_arr['sku'][$v->skuValue->sku_id][$v->sku_value_id]['sku_value'] = $v->skuValue;
 				$return_arr['sku'][$v->skuValue->sku_id][$v->sku_value_id]['sku'] = $v->skuValue->sku;
 				
@@ -94,7 +97,7 @@ class Price extends Eloquent
 
 
 			// 每个valueid 组合其他sku的valueid
-		
+			
 			foreach ($return_arr['can_select'][$value->id] as $t_sku_value_id => $x_v) {
 				
 				// 循环 现有sku_value_id
@@ -109,25 +112,62 @@ class Price extends Eloquent
 
 			}
 
-			// 做成 每个sku_value_id 可选数组
-			$return_arr['select_config'] = array();
-			foreach ($return_arr['can_select'] as $csk_price_id => $csv) {
-				
-				foreach ($csv as $ck_sku_value_id => $cv) {
-					if (isset($return_arr['select_config'][$ck_sku_value_id])) {
-						$return_arr['select_config'][$ck_sku_value_id] = array_merge($return_arr['select_config'][$ck_sku_value_id], $cv);
-					} else {
-						$return_arr['select_config'][$ck_sku_value_id] = $cv;
-					}
-				}
-				
-			}
-
 			$combine_key = substr($combine_key, 1);
 			$return_arr['price_list'][$combine_key] = $value->price;
 
 			$value->sku_value_ids = $sku_value_ids;
 		}
+
+
+		// 读取所有组合
+		$values = SkuValue::select('sku_value.*')->whereIn('sku_value.id', $all_sku_value_ids)->join('sku', 'sku.id', '=', 'sku_value.sku_id')->orderBy('sku.id', 'asc')->where('value', '<>', '无')->get();
+		$combine_values = array();
+
+		foreach ($values as $key => $value) {
+			$combine_values[$value->sku_id][] = $value->id; // 排列组合用 数组
+		}
+		$combine_values = array_values($combine_values);
+
+		function combine_sku($arr, $index, $max_index, $tmp_arr, &$t_arr)
+		{
+			foreach ($arr[$index] as $v) {
+				if ($index < $max_index - 1) {
+					$tmp_arr[$index] = $v;
+					combine_sku($arr, $index + 1, $max_index, $tmp_arr, $t_arr);
+				} else {
+					$tmp_arr[$index] = $v;
+					array_push($t_arr, $tmp_arr);
+				}
+			}
+		}
+
+		$all_arr = array();
+		$tmp_arr = array();
+		combine_sku($combine_values, 0, count($combine_values), $tmp_arr, $all_arr);
+
+		$cont_select = array();
+		
+		foreach ($all_arr as $ak => $av) {
+			$flag = 0; // 是否存在
+
+			foreach ($return_arr['can_select'] as $ck => $cv) {
+
+				foreach ($cv as $sku_k => $sku_v) {
+					array_push($sku_v, $sku_k);
+					$diff = array_diff($av, $sku_v);
+					if (!$diff) {
+						$flag = 1;
+					}
+				}
+			}
+
+			if ($flag == 0) {
+				// 不存在
+				$cont_select[] = $av;
+			}
+		}
+
+		$return_arr['cont_select'] = $cont_select;
 
 		return $return_arr;
 

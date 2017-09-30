@@ -188,9 +188,9 @@ $(document).ready(function(){
         if ($('.text').val() == 1) {
             $('.sub').css({'color': '#ddd', 'cursor': 'no-drop'});
         }
-        if ($('.text').val() == 'usable') {
-            $('.add').css({'color': '#ddd', 'cursor': 'no-drop'});
-        }
+        // if ($('.text').val() == 'usable') {
+        //     $('.add').css({'color': '#ddd', 'cursor': 'no-drop'});
+        // }
     })
     /* zhifu */
     $('.zhifu_list').click(function () {
@@ -467,23 +467,3 @@ function remind(content, title) {
     });
 }
 
-function shoppingcart_add(callback) 
-{
-    $('.shoppingcart_add').click(function () {
-        var now = $('.number_box').val();
-        $('.number_box').val(Number(now) + 1);
-        callback(Number(now) + 1);
-    });  
-}
-
-function shoppingcart_min(callback)
-{
-    $('.shoppingcart_min').click(function () {
-        var now = $('.number_box').val();
-        if (now > 1) {
-            $('.number_box').val(Number(now) - 1);
-            callback(Number(now) - 1);
-        }
-        
-    });
-}

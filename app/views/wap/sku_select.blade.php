@@ -114,7 +114,7 @@
 
     <div class="quantity-info">
         <div class="sku-quantity">
-            <div>购买数量 <span></span></div>
+            <div style="margin-top: 15px; float: left;">购买数量 <span></span></div>
             <div class="count" style="border:none;">
                 <div style="margin-top: 10px;">
                     <div class="count lf">
@@ -132,3 +132,35 @@
     <div class="sku_submit anniu03">确定</div>
     <a class="sku_close" aria-label="关闭"></a>
 </div>
+
+<script>
+function shoppingcart_add(callback) 
+{
+    $('.shoppingcart_add').click(function () {
+        var now = $('.number_box').val();
+        $('.number_box').val(Number(now) + 1);
+        $('.shoppingcart_min').css('color', '');
+        callback(Number(now) + 1);
+    });  
+}
+
+function shoppingcart_min(callback)
+{
+    $('.shoppingcart_min').click(function () {
+        var now = $('.number_box').val();
+        if (now > 1) {
+            $('.number_box').val(Number(now) - 1);
+            
+            if (now == 2)
+            {
+                $(this).css('color', 'rgb(221, 221, 221)');
+            }
+            callback(Number(now) - 1);
+
+        }
+            
+        
+        
+    });
+}
+</script>

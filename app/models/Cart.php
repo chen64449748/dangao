@@ -16,7 +16,8 @@ class Cart extends Eloquent
 			throw new Exception("没有找到商品");
 		}
 		// 检测是否有这个组合 sku
-		$price = Price::getPrice($goods_id, $sku_value_ids);
+		$price_m = new Price();
+		$price = $price_m->getPrice($goods_id, $sku_value_ids);
 
 		// 添加购物车
 		$cart_insert = array(
@@ -27,6 +28,13 @@ class Cart extends Eloquent
 			'price_id' => $price->id,
 		);
 
-		$cart_id = Cart::insertGetId($cart_insert);
+
+		$cart = $this->where('user_id', $user_id)->where('price_id', $price->id)->where('goods_id', $goods_id)->first();
+		
+		if ($cart) {
+			$this->where('id', $cart->id)->increment('count', $count);
+		} else {
+			$cart_id = Cart::insertGetId($cart_insert);	
+		}
 	}
 }

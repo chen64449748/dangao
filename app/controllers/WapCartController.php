@@ -36,7 +36,6 @@ class WapCartController extends WapController
 			);
 
 			$sku_prices = $price_m->getPriceSkuList($goods_id);
-
 			$return['sku_prices'] = $sku_prices;
 
 			return Response::json(array('status'=> 1, 'data'=> $return));
@@ -52,7 +51,7 @@ class WapCartController extends WapController
 		// user_id session
 
 		$user_id = Session::get('user_id');
-
+		$user_id = 1;
 		$goods_id = Input::get('goods_id', '');
 		$sku_value_ids = Input::get('sku_value_ids', '');
 		$count = Input::get('count', '');
@@ -77,8 +76,32 @@ class WapCartController extends WapController
 			return Response::json(array('status'=> 1, 'message'=> '添加成功'));
 		} catch (Exception $e) {
 			DB::rollback();
-			return Response::json(array('status'=> 0, 'message'=> '添加失败'. $e->getMessage()));
+			return Response::json(array('status'=> 0, 'message'=> '添加失败'));
 		}
+
+	}
+
+	function cartCount()
+	{
+		$count = Input::get('count', '');
+		$cart_id = Input::get('cart_id', '');
+		$user_id = Session::get('user_id');
+		DB::beginTransaction();
+		try {
+			
+			if (!is_numeric($count)) {
+				throw new Exception("数量必须为数字");
+			}
+			Cart::where('cart_id', $cart_id)->where('user_id', $user_id)->update(array('count'=> $count));
+
+			DB::commit();
+			return Response::json(array('status'=> 1));
+		} catch (Exception $e) {
+			DB::rollback();
+			return Response::json(array('status'=> 0, 'message'=> '修改失败,请重试'));
+		}
+		
+
 
 	}
 }

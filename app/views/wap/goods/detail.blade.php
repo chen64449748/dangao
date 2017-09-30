@@ -215,9 +215,8 @@
 
 		$('.cart').click(function () {
 			var goods_id = $(this).data('id');
-			sku_select_show(goods_id, function (sku_value_ids) {
-				
-				$.post('/cart/add', {goods_id: goods_id, sku_value_ids: sku_value_ids}, function (data) {
+			sku_select_show(goods_id, function (sku_value_ids, count) {
+				$.post('/cart/add', {goods_id: goods_id, sku_value_ids: sku_value_ids, count: count}, function (data) {
 					alert(data.message);
 					if (data.status == 1) {
 						$('.gouwuche_count').text( Number($('.gouwuche_count').text()) + 1 );

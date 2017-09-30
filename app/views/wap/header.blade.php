@@ -268,10 +268,8 @@
 </head>
 
 <body>
-@yield('content')
-
 @include('wap.sku_select')
-
+@yield('content')
 </body>
 </html>
 <script type="text/javascript" src="/wap/js/cart.js"></script>
