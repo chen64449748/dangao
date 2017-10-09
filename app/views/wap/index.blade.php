@@ -80,7 +80,7 @@
                 <a href="javascript:void(0);" class="a_ttl">{{$hot_goods->goods_title}}</a>
                 <div class="div_shop">
                     <span class="fs_12 cl_rd fl">￥{{$hot_goods->show_price}}</span>
-                    <a href="javascript:void(0);" onclick="addcart(<!--{$hottopv.goods_id}-->);"><img src="/wap/images/mdimages/icon/shop.png" height="16" class="fr"></a>
+                    <a href="javascript:void(0);" onclick="addcart({{$hot_goods->id}});"><img src="/wap/images/mdimages/icon/shop.png" height="16" class="fr"></a>
                     <div class="cl"></div>
                 </div>
             </div>
@@ -113,14 +113,12 @@
         if(!id){
             alert('商品不存在'); return false;
         }
-        $.getJSON("/index.php",{act:'shoppingcart', gid:id},
-             function(data){
-                 if(data.info){
-                     alert(data.info); return false;
-                 }
-                 alert(data.msg); return false;
-             }
-        )
+        sku_select_show(id, function (sku_value_ids, count) {
+            $.post('/cart/add', {goods_id: id, sku_value_ids: sku_value_ids, count: count}, function (data) {
+                alert(data.message);
+            });
+
+        });
     }
 </script>
 @stop

@@ -219,13 +219,15 @@
 				$.post('/cart/add', {goods_id: goods_id, sku_value_ids: sku_value_ids, count: count}, function (data) {
 					alert(data.message);
 					if (data.status == 1) {
-						$('.gouwuche_count').text( Number($('.gouwuche_count').text()) + 1 );
+						if (data.act == 'add') {
+							$('.gouwuche_count').text( Number($('.gouwuche_count').text()) + 1 );
+						}
 					}
 				});
 
 			});
 		});
-
+		numberBox();
 		shoppingcart_add();
 		shoppingcart_min();
 

@@ -137,30 +137,68 @@
 function shoppingcart_add(callback) 
 {
     $('.shoppingcart_add').click(function () {
-        var now = $('.number_box').val();
-        $('.number_box').val(Number(now) + 1);
-        $('.shoppingcart_min').css('color', '');
-        callback(Number(now) + 1);
-    });  
+        var number_box = $(this).parent('div').find('.number_box');
+        var shoppingcart_min = $(this).parent('div').find('.shoppingcart_min');
+        var cart_id = number_box.attr('cart_id');
+        var now = number_box.val();
+        number_box.val(Number(now) + 1);
+        shoppingcart_min.css('color', '');
+        priceChecked();
+        callback(number_box, Number(now) + 1, cart_id, now);
+    });
+}
+
+function numberBox(callback)
+{
+    $('.number_box').keyup(function () {
+        var shoppingcart_min = $(this).parent('div').find('.shoppingcart_min');
+        var cart_id = $(this).attr('cart_id');
+        var num = $(this).val();
+        if (isNaN(num) || num < 0) {
+            shoppingcart_min.css('color', 'rgb(221, 221, 221)');
+            $(this).val(1);
+            priceChecked();
+            callback($(this), 1, cart_id, 0);
+        } else {
+            priceChecked();
+            callback($(this), num, cart_id, 0);
+        }
+    });
 }
 
 function shoppingcart_min(callback)
 {
     $('.shoppingcart_min').click(function () {
-        var now = $('.number_box').val();
+        var number_box = $(this).parent('div').find('.number_box');
+        var cart_id = number_box.attr('cart_id');
+        var now = number_box.val();
         if (now > 1) {
-            $('.number_box').val(Number(now) - 1);
+            number_box.val(Number(now) - 1);
             
             if (now == 2)
             {
                 $(this).css('color', 'rgb(221, 221, 221)');
             }
-            callback(Number(now) - 1);
+            priceChecked();
+            callback(number_box, Number(now) - 1, cart_id, now);
 
         }
-            
-        
-        
+                    
     });
+
+}
+
+function priceChecked()
+{
+    var total_price = 0;
+
+    $('.check:checked').each(function () {
+        var price = $(this).parents('.cart_tr').find('.number_box').attr('price');
+        var num = $(this).parents('.cart_tr').find('.number_box').val();
+
+        total_price += Number(price) * Number(num);
+    });
+
+    $('.total_price').text('￥'+ total_price.toFixed(2));
 }
 </script>

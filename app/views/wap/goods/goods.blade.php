@@ -134,7 +134,7 @@
 			})
 
 
-            loading('.foot_loding', '/goods/loading', {}, function (goods) {
+            loading('.foot_loding', '/goods/loading?{{$query}}', {}, function (goods) {
             	// home_ul01
             	if (goods.status != 1) {
             		return;

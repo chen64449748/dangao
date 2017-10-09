@@ -53,4 +53,15 @@
 	</div>
 </div>
 
+<script type="text/javascript">
+	function addcart(id)
+	{
+		sku_select_show(id, function (sku_value_ids, count) {
+            $.post('/cart/add', {goods_id: id, sku_value_ids: sku_value_ids, count: count}, function (data) {
+                alert(data.message);
+            });
+
+        });
+	}
+</script>
 @stop

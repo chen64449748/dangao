@@ -7,6 +7,31 @@ class Cart extends Eloquent
 {
 	protected $table = 'cart';
 
+	public function goods()
+	{
+		return $this->belongsTo('Goods', 'goods_id', 'id');
+	}
+
+	public function price()
+	{
+		return $this->belongsTo('Price', 'price_id', 'id');
+	}
+
+	function gets($type = array(), $order = array(), $offset = 0, $limit = 20)
+	{
+		$select = $this->select(array('cart.*'));
+
+		$this->_where($select, $type);
+
+		$this->_order($select, $order);
+	
+		if ($limit > 0) {
+			$select->skip($offset)->take($limit);
+		}
+		
+		return $select->get();
+	}
+
 	// 添加购物车
 	function  addCart($user_id, $goods_id, $sku_value_ids, $count)
 	{
@@ -33,8 +58,40 @@ class Cart extends Eloquent
 		
 		if ($cart) {
 			$this->where('id', $cart->id)->increment('count', $count);
+			return 'update';
 		} else {
 			$cart_id = Cart::insertGetId($cart_insert);	
+			return 'add';
 		}
+	}
+
+	private function _order(&$select, $order) {
+
+		foreach ($order as $key => $value) {
+			switch ($key) {
+				case 'created_at':
+					$select->orderBy('cart.created_at', $value);
+					break;
+			}
+		}
+
+	}
+
+	private function _where(&$select, $type) {
+
+		foreach ($type as $key => $value) {
+			switch ($key) {
+				case 'id':
+					$select->where('cart.id', (int)$value);
+					break;
+				case 'goods_id':
+					$select->where('cart.goods_id', (int)$value);
+					break;
+				case 'user_id':
+					$select->where('cart.user_id', (int)$value);
+					break;
+			}
+		}
+
 	}
 }

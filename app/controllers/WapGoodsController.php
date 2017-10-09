@@ -57,7 +57,9 @@ class WapGoodsController extends WapController
 			'show_price_order_t' => $show_price_order_t,
 			'is_default' => $is_default,
 			'category_id' => $category_id,
+			'query' => http_build_query(Input::get()),
 		);
+
 		return View::make('wap.goods.goods', $view_data);
 	}
 
@@ -65,8 +67,24 @@ class WapGoodsController extends WapController
 	{
 		$page = Input::get('page', '2');
 
+		$show_price_order = Input::get('show_price_order', '');
+		$sale_num_order = Input::get('sale_num_order', '');
+		$category_id = Input::get('category_id', '');
+
 		$type = array();
 		$order = array();
+
+		$show_price_order && $order['show_price'] = $show_price_order;
+		$sale_num_order && $order['sale_num'] = $sale_num_order;
+
+		$category_id && $type['category_id'] = $category_id;
+
+		$is_default = 1;
+		if ($show_price_order || $sale_num_order) {
+			$is_default = 0;	
+		} else {
+			$order['created_at'] = 'desc';
+		}
 
 		$goods_m = new Goods();
 
