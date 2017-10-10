@@ -9,6 +9,10 @@ class Orders extends Eloquent
 {
     protected $table = 'orders';
 
+    public function order_detail()
+  {
+    return $this->hasOne('orders_detail','oid', 'id');
+  }
     function getList($type = array(), $fetch = array())
     {
         $select = $this->select($fetch ? $fetch : array('orders.*'));
@@ -111,7 +115,6 @@ class Orders extends Eloquent
     }
 
     private function _where(&$select, $type) {
-
         foreach ($type as $key => $value) {
             switch ($key) {
                 case 'id':

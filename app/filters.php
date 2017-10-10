@@ -50,16 +50,23 @@ Route::filter('auth', function()
 
 Route::filter('login', function()
 {
-	if (!Session::get('manage')) {
+	if (!Session::get('admin')) {
 
 		if (Request::ajax()) {
 			return Response::json(array('status'=> 0, 'message'=> '已经退出系统请重新登陆'));
 		}
 
-		return Redirect::to('login');
+		return Redirect::to('admin/login');
 	}
 });
 
+Route::filter('userlogin', function()
+{
+	if (!Session::get('user')) {
+
+		return Redirect::to('/user/login');
+	}
+});
 Route::filter('auth.basic', function()
 {
 	return Auth::basic();

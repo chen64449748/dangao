@@ -3,12 +3,11 @@
 @section('content')
 
 <div class="page-head">
-    <h2>管理员列表</h2>
+    <h2>订单列表</h2>
     <ol class="breadcrumb">
  
-        <li><a href="#">管理员</a></li>
+        <li><a href="#">订单</a></li>
         <li class="active">列表</li>
-         <a class="btn btn-info btn-sm" href="/admin/add">添加</a>
     </ol>
 </div>
 
@@ -26,13 +25,13 @@
     @foreach ($orders as $item)
     <tr>
         <td>{{$item->id}}</td>
-        <td>{{$item->name}}</td>
+        <td>{{$item->product_name}}</td>
         <td>{{$item->name}}&nbsp;&nbsp;{{$item->mobile}}&nbsp;&nbsp;{{$item->address}}</td>
         <td>{{$item->create_time}}</td>
-        <th>{{$item->status}}</th>
+        <th>@if ($item->status == '1')未支付 @elseif($item->status == '2') <span style="color:red">已支付</span> @elseif($item->status =='3') 取消订单 @else  @endif</th>
         <th>{{$item->pay}}</th>
         <td>
-            <a class="btn btn-info btn-sm changepwd"  admin_id="{{$item->id}}" href="/admin/order_detail/{{$item->id}}">查看详情</a>
+            <a class="btn btn-info btn-sm changepwd"  admin_id="{{$item->id}}" href="/admin/order_detail/?oid={{$item->id}}">查看详情</a>
         </td>
     </tr>
     @endforeach

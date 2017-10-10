@@ -57,7 +57,7 @@ return array(
 			'host'      => 'localhost',
 			'database'  => 'cake',
 			'username'  => 'root',
-			'password'  => 'root',
+			'password'  => 'flowerplus',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',
