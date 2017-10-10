@@ -161,6 +161,7 @@ class WapCartController extends WapController
 			$order['status'] = 0;
 			$order['send_status'] = 0;
 			$order['created_at'] = date('Y-m-d H:i:s');
+			$order['pay'] = 0;
 
 			$delete_cart_ids = array();
 
@@ -173,16 +174,16 @@ class WapCartController extends WapController
 				$order_detail[$key]['buy_count'] = $cart->count;
 			}
 
-			$order_id = $order_m->add($order, $order_detail);
+			$order_id = $order_m->add($user_id, $order, $order_detail);
 
 			// 删除结算的购物车
 			Cart::whereIn('id', $delete_cart_ids)->where('user_id', $user_id)->delete();
 
 			DB::commit();
-			return Response::json('status'=> 1, 'order_id'=> $order_id);
+			return Response::json(array('status'=> 1, 'order_id'=> $order_id));
 		} catch (Exception $e) {
 			DB::rollback();
-			return Response::json('status'=> 0, 'message'=> '下单失败');
+			return Response::json(array('status'=> 0, 'message'=> '下单失败'.$e->getMessage()));
 		}
 	}
 }

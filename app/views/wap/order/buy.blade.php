@@ -10,14 +10,14 @@
 	<div style="height: 50px;"></div>
     <form method="post" action="/shopping/order.php">
 
-	<a href="/user/address.php?type=order">
+	<a href="/order/addressSelect/{{$order->id}}">
 		<div class="address">
 			<div class="font_size03">
-				<span class="line_height50 lf show_name_phone">chenwenyue 18329042977</span>
+				<span class="line_height50 lf show_name_phone">{{$order->name}} {{$order->mobile}}</span>
 				<span class="rt"><img src="/wap/images/icon/arrow02.png" alt="" height="16"></span>
 				<br class="clear" />
 			</div>
-			<div class="show_address color_silver">江苏省 南通市 </div>
+			<div class="show_address color_silver">{{$order->address}}</div>
 		</div>
 	</a>
 
@@ -25,23 +25,23 @@
         <table cellspacing="0" cellpadding="0" width="100%" class="add_tb bg01 bdbottom01 paddingbuding01 dn">
             <tr>
                 <td width="20%" class="color_silver">收货人</td>
-                <td width="60%"><div contenteditable="true" class="user_address_name" style="min-height: 16px;padding:8px;" onfocus="true"></div></td>
-                <td width="20%"></td>
+                <td width="45%"><div contenteditable="true" class="user_address_name" style="min-height: 16px;padding:8px;" onfocus="true"></div></td>
+                <td width="35%"></td>
             </tr>
             <tr>
                 <td width="20%" class="color_silver">手机号</td>
-                <td width="60%"><div contenteditable="true" class="user_address_phone" style="min-height: 16px;padding:8px;" onfocus="true"></div></td>
-                <td width="20%"></td>
+                <td width="45%"><div contenteditable="true" class="user_address_phone" style="min-height: 16px;padding:8px;" onfocus="true"></div></td>
+                <td width="35%"></td>
             </tr>
             <tr>
                 <td width="20%" class="color_silver">添加地址</td>
-                <td width="60%"><div contenteditable="true" class="user_address" style="min-height: 16px;padding:8px;" onfocus="true"></div></td>
-                <td width="20%"></td>
+                <td width="45%"><div contenteditable="true" placeholder="只限江苏省 南通市" class="user_address" style="min-height: 16px;padding:8px;" onfocus="true"></div></td>
+                <td width="35%"><span style="font-size: 5px;">江苏 南通</span></td>
             </tr>
             <tr>
                 <td width="20%" class="color_silver"></td>
                 <td width="60%">
-                    <a href="javascript:void(0)" style="color:white;" class="anniu03 lf addr_add marginright10">添加</a>
+                    <a href="javascript:void(0)" style="color:white;" order_id="{{$order->id}}" class="anniu03 lf addr_add marginright10">添加</a>
                     <a href="javascript:void(0)" style="color:white; background: #c9c9c9" class="anniu03 lf cancel marginright10">取消</a>
                 </td>
                 <td width="20%"></td>
@@ -54,21 +54,27 @@
 
 	<div class="bdbottom01 bg01" style="padding:10px 0;">
 		<div class="position_relative">
-			<div  class="lf div_img2"><div class="div_buding"><span><img src="<!--{$smarty.const.WESHOP_PIC}-->/<!--{$v.pic_address}-->" alt="" width="100%"></span></div></div>
+            @foreach ($order_detail as $item)
+			<div  class="lf div_img2"><div class="div_buding"><span><img src="{{$item->goods->goods_img}}" alt="" width="100%"></span></div></div>
 			<div class="lf div_block2">
-				<div class="gouwu_title">蛋糕</div>
+				<div class="gouwu_title" style="margin-top: 10px;">{{$item->goods->goods_title}}</div>
 				<div>
-					<div class="font_size01 color_silver">10寸 奶油</div>
-					<div><a class="color_pink">￥12.00</a><span>×2</span></div>
+					<div class="font_size01 color_silver">
+                        @foreach ($item->p->skuPrices as $sku_price)
+                            {{$sku_price->skuValue->value}}&nbsp;
+                        @endforeach
+                    </div>
+					<div><a class="color_pink">￥{{$item->price}}</a><span>×{{$item->buy_count}}</span></div>
 					<div class="color_red font_size01"><span class="color_gray marginright10">现货</span></div>
 					<br class="clear">
 				</div>
 			</div>
             <div class="clear"></div>
+            @endforeach
 		</div>
 	</div>
 
-	<div class="font_size02 align_right bg01 paddingbuding01">商品总额:￥24.00</div>
+	<div class="font_size02 align_right bg01 paddingbuding01">商品总额:￥{{number_format($total_price, 2)}}</div>
 	
  <!--{if $activity_arr}-->
     <div class="paddingbuding03 bg01 bdbottom01 margintop10">
@@ -150,7 +156,7 @@
 	<div style="height: 60px;"></div>
 	<div class="jiesuan" style="position: fixed;width: 100%;max-width: 640px;bottom: 0px;background-color: #fff;border-top:1px #eee solid;padding: 6px 0;">
 		<div class="lf">
-			<div class="font_size02 line_height36 marginleft10">应付总额：<span class="color_pink">￥</span><span class="pay_money color_pink"><!--{$total|number_format:2}--></span></div>
+			<div class="font_size02 line_height36 marginleft10">应付总额：<span class="color_pink">￥</span><span class="pay_money color_pink">{{number_format($total_price, 2)}}</span></div>
 		</div>
 		<a href="javascript:void(0)" class="anniu03 rt marginright10" id="submit_order">去支付</a>
         <input type="hidden" name="id" id="ticket_id" value="<!--{$ticket_data.0.id}-->">
@@ -353,15 +359,16 @@
         var address = $('.user_address').text();
         var name = $('.user_address_name').text();
         var phone = $('.user_address_phone').text();
+        var order_id = $(this).attr('order_id');
 
         if (!name || !address || !phone) {
             return alert('收获信息必填');
         }
 
-        $.post('/user/addAddress', {address: address, name: name, phone: phone}, function (data) {
+        $.post('/user/addAddress', {address: address, name: name, phone: phone, order_id: order_id}, function (data) {
             alert(data.message);
             if (data.status == 1) {
-                $('.add_address').css('height', '100px');
+                $('.add_address').css('height', '70px');
                 $('.add_tb').hide();
                 $('.show_name_phone').text(name + ' ' + phone);
                 $('.show_address').text(address);

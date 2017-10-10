@@ -21,6 +21,7 @@ Route::get('cart', array('as'=> 'cart', 'uses'=> 'WapCartController@cart'));
 Route::get('cart/getSkuSelect', array('as'=> 'cart.getSkuSelect', 'uses'=> 'WapCartController@getSkuSelect'));
 Route::post('cart/cartCount', array('as'=> 'cart.cartCount', 'uses'=> 'WapCartController@cartCount'));
 Route::post('cart/cartDelete', array('as'=> 'cart.cartDelete', 'uses'=> 'WapCartController@cartDelete'));
+Route::post('cart/cartBuy', array('as'=> 'cart.cartBuy' , 'uses' => 'WapCartController@cartBuy'));
 Route::post('cart/add', array('as'=> 'cart.add', 'uses'=> 'WapCartController@goodsAddCart'));
 Route::get('active', array('as'=> 'active', 'uses'=> 'WapActiveController@index'));
 Route::get('active/detail/{active_id}', array('as'=> 'active.detail', 'uses'=> 'WapActiveController@detail'));
@@ -29,6 +30,7 @@ Route::get('user', array('as'=> 'user', 'uses'=> 'WapUserController@index'));
 Route::post('user/addAddress', array('as'=> 'user.addAddress', 'uses'=> 'WapUserController@addAddress'));
 
 Route::get('buy/{order_id}', array('as'=> 'buy', 'uses'=> 'WapOrderController@buy'));
+Route::get('/order/addressSelect/{order_id}', array('as'=> 'order.addressSelect', 'uses'=> 'WapOrderController@addressSelect'));
 
 // Route::group(array('before'=> 'login'), function() {
 

@@ -21,6 +21,7 @@ class WapUserController extends WapController
 			$address = Input::get('address');
 			$name = Input::get('name');
 			$phone = Input::get('phone');
+			$order_id = Input::get('order_id');
 			if (!$address || !$name || !$phone) {
 				throw new Exception("收获信息所有必填");
 			}
@@ -41,6 +42,18 @@ class WapUserController extends WapController
 				'created_at' => date('Y-m-d H:i:s'),
 				'is_default' => $is_default,
 			));
+
+			if ($order_id) {
+				$res = Orders::where('id', $order_id)->where('user_id', $user_id)->update(array(
+					'name' => $name,
+					'mobile' => $phone,
+					'address' => $address,
+				));
+				
+				if (!$res) {
+					throw new Exception("修改订单失败,请重试");
+				}
+			}
 
 			DB::commit();
 			return Response::json(array('status'=> 1, 'message'=> '添加成功', 'address_id'=> $d_id));

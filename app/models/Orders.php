@@ -11,9 +11,9 @@ class Orders extends Eloquent
 
     function getList($type = array(), $fetch = array())
     {
-        $select = $this->select($fetch ? $fetch : array('admin.*'));
+        $select = $this->select($fetch ? $fetch : array('orders.*'));
 
-        // $this->_where($select, $type);
+        $this->_where($select, $type);
 
         return $select->get();
 
@@ -60,17 +60,17 @@ class Orders extends Eloquent
         $res =  DB::table('admin')->where('mobile', $mobile)->first();
        return $res;
     }
-    function add($admin_data)
-    {
-        if (!$admin_data) {
-            return array('status'=>0,'msg'=> '无数据');
-        }
+    // function add($admin_data)
+    // {
+    //     if (!$admin_data) {
+    //         return array('status'=>0,'msg'=> '无数据');
+    //     }
 
-        $admin = DB::insert("insert into admin (mobile,pwd) values(".$admin_data['mobile'].",".$admin_data['password'].")");
+    //     $admin = DB::insert("insert into admin (mobile,pwd) values(".$admin_data['mobile'].",".$admin_data['password'].")");
 
-        return $admin;
+    //     return $admin;
 
-    }
+    // }
 
     function add($user_id, $order, $detail, $address_id = null)
     {
@@ -83,6 +83,8 @@ class Orders extends Eloquent
         foreach ($detail as $key => $value) {
             $detail[$key]['order_id'] = $order_id;
             $total_price += $value['price'];
+          
+            // 检测活动 修改活动价
         }
 
         $update_order['price'] = $total_price;

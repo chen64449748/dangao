@@ -211,6 +211,24 @@ function selectChackAll()
 }
 
 
+$('.submit-btn').click(function () {
+	if ($('.check:checked').size() == 0) {
+		return alert('请勾选要结算的商品');
+	}
+	var cart_ids = [];
+
+	$('.check:checked').each(function() {
+		cart_ids.push($(this).val());
+	});
+
+	$.post('/cart/cartBuy', {cart_id: cart_ids}, function (data) {
+		alert(data.message);
+		if (data.status == 1) {
+			window.location.href = '/buy/'+ data.order_id;
+		}
+	});
+
+});
 
 </script>
 @stop
