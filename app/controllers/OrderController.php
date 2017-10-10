@@ -10,4 +10,15 @@ class OrderController extends BaseController
         return View::make('admin.order.list', $view_data);
     }
 
+    public function order_detail() {
+        $oid = Input::get('oid');
+        // $order = new Order(); 
+        // $orderslist = $order->getList($oid);
+       $orderslist =  DB::table('orders_detail')->where('oid',$oid)->get();
+        $view_data = array(
+            'order_detail' => $orderslist,
+        );
+        return View::make('admin.order.detail', $view_data);
+    }
+
 }

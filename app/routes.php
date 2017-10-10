@@ -30,8 +30,24 @@ Route::post('user/addAddress', array('as'=> 'user.addAddress', 'uses'=> 'WapUser
 
 Route::get('buy/{order_id}', array('as'=> 'buy', 'uses'=> 'WapOrderController@buy'));
 
-// Route::group(array('before'=> 'login'), function() {
+Route::group(array('before'=> 'login'), function() {
 
+//登陆
+Route::get('admin/login', array('as'=> 'admin.login', 'uses'=> 'LoginController@login'));
+Route::post('admin/doLogin', array('as'=> 'admin.doLogin', 'uses'=> 'LoginController@doLogin'));
+Route::get('/logout', array('as'=> 'admin.logout', 'uses'=> 'LoginController@logout'));
+Route::group(array('before'=> 'login'), function() {
+	//管理员
+	Route::get('/admin', array('as'=> 'admin', 'uses'=> 'AdminController@adminList'));
+	Route::get('/admin/add', array('as'=> 'admin.add', 'uses'=> 'AdminController@addadmin'));
+	Route::post('/admin/add/data', array('as'=> 'admin.add', 'uses'=> 'AdminController@AddData'));
+	Route::get('/admin/del', array('as'=> 'admin.add', 'uses'=> 'AdminController@del'));
+	Route::get('/admin/change', array('as'=> 'admin.add', 'uses'=> 'AdminController@AddData'));
+
+	//订单
+	//管理员
+	Route::get('/admin/orders', array('as'=> 'admin.orders', 'uses'=> 'OrderController@orders'));
+	Route::get('/admin/order_detail', array('as'=> 'admin.order_detail', 'uses'=>'OrderController@order_detail'));
 	// 货品
 	Route::get('goods/list', array('as'=> 'goods.list', 'uses'=> 'GoodsController@goodsList'));
 	Route::post('goods/get', array('as'=> 'goods.list', 'uses'=> 'GoodsController@goodsGet'));
@@ -61,7 +77,14 @@ Route::get('buy/{order_id}', array('as'=> 'buy', 'uses'=> 'WapOrderController@bu
 	Route::post('stock/finance/add', array('as'=> 'stock.finance.add', 'uses'=> 'StockController@addFinance'));
 	Route::post('stock/finance/add/day', array('as'=> 'stock.finance.add.day', 'uses'=> 'StockController@addFinanceDay'));
 
-// });
+});
 
+//yh
+Route::post('/user/login', array('as'=> 'user.login', 'uses'=> 'WapUserController@login'));
 
+Route::group(array('before'=> 'userlogin'), function() {
+	Route::post('', array('as'=> 'stock.finance.add.day', 'uses'=> 'StockController@addFinanceDay'));
+});
+
+});
 

@@ -11,8 +11,6 @@ class WapUserController extends WapController
 		return View::make('wap.user.index', $view_data);
 	}
 
-
-
 	function addAddress()
 	{
 		DB::beginTransaction();
@@ -49,4 +47,22 @@ class WapUserController extends WapController
 			return Response::json(array('status'=> 0, 'message'=> '添加失败，请重试'));
 		}
 	}
+    function login()
+    {
+        return Redirect::to('https://open.weixin.qq.com/connect/oauth2/authorize?appid='.$this->AppId.'&redirect_uri='.urlencode(URL_BASE.'user/'.$callback.'/').'&response_type=code&scope=snsapi_userinfo&state=#wechat_redirect');
+    }
+
+    function dologin(){
+        if(!isset($_GET['code'])||empty($_GET['code'])){
+            die('必须授权才能继续！');
+        }
+        $wxservice = new Wxservice;
+        $token=$wxservice->getaccesstoken($_GET['code']);
+        $uinfo=$wxservice->getUserInfo($token);
+        if(user::login($uinfo)){
+            return Redirect::to('/');
+        }
+    }
+
+     
 }

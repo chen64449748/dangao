@@ -20,13 +20,13 @@ class LoginController extends BaseController
 			return Redirect::to('/admin');
 		}
 
-		return Redirect::to('login');
+		return Redirect::to('admin/login');
 
 	}
 
 	public function logout()
 	{
-		Session::flush();
-		return Redirect::to('login');
+		Session::forget('admin');
+		return Redirect::to('admin/login');
 	}
 }

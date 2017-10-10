@@ -9,13 +9,18 @@ class Orders extends Eloquent
 {
     protected $table = 'orders';
 
-    function getList($type = array(), $fetch = array())
+    public function order_detail()
+  {
+    return $this->hasOne('orders_detail','oid', 'id');
+  }
+    function getList($oid)
     {
-        $select = $this->select($fetch ? $fetch : array('admin.*'));
+        // $select = $this->select($fetch ? $fetch : array('admin.*'));
 
-        // $this->_where($select, $type);
+        $order_details = order_detail::where('oid', $oid)->get();
 
-        return $select->get();
+
+        return $order_details;
 
     }
     function getListPage($type = array(), $size = 15, $fetch = array())
@@ -60,17 +65,17 @@ class Orders extends Eloquent
         $res =  DB::table('admin')->where('mobile', $mobile)->first();
        return $res;
     }
-    function add($admin_data)
-    {
-        if (!$admin_data) {
-            return array('status'=>0,'msg'=> '无数据');
-        }
+    // function add($admin_data)
+    // {
+    //     if (!$admin_data) {
+    //         return array('status'=>0,'msg'=> '无数据');
+    //     }
 
-        $admin = DB::insert("insert into admin (mobile,pwd) values(".$admin_data['mobile'].",".$admin_data['password'].")");
+    //     $admin = DB::insert("insert into admin (mobile,pwd) values(".$admin_data['mobile'].",".$admin_data['password'].")");
 
-        return $admin;
+    //     return $admin;
 
-    }
+    // }
 
     function add($user_id, $order, $detail, $address_id = null)
     {
@@ -109,7 +114,6 @@ class Orders extends Eloquent
     }
 
     private function _where(&$select, $type) {
-
         foreach ($type as $key => $value) {
             switch ($key) {
                 case 'id':
