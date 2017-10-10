@@ -26,15 +26,11 @@ class Orders extends Eloquent
     {
       $select = $this->select($fetch ? $fetch : array('orders.*'));
 
-      // $select->leftJoin('company_sign', 'company_sign.id', '=', 'goods.company_sign_id');
-      // $select->leftJoin('company', 'company.id', '=', 'goods.company_id');
-
-      // $this->_where($select, $type);
+      $this->_where($select, $type);
 
       return $select->paginate($size);
     }
 
-    
 
     function add($user_id, $order, $detail, $address_id = null)
     {
