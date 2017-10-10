@@ -26,55 +26,10 @@ class Orders extends Eloquent
     {
       $select = $this->select($fetch ? $fetch : array('orders.*'));
 
-      // $select->leftJoin('company_sign', 'company_sign.id', '=', 'goods.company_sign_id');
-      // $select->leftJoin('company', 'company.id', '=', 'goods.company_id');
-
-      // $this->_where($select, $type);
+      $this->_where($select, $type);
 
       return $select->paginate($size);
     }
-
-    function checkadmin($id,$pwd){
-       $res =  DB::table('admin')->where('id', $id)->where('pwd', $pwd)->first();
-       return $res;
-       // if($res){
-       //     return ture;
-       // }else{
-       //     return false;
-       // }
-    }
-    function updateadmin($id,$pwd){
-        $res = DB::update("update admin set pwd = ".$pwd."  where id = ".$id);
-        return $res;
-       // $res = DB::table('admin')->where('id',$id)->update(array('pwd'=> $pwd));
-       // if($res){
-       //     return ture;
-       // }else{
-       //     return false;
-       // }
-
-    }
-
-    function deladmin($id){
-        $res = DB::table('admin')->where('id',$id)->delete();
-        return $res;
-    }
-
-    function check($mobile){
-        $res =  DB::table('admin')->where('mobile', $mobile)->first();
-       return $res;
-    }
-    // function add($admin_data)
-    // {
-    //     if (!$admin_data) {
-    //         return array('status'=>0,'msg'=> '无数据');
-    //     }
-
-    //     $admin = DB::insert("insert into admin (mobile,pwd) values(".$admin_data['mobile'].",".$admin_data['password'].")");
-
-    //     return $admin;
-
-    // }
 
     function add($user_id, $order, $detail, $address_id = null)
     {
