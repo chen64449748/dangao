@@ -34,47 +34,7 @@ class Orders extends Eloquent
       return $select->paginate($size);
     }
 
-    function checkadmin($id,$pwd){
-       $res =  DB::table('admin')->where('id', $id)->where('pwd', $pwd)->first();
-       return $res;
-       // if($res){
-       //     return ture;
-       // }else{
-       //     return false;
-       // }
-    }
-    function updateadmin($id,$pwd){
-        $res = DB::update("update admin set pwd = ".$pwd."  where id = ".$id);
-        return $res;
-       // $res = DB::table('admin')->where('id',$id)->update(array('pwd'=> $pwd));
-       // if($res){
-       //     return ture;
-       // }else{
-       //     return false;
-       // }
-
-    }
-
-    function deladmin($id){
-        $res = DB::table('admin')->where('id',$id)->delete();
-        return $res;
-    }
-
-    function check($mobile){
-        $res =  DB::table('admin')->where('mobile', $mobile)->first();
-       return $res;
-    }
-    // function add($admin_data)
-    // {
-    //     if (!$admin_data) {
-    //         return array('status'=>0,'msg'=> '无数据');
-    //     }
-
-    //     $admin = DB::insert("insert into admin (mobile,pwd) values(".$admin_data['mobile'].",".$admin_data['password'].")");
-
-    //     return $admin;
-
-    // }
+    
 
     function add($user_id, $order, $detail, $address_id = null)
     {
@@ -127,5 +87,37 @@ class Orders extends Eloquent
             }
         }
 
+    }
+
+    //统一订单
+     public static function create_wxpay($id) {
+        $oinfo =  $this->where('id', $id)->first();
+        if (empty($oinfo)) {
+            return array('status'=>flase,'msg'=>'没有订单信息');
+        }
+        $cinfo = DB::getRow('select weixin_openid from customer where id=' . intval($oinfo['cid']));
+        if (empty($cinfo) || empty($cinfo['weixin_openid'])) {
+            return array('status'=>flase,'msg'=>'没有用户信息');
+        }
+
+        $data = array(
+            'oid' => $oinfo['id'],
+            'out_trade_no' => $oinfo['out_id'],
+            'transaction_id' => '',
+            'openid' => $cinfo['weixin_openid'],
+            'body' => $oinfo['title'],
+            'total_fee' => $oinfo['payment'] * 100,
+            'create_time' => date('Y-m-d H:i:s'),
+        );
+        $jsApiParameters = wxpay::getjsApiParameters($data['out_trade_no'], $data['body'], $data['total_fee'], $data['openid']);
+        //Logs::write($jsApiParameters);
+        if (empty($jsApiParameters)) {
+            return M(false, '无法联络到微信支付网关，请稍候再试！1');
+        }
+        $jsObj = json_decode($jsApiParameters, true);
+        if (empty($jsObj) || strlen($jsObj['package']) < 20) {
+            return M(false, '无法联络到微信支付网关，请稍候再试！2');
+        }
+        return M(true, $jsApiParameters);
     }
 }
