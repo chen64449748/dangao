@@ -187,6 +187,7 @@ $('#goods_sku').on('click', '.items .sku_check', function () {
     if (select_config.length > 0 && selected.length == select_config[0].length) {
         for (var i in select_config) {
             if (selected.equals(select_config[i])) {
+                alert('没有该规格组合');
                 $('.sku_list').find('.items').find('a').removeClass('checked');
                 $('.sku_list').find('.items').find('a').removeClass('sku_disable');
                 $('.sku_list').find('.items').find('a').addClass('sku_check');
