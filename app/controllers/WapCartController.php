@@ -137,4 +137,52 @@ class WapCartController extends WapController
 			return Response::json(array('status'=> 0, 'message'=> '删除失败,请重试'));
 		}
 	}
+
+	function cartBuy()
+	{
+		$cart_ids = Input::get('cart_id');
+		$user_id = Session::get('user_id');
+		$order_m = new Orders();
+
+		$now_date = date('Y-m-d H:i:s');
+		DB::beginTransaction();
+		try {
+			
+			$carts = Cart::whereIn('id', $cart_ids)->where('user_id', $user_id)->get();
+
+			if (!isset($carts[0])) {
+				throw new Exception("必须勾选一个购物内容");
+			}
+
+			$order = array();
+			$order_detail = array();
+
+			$order['user_id'] = $user_id;
+			$order['status'] = 0;
+			$order['send_status'] = 0;
+			$order['created_at'] = date('Y-m-d H:i:s');
+
+			$delete_cart_ids = array();
+
+			foreach ($carts as $key => $cart) {
+				$delete_cart_ids[] = $cart->id;
+				$order_detail[$key]['goods_id'] = $cart->goods_id;
+				$order_detail[$key]['price_id'] = $cart->price_id;
+				$order_detail[$key]['price'] = $cart->price->price;
+				$order_detail[$key]['created_at'] = $now_date;
+				$order_detail[$key]['buy_count'] = $cart->count;
+			}
+
+			$order_id = $order_m->add($order, $order_detail);
+
+			// 删除结算的购物车
+			Cart::whereIn('id', $delete_cart_ids)->where('user_id', $user_id)->delete();
+
+			DB::commit();
+			return Response::json('status'=> 1, 'order_id'=> $order_id);
+		} catch (Exception $e) {
+			DB::rollback();
+			return Response::json('status'=> 0, 'message'=> '下单失败');
+		}
+	}
 }

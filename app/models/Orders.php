@@ -72,4 +72,55 @@ class Orders extends Eloquent
 
     }
 
+    function add($user_id, $order, $detail, $address_id = null)
+    {
+
+        $order_id = $this->insertGetId($order);
+
+        $update_order = array();
+        $total_price = 0;
+
+        foreach ($detail as $key => $value) {
+            $detail[$key]['order_id'] = $order_id;
+            $total_price += $value['price'];
+        }
+
+        $update_order['price'] = $total_price;
+
+        if ($address_id) {
+            $address = DB::table('user_address')->where('user_id', $user_id)->where('id', $address_id)->first();
+        } else {
+            $address = DB::table('user_address')->where('user_id', $user_id)->where('is_default', 1)->first();
+        }
+
+        if ($address) {
+            $update_order['mobile'] = $address->phone;
+            $update_order['name'] = $address->name;
+            $update_order['address'] = $address->address;
+        }
+
+        $this->where('id', $order_id)->update($update_order);
+
+        OrderDetails::insert($detail);
+
+        return $order_id;
+
+
+    }
+
+    private function _where(&$select, $type) {
+
+        foreach ($type as $key => $value) {
+            switch ($key) {
+                case 'id':
+                    $select->where('orders.id', (int)$value);
+                    break;
+                case 'user_id':
+                    $select->where('orders.user_id', (int)$value);
+                    break;
+              
+            }
+        }
+
+    }
 }

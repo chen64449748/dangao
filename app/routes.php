@@ -26,7 +26,9 @@ Route::get('active', array('as'=> 'active', 'uses'=> 'WapActiveController@index'
 Route::get('active/detail/{active_id}', array('as'=> 'active.detail', 'uses'=> 'WapActiveController@detail'));
 
 Route::get('user', array('as'=> 'user', 'uses'=> 'WapUserController@index'));
+Route::post('user/addAddress', array('as'=> 'user.addAddress', 'uses'=> 'WapUserController@addAddress'));
 
+Route::get('buy/{order_id}', array('as'=> 'buy', 'uses'=> 'WapOrderController@buy'));
 
 // Route::group(array('before'=> 'login'), function() {
 
