@@ -13,23 +13,30 @@ class Orders extends Eloquent
   {
     return $this->hasOne('orders_detail','oid', 'id');
   }
-    function getList($type = array(), $fetch = array())
+    function getList($type = array(), $order = array(), $fetch = array(), $offset = 0, $limit = 0)
     {
         $select = $this->select($fetch ? $fetch : array('orders.*'));
 
         $this->_where($select, $type);
+        $this->_order($select, $order);
+
+        if ($limit > 0) {
+            $select->skip($offset)->take($limit);
+        }
 
         return $select->get();
 
     }
-    function getListPage($type = array(), $size = 15, $fetch = array())
+    function getListPage($type = array(), $size = 15, $order = array(), $fetch = array())
     {
       $select = $this->select($fetch ? $fetch : array('orders.*'));
 
       $this->_where($select, $type);
+      $this->_order($select, $order);
 
       return $select->paginate($size);
     }
+
 
     function add($user_id, $order, $detail, $address_id = null)
     {
@@ -41,7 +48,7 @@ class Orders extends Eloquent
 
         foreach ($detail as $key => $value) {
             $detail[$key]['order_id'] = $order_id;
-            $total_price += $value['price'];
+            $total_price += $value['price'] * $value['buy_count'];
           
             // 检测活动 修改活动价
         }
@@ -82,5 +89,49 @@ class Orders extends Eloquent
             }
         }
 
+    }
+
+    private function _order(&$select, $order) {
+
+        foreach ($order as $key => $value) {
+            switch ($key) {
+                case 'created_at':
+                    $select->orderBy('orders.created_at', $value);
+                    break;
+            }
+        }
+
+    }
+
+    //统一订单
+     public static function create_wxpay($id) {
+        $oinfo =  $this->where('id', $id)->first();
+        if (empty($oinfo)) {
+            return array('status'=>flase,'msg'=>'没有订单信息');
+        }
+        $cinfo = DB::getRow('select weixin_openid from customer where id=' . intval($oinfo['cid']));
+        if (empty($cinfo) || empty($cinfo['weixin_openid'])) {
+            return array('status'=>flase,'msg'=>'没有用户信息');
+        }
+
+        $data = array(
+            'oid' => $oinfo['id'],
+            'out_trade_no' => $oinfo['out_id'],
+            'transaction_id' => '',
+            'openid' => $cinfo['weixin_openid'],
+            'body' => $oinfo['title'],
+            'total_fee' => $oinfo['payment'] * 100,
+            'create_time' => date('Y-m-d H:i:s'),
+        );
+        $jsApiParameters = wxpay::getjsApiParameters($data['out_trade_no'], $data['body'], $data['total_fee'], $data['openid']);
+        //Logs::write($jsApiParameters);
+        if (empty($jsApiParameters)) {
+            return M(false, '无法联络到微信支付网关，请稍候再试！1');
+        }
+        $jsObj = json_decode($jsApiParameters, true);
+        if (empty($jsObj) || strlen($jsObj['package']) < 20) {
+            return M(false, '无法联络到微信支付网关，请稍候再试！2');
+        }
+        return M(true, $jsApiParameters);
     }
 }

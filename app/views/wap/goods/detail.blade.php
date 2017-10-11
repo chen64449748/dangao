@@ -165,7 +165,7 @@
 
 			</td>
 			<td align="center" width="70%">
-                <a href="javascript:;" class="anniu08 marginright10 rt gm buy"  >立即购买</a>
+                <a href="javascript:;" data-id="{{$goods->id}}" class="anniu08 marginright10 rt gm buy"  >立即购买</a>
 				<a href="javascript:;" data-id="{{$goods->id}}" class="anniu07 marginright10 addproduct rt cart" >加入购物车</a>
 				<br class="clear" />
 			</td>
@@ -222,6 +222,19 @@
 						if (data.act == 'add') {
 							$('.gouwuche_count').text( Number($('.gouwuche_count').text()) + 1 );
 						}
+					}
+				});
+
+			});
+		});
+
+		$('.buy').click(function () {
+			var goods_id = $(this).data('id');
+			sku_select_show(goods_id, function (sku_value_ids, count) {
+				$.post('/goods/buy', {goods_id: goods_id, sku_value_ids: sku_value_ids, count: count}, function (data) {
+					alert(data.message);
+					if (data.status == 1) {
+						window.location.href = '/buy/'+ data.order_id;
 					}
 				});
 

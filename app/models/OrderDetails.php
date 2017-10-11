@@ -37,7 +37,9 @@ class OrderDetails extends Eloquent
                 case 'order_id':
                     $select->where('orders_detail.order_id', (int)$value);
                     break;
-              
+                case 'ids':
+                    $select->whereIn('orders_detail.order_id', $value);
+                    break;
             }
         }
 

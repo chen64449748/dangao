@@ -3,8 +3,6 @@
 @section('content')
 <div class="top">
 	<span>购物车</span>
-	<a href="javascript:history.back(-1);" class="lf marginleft10">
-		<img src="/wap/images/icon/back.png" alt="" height="16" style="position: relative; top: 16px;" ></a> 
 		<!-- <a href="javascript:void(0);" class="anniu03 marginright10 rt margintop05 disabled" id="del">删除</a> -->
 		<br class="clear" />
 </div>

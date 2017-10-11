@@ -114,4 +114,51 @@ class WapGoodsController extends WapController
 		return View::make('wap.goods.detail', $view_data);
 	}
 
+	// 立即购买
+
+	function goodsBuy()
+	{
+		$sku_value_ids = Input::get('sku_value_ids');
+		$goods_id = Input::get('goods_id');
+		$user_id = Session::get('user_id');
+		$count = Input::get('count');
+
+		DB::beginTransaction();
+		try {
+			$order_m = new Orders();
+			$price_m = new Price();
+
+			$goods = Goods::find($goods_id);
+	
+			if (!$goods) {
+				throw new Exception("没有找到商品");
+			}
+
+			$order = array();
+			$order_detail = array();
+
+			$order['user_id'] = $user_id;
+			$order['status'] = 0;
+			$order['send_status'] = 0;
+			$order['created_at'] = date('Y-m-d H:i:s');
+			$order['pay'] = 0;
+
+			$price = $price_m->getPrice($goods_id, $sku_value_ids);
+
+			$order_detail[0]['goods_id'] = $goods_id;
+			$order_detail[0]['price_id'] = $price->id;
+			$order_detail[0]['price'] = $price->price;
+			$order_detail[0]['created_at'] = date('Y-m-d H:i:s');
+			$order_detail[0]['buy_count'] = $count;
+
+			$order_id = $order_m->add($user_id, $order, $order_detail);
+			DB::commit();
+			return Response::json(array('status'=> 1, 'order_id'=> $order_id));
+		} catch (Exception $e) {
+			DB::rollback();
+			return Response::json(array('status'=> 0, 'message'=> '下单失败'.$e->getMessage()));
+		}
+		
+	}
+
 }
