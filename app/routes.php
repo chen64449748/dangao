@@ -14,8 +14,9 @@
 Route::get('/', array('as'=> '/', 'uses'=> 'WapIndexController@index'));
 Route::get('goods', array('as'=> 'goods', 'uses'=> 'WapGoodsController@goods'));
 Route::get('goods/loading', array('as'=> 'goods.loading', 'uses'=> 'WapGoodsController@goodsLoading'));
-
 Route::get('detail/{goods_id}', array('as'=> 'detail', 'uses'=> 'WapGoodsController@detail'));
+Route::post('goods/buy', array('as'=> 'goods.buy', 'uses'=> 'WapGoodsController@goodsBuy'));
+
 
 Route::get('cart', array('as'=> 'cart', 'uses'=> 'WapCartController@cart'));
 Route::get('cart/getSkuSelect', array('as'=> 'cart.getSkuSelect', 'uses'=> 'WapCartController@getSkuSelect'));
@@ -28,6 +29,7 @@ Route::get('active/detail/{active_id}', array('as'=> 'active.detail', 'uses'=> '
 
 Route::get('user', array('as'=> 'user', 'uses'=> 'WapUserController@index'));
 Route::post('user/addAddress', array('as'=> 'user.addAddress', 'uses'=> 'WapUserController@addAddress'));
+Route::get('user/orders', array('as'=> 'user.orders', 'uses'=> 'WapUserController@orders'));
 
 Route::get('buy/{order_id}', array('as'=> 'buy', 'uses'=> 'WapOrderController@buy'));
 Route::get('/order/addressSelect/{order_id}', array('as'=> 'order.addressSelect', 'uses'=> 'WapOrderController@addressSelect'));

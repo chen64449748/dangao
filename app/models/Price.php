@@ -113,6 +113,8 @@ class Price extends Eloquent
 			}
 
 			$combine_key = substr($combine_key, 1);
+			// 读取是否有活动{}
+
 			$return_arr['price_list'][$combine_key] = $value->price;
 
 			$value->sku_value_ids = $sku_value_ids;

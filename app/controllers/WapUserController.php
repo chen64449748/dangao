@@ -77,5 +77,68 @@ class WapUserController extends WapController
         }
     }
 
+    // 用户订单
+    function orders() {
+
+    	$user_id = Session::get('user_id');
+    	$status = Input::get('status');
+
+    	$order_m = new Orders();
+    	$order_detail_m = new OrderDetails();
+
+    	$status_arr = array(
+    		'waiting' => array(0, 1),
+    		'paying' => array(1),
+    		'payed' => array(2),
+    		'close' => array(3),
+    	);
+    	$type = array();
+    	$order = array('created_at', 'desc');
+
+    	if (!isset($status_arr[$status])) {
+    		$status = '';
+    	}
+
+    	$type['user_id'] = $user_id;
+    	$status && $type['status'] = $status_arr[$status];
+
+    	$order_arr = $order_m->getList($type, $order, array(), 0, 20);
+
+    	$order_ids = array();
+    	$orders = array();
+    	foreach ($order_arr as $key => $value) {
+    		$order_ids[] = $value->id;
+    		$value->detail = array();
+    		$orders[$value->id] = $value;
+    	}
+
+    	$order_detail = $order_detail_m->getList(array('ids'=> $order_ids));
+
+    	$details = array();
+
+    	foreach ($order_detail as $detail) {
+    		$detail->goods_title = $detail->goods->goods_title;
+    		$detail->goods_img = $detail->goods->goods_img;
+    		$detail->sku_text = '';
+
+    		foreach ($detail->p->skuPrices as $sku_price) {
+    			$detail->sku_text .= $sku_price->skuValue->value.' ';
+    		}
+    		$details[$detail->order_id][] = $detail;
+    		// $orders[$detail->order_id]->detail = $detail;
+    	}
+
+    	foreach ($orders as $ok => $ov) {
+    		$orders[$ok]->detail = $details[$ov->id];
+    	}
+
+    	$view_data = array(
+    		'status' => $status,
+    		'orders' => $orders,
+    	);
+
+    	return View::make('wap.user.orders', $view_data);
+
+    }
      
 }

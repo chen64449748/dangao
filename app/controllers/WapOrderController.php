@@ -42,7 +42,7 @@ class WapOrderController extends WapController
 		$total_price = 0;
 
 		foreach ($order_detail as $value) {
-			$total_price += $value->price;
+			$total_price += $value->price * $value->buy_count;
 		}
 
 		$view_data = array(
