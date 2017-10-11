@@ -153,7 +153,7 @@ class WapGoodsController extends WapController
 
 			$order_id = $order_m->add($user_id, $order, $order_detail);
 			DB::commit();
-			return Response::json(array('status'=> 1, 'order_id'=> $order_id));
+			return Response::json(array('status'=> 1, 'message'=> '下单成功', 'order_id'=> $order_id));
 		} catch (Exception $e) {
 			DB::rollback();
 			return Response::json(array('status'=> 0, 'message'=> '下单失败'.$e->getMessage()));

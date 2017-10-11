@@ -85,6 +85,10 @@ class Orders extends Eloquent
                 case 'user_id':
                     $select->where('orders.user_id', (int)$value);
                     break;
+                case 'status':
+                // dd($value);
+                    $select->whereIn('orders.status', $value);
+                    break;
               
             }
         }

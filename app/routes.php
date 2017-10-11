@@ -30,6 +30,7 @@ Route::get('active/detail/{active_id}', array('as'=> 'active.detail', 'uses'=> '
 Route::get('user', array('as'=> 'user', 'uses'=> 'WapUserController@index'));
 Route::post('user/addAddress', array('as'=> 'user.addAddress', 'uses'=> 'WapUserController@addAddress'));
 Route::get('user/orders', array('as'=> 'user.orders', 'uses'=> 'WapUserController@orders'));
+Route::get('user/order/loading', array('as'=> 'user.orders.loading', 'uses'=> 'WapUserController@orderLoading'));
 
 Route::get('buy/{order_id}', array('as'=> 'buy', 'uses'=> 'WapOrderController@buy'));
 Route::get('/order/addressSelect/{order_id}', array('as'=> 'order.addressSelect', 'uses'=> 'WapOrderController@addressSelect'));

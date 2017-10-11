@@ -4,8 +4,30 @@ class WapUserController extends WapController
 {
 	function index()
 	{
+        $user_id = Session::get('user_id');
+        $order_count = Orders::select(DB::raw('count(id) as count, status'))->where('user_id', $user_id)->groupBy('status')->get();
+
+        $count_arr = array();
+        foreach ($order_count as $key => $value) {
+            $count_arr[$value->status] = $value->count;
+        }
+        $count_arr[0] = isset($count_arr[0]) ? $count_arr[0] : 0;
+        $count_arr[1] = isset($count_arr[1]) ? $count_arr[1] : 0;
+        $count_arr[2] = isset($count_arr[2]) ? $count_arr[2] : 0;
+        $count_arr[3] = isset($count_arr[3]) ? $count_arr[3] : 0;
+        $count_arr[4] = isset($count_arr[4]) ? $count_arr[4] : 0;
+
+        $waiting_count = $count_arr[0] + $count_arr[1];
+        $payed_count = $count_arr[2];
+        $close_count = $count_arr[3];
+        $ok_count = $count_arr[4];
+
 		$view_data = array(
 			'active' => 'user',
+            'waiting_count' => $waiting_count,
+            'payed_count' => $payed_count,
+            'close_count' => $close_count,
+            'ok_count' => $ok_count,
 		);
 
 		return View::make('wap.user.index', $view_data);
@@ -91,6 +113,7 @@ class WapUserController extends WapController
     		'paying' => array(1),
     		'payed' => array(2),
     		'close' => array(3),
+            'ok' => array(4),
     	);
     	$type = array();
     	$order = array('created_at', 'desc');
@@ -109,10 +132,16 @@ class WapUserController extends WapController
     	foreach ($order_arr as $key => $value) {
     		$order_ids[] = $value->id;
     		$value->detail = array();
+            $value->goods_count = 0;
     		$orders[$value->id] = $value;
     	}
 
-    	$order_detail = $order_detail_m->getList(array('ids'=> $order_ids));
+        if ($order_ids) {
+            $order_detail = $order_detail_m->getList(array('ids'=> $order_ids));
+        } else {
+            $order_detail = array();
+        }
+    	
 
     	$details = array();
 
@@ -125,6 +154,7 @@ class WapUserController extends WapController
     			$detail->sku_text .= $sku_price->skuValue->value.' ';
     		}
     		$details[$detail->order_id][] = $detail;
+            $orders[$detail->order_id]->goods_count += 1;
     		// $orders[$detail->order_id]->detail = $detail;
     	}
 
@@ -132,13 +162,80 @@ class WapUserController extends WapController
     		$orders[$ok]->detail = $details[$ov->id];
     	}
 
+        $query = 'status='.$status;
+
     	$view_data = array(
     		'status' => $status,
     		'orders' => $orders,
+            'query' => $query,
     	);
 
     	return View::make('wap.user.orders', $view_data);
 
     }
+
+    function orderLoading()
+    {
+        $user_id = Session::get('user_id');
+        $status = Input::get('status');
+        $page = Input::get('page', 2);
+        $offset = ($page - 1) * 20;
+
+        $order_m = new Orders();
+        $order_detail_m = new OrderDetails();
+
+        $status_arr = array(
+            'waiting' => array(0, 1),
+            'paying' => array(1),
+            'payed' => array(2),
+            'close' => array(3),
+            'ok' => array(4),
+        );
+        $type = array();
+        $order = array('created_at', 'desc');
+
+        $order_arr = $order_m->getList($type, $order, array(), $offset, 20);
+
+        $order_ids = array();
+        $orders = array();
+        foreach ($order_arr as $key => $value) {
+            $order_ids[] = $value->id;
+            $value->detail = array();
+            $value->goods_count = 0;
+            $orders[$value->id] = $value;
+        }
+
+        if ($order_ids) {
+            $order_detail = $order_detail_m->getList(array('ids'=> $order_ids));
+        } else {
+            $order_detail = array();
+        }
+        
+
+        $details = array();
+
+        foreach ($order_detail as $detail) {
+            $detail->goods_title = $detail->goods->goods_title;
+            $detail->goods_img = $detail->goods->goods_img;
+            $detail->sku_text = '';
+
+            foreach ($detail->p->skuPrices as $sku_price) {
+                $detail->sku_text .= $sku_price->skuValue->value.' ';
+            }
+            $details[$detail->order_id][] = $detail;
+            $orders[$detail->order_id]->goods_count += 1;
+            // $orders[$detail->order_id]->detail = $detail;
+        }
+
+        foreach ($orders as $ok => $ov) {
+            $orders[$ok]->detail = $details[$ov->id];
+        }
+        if ($order_ids) {
+            return Response::json(array('status'=> 1, 'data'=> $orders));
+        } else {
+            return Response::json(array('status'=> 400, 'data'=> $orders));
+        }
+    }
+    
      
 }

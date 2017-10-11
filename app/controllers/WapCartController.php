@@ -180,7 +180,7 @@ class WapCartController extends WapController
 			Cart::whereIn('id', $delete_cart_ids)->where('user_id', $user_id)->delete();
 
 			DB::commit();
-			return Response::json(array('status'=> 1, 'order_id'=> $order_id));
+			return Response::json(array('status'=> 1, 'message'=> '结算成功', 'order_id'=> $order_id));
 		} catch (Exception $e) {
 			DB::rollback();
 			return Response::json(array('status'=> 0, 'message'=> '下单失败'.$e->getMessage()));

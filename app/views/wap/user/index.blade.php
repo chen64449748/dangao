@@ -60,35 +60,35 @@
 	<table cellpadding="0" cellspacing="0" width="100%" class="table01">
 		<tr>
 			<td width="25%" align="center">
-				<a href="/user/orders.php?act=wait_pay" style="width: 100%;height: 100%; display: block;">
+				<a href="/user/orders?status=waiting" style="width: 100%;height: 100%; display: block;">
                 <img src="/wap/images/icon/daifukuan.png" alt="" height="15">
 
-				<div class="line_height20 color_gray">1</div>
+				<div class="line_height20 color_gray">{{$waiting_count}}</div>
 				<div class="color_silver line_height20">待付款</div>
                 </a>
 			</td>
 			
 			<td width="25%" align="center">
-				<a href="/user/orders.php?act=been_send" style="width: 100%;height: 100%; display: block;">
+				<a href="/user/orders?status=payed" style="width: 100%;height: 100%; display: block;">
                 <img src="/wap/images/icon/daishouhuo.png" alt="" height="18">
-				<div class="line_height20 color_gray">1</div>
+				<div class="line_height20 color_gray">{{$payed_count}}</div>
 				<div class="color_silver line_height20">已付款</div>
                 </a>
 			</td>
 		</tr>
 		<tr>
 			<td width="25%" align="center">
-				<a href="/user/orders.php?act=close" style="width: 100%;height: 100%; display: block;">
+				<a href="/user/orders?status=close" style="width: 100%;height: 100%; display: block;">
                 <img src="/wap/images/icon/yiguanbi.png" alt="" height="18">
-				<div class="line_height20 color_gray">0</div>
+				<div class="line_height20 color_gray">{{$close_count}}</div>
 				<div class="color_silver">已关闭</div>
                 </a>
 			</td>
 			<td width="25%" align="center">
-				<a href="/user/orders.php?act=all" style="width: 100%;height: 100%; display: block;">
+				<a href="/user/orders?status=ok" style="width: 100%;height: 100%; display: block;">
                 <img src="/wap/images/icon/quanbudingdan.png" alt="" height="15">
-				<div class="line_height20 color_gray">10</div>
-				<div class="color_silver line_height20">全部订单</div>
+				<div class="line_height20 color_gray">{{$ok_count}}</div>
+				<div class="color_silver line_height20">已完成</div>
                 </a>
 			</td>
 			
@@ -96,12 +96,12 @@
 	</table>
 
 	<a href="<!--{$smarty.const.WESHOP_WWW}-->/help/content.php?id=120" class="paddingbuding01 bg01 display_block margintop10 bdbottom01">
-		<div class="font_size03 paddingbuding02 lf">关于我们</div>
+		<div class="font_size03 paddingbuding02 lf">收货地址</div>
 		<img src="/wap/images/icon/arrow02.png" alt="" height="12" class="margintop10 rt">
 		<br class="clear">
 	</a>
 	<a href="<!--{$smarty.const.WESHOP_WWW}-->/help/" class="paddingbuding01 bg01 display_block">
-		<div class="font_size03 paddingbuding02 lf">帮助中心</div>
+		<div class="font_size03 paddingbuding02 lf">客服电话(18329042977)</div>
 		<img src="/wap/images/icon/arrow02.png" alt="" height="12" class="margintop10 rt">
 		<br class="clear">
 	</a>

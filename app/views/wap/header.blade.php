@@ -14,7 +14,7 @@
     </script>
     <script type="text/javascript" src="/wap/js/jqs.js"></script>
     <script type="text/javascript" src="/wap/js/public.js"></script>
-
+    <script type="text/javascript" src="/wap/js/loading.js"></script>
 
     <script type="text/javascript" src="/wap/js/jweixin-1.0.0.js"></script>
     <script type="text/javascript" src="/wap/js/weixin.js"></script>

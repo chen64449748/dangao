@@ -32,9 +32,15 @@ class WapOrderController extends WapController
 		$d_type = array('order_id'=> $order_id);
 
 		$order = $order_m->getList($type);
+		
 
 		if (!isset($order[0])) {
 			return Redirect::route('/');
+		}
+		
+
+		if ($order[0]->status !== 0 && $order[0]->status != 1) {
+			return Redirect::route('user.orders');
 		}
 
 		$order_detail = $order_detail_m->getList($d_type);

@@ -102,6 +102,9 @@
 </script>
 <script type="text/javascript">
     $(".md_nav a").eq(0).addClass('hv');
+    numberBox();
+    shoppingcart_add();
+    shoppingcart_min();
 
     function openshop(){
         $.getJSON("/index.php",{act:'openshop'},
