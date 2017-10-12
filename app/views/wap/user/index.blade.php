@@ -95,12 +95,12 @@
 		</tr>
 	</table>
 
-	<a href="<!--{$smarty.const.WESHOP_WWW}-->/help/content.php?id=120" class="paddingbuding01 bg01 display_block margintop10 bdbottom01">
+	<a href="/user/address" class="paddingbuding01 bg01 display_block margintop10 bdbottom01">
 		<div class="font_size03 paddingbuding02 lf">收货地址</div>
 		<img src="/wap/images/icon/arrow02.png" alt="" height="12" class="margintop10 rt">
 		<br class="clear">
 	</a>
-	<a href="<!--{$smarty.const.WESHOP_WWW}-->/help/" class="paddingbuding01 bg01 display_block">
+	<a href="tel:18329042977" class="paddingbuding01 bg01 display_block">
 		<div class="font_size03 paddingbuding02 lf">客服电话(18329042977)</div>
 		<img src="/wap/images/icon/arrow02.png" alt="" height="12" class="margintop10 rt">
 		<br class="clear">

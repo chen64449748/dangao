@@ -173,7 +173,7 @@ class WapUserController extends WapController
     	return View::make('wap.user.orders', $view_data);
 
     }
-
+    // 下拉加载订单
     function orderLoading()
     {
         $user_id = Session::get('user_id');
@@ -238,4 +238,107 @@ class WapUserController extends WapController
     }
     
      
+    // 用户地址列表
+    function addressList()
+    {
+    	$user_id = Session::get('user_id');
+    	$addresses = DB::table('user_address')->where('user_id', $user_id)->get();
+    	
+    	$view_data = array(
+    		'addresses' => $addresses,
+    	);
+    	return View::make('wap.user.address', $view_data);
+    }
+
+    // 地址详情
+    function addressDetail()
+    {
+    	$user_id = Session::get('user_id');
+    	$type = Input::get('type', 'add');
+    	$address_id = Input::get('address_id');
+
+    	if ($type == 'add') {
+    		$address = new StdClass();
+    		$address->name = '';
+    		$address->phone = '';
+    		$address->address = '';
+    		$address->is_default = 0;
+    	} elseif ($type == 'update') {
+    		$address = DB::table('user_address')->where('user_id', $user_id)->where('id', $address_id)->first();
+    		if (!$address) {
+	    		return Redirect::to('/user/address');
+	    	}	
+    	}
+    	
+    	$view_data = array(
+    		'type' => $type,
+    		'address' => $address,
+    	);
+
+    	return View::make('wap.user.addressdetail', $view_data);
+    	
+    }
+    // 添加或者修改地址
+    function addressSave() {
+    	$user_id = Session::get('user_id');
+    	$type = Input::get('type', 'add');
+    	$address_id = Input::get('address_id');
+    	$name = Input::get('name');
+    	$phone = Input::get('phone');
+    	$address = Input::get('address');
+    	$is_default = Input::get('is_default');
+
+    	$data = array(
+    		'name' => $name,
+    		'phone' => $phone,
+    		'address' => $address,
+    		'is_default' => $is_default,
+    	);
+    	try {
+    		foreach ($data as $key => $value) {
+    			if ($value == '') {
+    				throw new Exception("地址信息所有项必填");
+    			}
+    		}
+    		if ($is_default == 1) {
+    			DB::table('user_address')->where('user_id', $user_id)->update(array('is_default'=> 0));
+    		}
+    		if ($type == 'update') {
+    			$addr = DB::table('user_address')->where('user_id', $user_id)->where('id', $address_id)->first();
+    			if (!$addr) {
+    				throw new Exception("没有找到地址详情，请重试");
+    			}
+    			DB::table('user_address')->where('id', $addr->id)->update($data);
+	    	} elseif ($type == 'add') {
+	    		$data['user_id'] = $user_id;
+	    		DB::table('user_address')->insert($data);
+	    	}
+
+	    	DB::commit();
+    		return Response::json(array('status'=> 1, 'message'=> '保存成功'));
+    	} catch (Exception $e) {
+    		DB::rollback();
+    		return Response::json(array('status'=> 0, 'message'=> '保存失败'));
+    	}
+    	
+
+    }
+
+    // 修改默认
+    function updateDefault()
+    {
+    	$user_id = Session::get('user_id');
+    	$address_id = Input::get('address_id');
+
+    	DB::beginTransaction();
+    	try {
+    		DB::table('user_address')->where('user_id', $user_id)->update(array('is_default'=> 0));
+    		DB::table('user_address')->where('user_id', $user_id)->where('id', $address_id)->update(array('is_default'=> 1));
+    		DB::commit();
+    		return Response::json(array('status'=> 1, 'message'=> '修改成功'));
+    	} catch (Exception $e) {
+    		DB::rollback();
+    		return Response::json(array('status'=> 0, 'message'=> '修改失败'));
+    	}
+    }
 }

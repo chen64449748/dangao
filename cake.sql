@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2017-10-10 18:02:19
+Date: 2017-10-12 18:02:17
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -26,6 +26,10 @@ CREATE TABLE `active` (
   `active_img` varchar(255) DEFAULT NULL,
   `begin_time` datetime DEFAULT NULL,
   `end_time` datetime DEFAULT NULL,
+  `discount` decimal(10,2) DEFAULT NULL COMMENT '折扣',
+  `money` decimal(10,2) DEFAULT NULL COMMENT '优惠金额',
+  `is_fine` tinyint(1) DEFAULT NULL COMMENT '0 不显示主页  1 显示主页',
+  `type` tinyint(1) DEFAULT NULL COMMENT '1 折扣  2 减价',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -43,34 +47,11 @@ CREATE TABLE `active_goods` (
   `goods_id` int(11) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
-  `begin_time` datetime DEFAULT NULL,
-  `end_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of active_goods
--- ----------------------------
-
--- ----------------------------
--- Table structure for active_price
--- ----------------------------
-DROP TABLE IF EXISTS `active_price`;
-CREATE TABLE `active_price` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `active_id` int(11) DEFAULT NULL,
-  `goods_id` int(11) DEFAULT NULL,
-  `price_id` int(11) DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `price` decimal(10,2) DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  `begin_time` datetime DEFAULT NULL,
-  `end_time` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of active_price
 -- ----------------------------
 
 -- ----------------------------
@@ -106,9 +87,6 @@ CREATE TABLE `cart` (
 -- ----------------------------
 -- Records of cart
 -- ----------------------------
-INSERT INTO `cart` VALUES ('4', '1', '30', '70', '1', '2017-10-09 15:26:56', '2017-10-09 16:31:30');
-INSERT INTO `cart` VALUES ('5', '1', '29', '65', '2', '2017-10-09 16:10:42', '2017-10-09 17:21:44');
-INSERT INTO `cart` VALUES ('6', '1', '28', '63', '1', '2017-10-09 17:21:25', null);
 
 -- ----------------------------
 -- Table structure for category
@@ -208,25 +186,33 @@ INSERT INTO `goods_sku` VALUES ('118', '30', '45', '2017-09-30 14:39:38', '1');
 DROP TABLE IF EXISTS `orders`;
 CREATE TABLE `orders` (
   `id` int(9) unsigned NOT NULL AUTO_INCREMENT,
-  `wx_pay_order` varchar(100) DEFAULT NULL COMMENT '订单号',
+  `wx_pay_order` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '订单号微信支付',
   `user_id` int(9) unsigned NOT NULL COMMENT '用户id',
   `price` decimal(10,2) DEFAULT NULL COMMENT '交易金额',
   `pay` tinyint(2) DEFAULT NULL COMMENT '是否支付',
   `status` tinyint(3) unsigned DEFAULT '0' COMMENT '订单状态：0:初始状态;1:未支付;2:已支付;3:取消订单',
-  `mark` varchar(1000) DEFAULT NULL COMMENT '用户留言',
-  `address` varchar(1000) DEFAULT NULL COMMENT '用户地址',
-  `mobile` varchar(50) DEFAULT NULL COMMENT '用户手机号',
-  `name` varchar(50) DEFAULT NULL COMMENT '姓名',
+  `mark` varchar(1000) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '用户留言',
+  `address` varchar(1000) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '用户地址',
+  `mobile` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '用户手机号',
+  `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '姓名',
   `send_status` tinyint(3) unsigned DEFAULT '0' COMMENT '配送状态：0:初始 1：待配送;2:配送中；3:配送完成',
   `updated_at` datetime DEFAULT NULL,
   `created_at` datetime DEFAULT NULL COMMENT '创建时间',
   `pay_time` datetime DEFAULT NULL COMMENT '支付时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='订单表';
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='订单表';
 
 -- ----------------------------
 -- Records of orders
 -- ----------------------------
+INSERT INTO `orders` VALUES ('1', null, '1', '119.00', '0', '0', null, '炒菜', '12321412', '炒菜', '0', '2017-10-12 09:49:42', '2017-10-11 09:44:24', null);
+INSERT INTO `orders` VALUES ('2', null, '1', '108.00', '0', '0', null, '测试的', '18329042977', '陈文越', '0', '2017-10-11 10:06:47', '2017-10-11 10:06:47', null);
+INSERT INTO `orders` VALUES ('3', null, '1', '98.00', '0', '0', null, '测试的', '18329042977', '陈文越', '0', '2017-10-11 13:24:40', '2017-10-11 13:24:40', null);
+INSERT INTO `orders` VALUES ('4', null, '1', '88.00', '0', '0', null, '测试的', '18329042977', '陈文越', '0', '2017-10-11 13:24:58', '2017-10-11 13:24:58', null);
+INSERT INTO `orders` VALUES ('5', null, '1', '108.00', '0', '0', null, '测试的', '18329042977', '陈文越', '0', '2017-10-11 13:38:27', '2017-10-11 13:38:27', null);
+INSERT INTO `orders` VALUES ('6', '20171012112527159dee0a77cff9', '1', '118.00', '0', '0', null, '等我', '213124221', '默认地址', '0', '2017-10-12 11:25:27', '2017-10-12 11:25:27', null);
+INSERT INTO `orders` VALUES ('7', '201710121126336159dee0e951f8e', '1', '98.00', '0', '0', null, '等我', '213124221', '默认地址', '0', '2017-10-12 11:26:33', '2017-10-12 11:26:33', null);
+INSERT INTO `orders` VALUES ('8', 'f06920fcaa0456e5316207984cbd07a9', '1', '98.00', '0', '0', null, '等我', '213124221', '默认地址', '0', '2017-10-12 11:27:24', '2017-10-12 11:27:24', null);
 
 -- ----------------------------
 -- Table structure for orders_detail
@@ -242,11 +228,20 @@ CREATE TABLE `orders_detail` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='订单详情表';
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='订单详情表';
 
 -- ----------------------------
 -- Records of orders_detail
 -- ----------------------------
+INSERT INTO `orders_detail` VALUES ('1', '1', '30', '70', '1.00', '1', '2017-10-11 09:44:23', null);
+INSERT INTO `orders_detail` VALUES ('2', '1', '29', '65', '118.00', '2', '2017-10-11 09:44:23', null);
+INSERT INTO `orders_detail` VALUES ('3', '2', '28', '63', '108.00', '1', '2017-10-11 10:06:47', null);
+INSERT INTO `orders_detail` VALUES ('4', '3', '29', '64', '98.00', '1', '2017-10-11 13:24:40', null);
+INSERT INTO `orders_detail` VALUES ('5', '4', '28', '62', '88.00', '2', '2017-10-11 13:24:58', null);
+INSERT INTO `orders_detail` VALUES ('6', '5', '28', '63', '108.00', '1', '2017-10-11 13:38:27', null);
+INSERT INTO `orders_detail` VALUES ('7', '6', '29', '65', '118.00', '1', '2017-10-12 11:25:27', null);
+INSERT INTO `orders_detail` VALUES ('8', '7', '29', '64', '98.00', '1', '2017-10-12 11:26:33', null);
+INSERT INTO `orders_detail` VALUES ('9', '8', '29', '64', '98.00', '1', '2017-10-12 11:27:24', null);
 
 -- ----------------------------
 -- Table structure for price
@@ -387,10 +382,13 @@ CREATE TABLE `user_address` (
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `idx_user_id` (`user_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user_address
 -- ----------------------------
-INSERT INTO `user_address` VALUES ('1', '1', '测试的', '陈文越', '18329042977', '1', '2017-10-10 14:50:19', null);
+INSERT INTO `user_address` VALUES ('1', '1', '测试的', '陈文越', '18329042977', '0', '2017-10-10 14:50:19', null);
 INSERT INTO `user_address` VALUES ('2', '1', '炒菜', '炒菜', '12321412', '0', '2017-10-10 14:50:56', null);
+INSERT INTO `user_address` VALUES ('5', '1', '等我', '默认地址', '213124221', '1', null, null);
+INSERT INTO `user_address` VALUES ('3', '1', 'deceive', '吃你', '123214214', '0', null, null);
+INSERT INTO `user_address` VALUES ('4', '1', '21321胜达', '测试默认', '18329042977', '0', null, null);

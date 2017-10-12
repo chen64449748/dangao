@@ -52,14 +52,28 @@
 
 <!--==================精选活动====================-->
 <div class="bgcl_wt pdb_10">
+
+    
     <a href="/active" class="mgt_10 a_lk">
         <span class="fl spr"></span>
-        <span class="fl fs_15" style="position: relative; top : -6px;">精选活动</span>
+        <span class="fl fs_15" style="position: relative; top : -6px;">活动精选</span>
         <img src="/wap/images/mdimages/icon/more.png" alt="" height="12" class="fr" style="margin-top: 4px;">
         <div class="cl"></div>
     </a>
+   
+    
 
-    <div class="pdlr_02 mgt_10"><a href="" class="dsp_blk"><img src="/wap/1467603508.jpg" width="100%"></a></div>
+    @if (count($fines))
+    @foreach ($fines as $fine)
+    <div class="pdlr_02 mgt_10"><a href="/active/detail/{{$fine->id}}" class="dsp_blk"><img src="{{$fine->active_img}}" height="300" width="100%"></a></div>
+    @endforeach
+
+    @else
+    <div class="align_center">
+        <img src="/wap/images/icon/wudingdan.png" alt="" height="48" style="margin: 50px 0 10px 0;">
+        <div class="color_gray font_size02">暂无活动</div>
+    </div>
+    @endif
 </div>
 
 <!--==================热销TOP10===================-->
@@ -72,7 +86,7 @@
         </a>
     </div>
     <div class="md_block3">
-
+        @if (count($hot))
         @foreach ($hot as $hot_goods) 
         <div class="div_img fl">
             <div class="div_buding pd_08"><a href="detail/{{$hot_goods->id}}" class="dsp_blk"><img src="{{$hot_goods->goods_img}}" width="100%"></a></div>
@@ -86,6 +100,12 @@
             </div>
         </div>
         @endforeach
+        @else
+        <div class="align_center">
+            <img src="/wap/images/icon/wudingdan.png" alt="" height="48" style="margin: 50px 0 10px 0;">
+            <div class="color_gray font_size02">暂无热销推荐</div>
+        </div>
+        @endif
         <div class="cl"></div>
     </div>
 </div>

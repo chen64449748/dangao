@@ -40,6 +40,7 @@ class Orders extends Eloquent
 
     function add($user_id, $order, $detail, $address_id = null)
     {
+        $order['wx_pay_order'] = MD5(date('YmdHis').uniqid($user_id));
 
         $order_id = $this->insertGetId($order);
 
