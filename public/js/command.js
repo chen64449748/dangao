@@ -22,6 +22,7 @@ function goodsAdd(callback)
 		var is_hot = $(this).find('.is_hot').find('option:selected').val();
 		var sale_num = $(this).find('.sale_num').val();
 		var show_price = $(this).find('.show_price').val();
+		var is_active = $(this).find('.is_active').find('option:selected').val();
 
 		if (isNaN(sale_num)) {
 			window.wxc.xcConfirm('销量必须为数字', window.wxc.xcConfirm.typeEnum.info);
@@ -48,6 +49,7 @@ function goodsAdd(callback)
 		a_goods.is_hot = is_hot;
 		a_goods.sale_num = sale_num;
 		a_goods.show_price = show_price;
+		a_goods.is_active = is_active;
 		a_goods.goods_sku = [];
 		a_goods.sku_price = [];
 		a_goods.content = um.getContent();

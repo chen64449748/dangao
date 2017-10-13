@@ -84,6 +84,17 @@
 			</div>
 		</div>
 
+		<div class="control-group">
+			<label class="control-label">是否参与活动</label>
+			<div class="controls">
+				<select class="is_active">
+					<option @if ($goods->is_active == 1) selected @endif value="1">是</option>
+					<option @if ($goods->is_active == 0) selected @endif value="0">否</option>
+				</select>
+				当商品价格较低时可以考虑使用否
+			</div>
+		</div>
+
 		<!-- sku -->
 		<div class="control-group">
 			<label class="control-label" for="cs">价格库存关联</label>
@@ -164,7 +175,8 @@ $('.update_goods').click(function () {
 		category_id = $('.category').find('option:selected').val(),
 		is_hot = $('.is_hot').find('option:selected').val(),
 		sale_num = $('.sale_num').val(),
-		show_price = $('.show_price').val();
+		show_price = $('.show_price').val(),
+		is_active = $('.is_active').find('option:selected').val();
 
 		if (isNaN(sale_num)) {
 			return window.wxc.xcConfirm('销量必须为数字', window.wxc.xcConfirm.typeEnum.info);
@@ -186,6 +198,7 @@ $('.update_goods').click(function () {
 	goods.is_hot = is_hot;
 	goods.sale_num = sale_num;
 	goods.show_price = show_price;
+	goods.is_active = is_active;
 	goods.sku_price = [];
 	goods.goods_sku = [];
 	goods.content = um.getContent();

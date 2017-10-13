@@ -13,7 +13,7 @@ class WapCartController extends WapController
 		$user_id = Session::get('user_id');
 		$cart_m = new Cart();
 		$type = array('user_id'=> $user_id);
-
+		$active_m = new Active();
 		$carts = $cart_m->gets($type, array(), 0, 0);
 
 		$view_data = array(
@@ -143,6 +143,7 @@ class WapCartController extends WapController
 		$cart_ids = Input::get('cart_id');
 		$user_id = Session::get('user_id');
 		$order_m = new Orders();
+		$active_m = new Active();
 
 		$now_date = date('Y-m-d H:i:s');
 		DB::beginTransaction();
@@ -167,9 +168,10 @@ class WapCartController extends WapController
 
 			foreach ($carts as $key => $cart) {
 				$delete_cart_ids[] = $cart->id;
+
 				$order_detail[$key]['goods_id'] = $cart->goods_id;
 				$order_detail[$key]['price_id'] = $cart->price_id;
-				$order_detail[$key]['price'] = $cart->price->price;
+				$order_detail[$key]['price'] = $cart->goods->is_active == 1 ? $active_m->getPrice($cart->price->price) : $cart->price->price;
 				$order_detail[$key]['created_at'] = $now_date;
 				$order_detail[$key]['buy_count'] = $cart->count;
 			}

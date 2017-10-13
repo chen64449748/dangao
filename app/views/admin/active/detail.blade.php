@@ -58,6 +58,7 @@
 			<label class="control-label">开始时间</label>
 			<div class="controls">
 				<input type="text" class="begin_time  time" name="begin_time" placeholder="开始时间" value="{{$active->begin_time}}">
+				如果两个活动时间重叠 系统会使用最新的活动
 			</div>
 		</div>
 
@@ -120,7 +121,8 @@
 		<div class="control-group">
 			<label class="control-label" for=""></label>
 			<div class="controls">
-				<input type="button" class="active_add  btn btn-primary" data-act="{{$act}}" value="保存活动">
+				<input type="button" class="active_add  btn btn-primary" data-id="{{$active->id}}" data-act="{{$act}}" value="保存活动">
+				<a type="button" class="btn btn-info" href="javascript:history.back(-1);" >取消</a>
 			</div>
 		</div>
 	</div>
@@ -236,14 +238,17 @@
 			if (!begin_time || !end_time) {
 				return window.wxc.xcConfirm('活动时间范围比选', window.wxc.xcConfirm.typeEnum.info);
 			}
-
+			var active_id = $(this).data('id');
 			var  send_data = $('#active_order').serialize();
 			send_data += '&active_img=' + active_img + '&act=' + act;
 
+			if (act == 'update') {
+				send_data += '&active_id='+ active_id;
+			}
 
-			var txt= "确定修改商品？";
+			var txt= "确定保存活动？";
 			var option = {
-				title: "修改商品",
+				title: "保存活动",
 				btn: parseInt("0011",2),
 				onOk: function(){
 					LayerShow('')
@@ -252,7 +257,7 @@
 						if (data.status == 1) {
 							window.wxc.xcConfirm(data.message, window.wxc.xcConfirm.typeEnum.success);
 							setTimeout(function () {
-								window.location.href = '/active/admin/list';
+								window.location.href = '/active/list';
 							}, 800);
 
 						} else {

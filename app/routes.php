@@ -70,10 +70,11 @@ Route::get('/logout', array('as'=> 'admin.logout', 'uses'=> 'LoginController@log
 	Route::post('get/order/sku', array('as'=> 'get.order.sku', 'uses'=> 'GoodsController@getOrderSku'));// 获取没有关联的SKU
 
 	// 活动
-	Route::get('active/list', array('as'=> 'active.list', 'uses'=> 'ActiveController@list'));
+	Route::get('active/list', array('as'=> 'active.list', 'uses'=> 'ActiveController@activeList'));
 	Route::get('active/admin/detail', array('as'=> 'active.admin.detail', 'uses'=> 'ActiveController@detail'));
 	Route::get('active/goods/loading', array('as' => 'active.goods.loading', 'uses'=> 'ActiveController@goodsLoading'));
 	Route::post('active/admin/save', array('as'=> 'active.admin.save', 'uses'=> 'ActiveController@save'));
+	Route::post('active/admin/updateFine', array('as'=> 'active.admin.updateFine', 'uses'=> 'ActiveController@updateFine'));
 	// 属性
 	Route::get('config/list', array('as'=> 'config.list', 'uses'=> 'ConfigController@configList'));
 	Route::post('config/sku/value/add', array('as'=> 'config.sku.value.add', 'uses'=> 'ConfigController@skuValueAdd'));

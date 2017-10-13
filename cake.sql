@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2017-10-12 18:02:17
+Date: 2017-10-13 18:01:53
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -30,12 +30,14 @@ CREATE TABLE `active` (
   `money` decimal(10,2) DEFAULT NULL COMMENT '优惠金额',
   `is_fine` tinyint(1) DEFAULT NULL COMMENT '0 不显示主页  1 显示主页',
   `type` tinyint(1) DEFAULT NULL COMMENT '1 折扣  2 减价',
+  `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of active
 -- ----------------------------
+INSERT INTO `active` VALUES ('1', 'ces ', null, '/upload/active/2017101311022959e02cc5c75d7.jpg', '2017-10-13 06:00:00', '2017-10-13 23:00:00', '80.00', '10.00', '1', '2', '2017-10-13 17:42:18');
 
 -- ----------------------------
 -- Table structure for active_goods
@@ -82,7 +84,7 @@ CREATE TABLE `cart` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Records of cart
@@ -123,15 +125,16 @@ CREATE TABLE `goods` (
   `category_id` int(11) DEFAULT NULL,
   `is_hot` tinyint(4) DEFAULT '0' COMMENT '是否热销 1 是 0 不是',
   `show_price` decimal(10,2) DEFAULT NULL COMMENT '缩略图显示价格',
+  `is_active` tinyint(1) DEFAULT NULL COMMENT '是否要参与活动， 1 是   0 否  适用于价格比较低的商品',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of goods
 -- ----------------------------
-INSERT INTO `goods` VALUES ('28', '奶油蛋糕', '/upload/goods/2017092916332259ce0552ad266.jpg', '2017-09-29 16:36:10', '2017-09-30 09:49:47', '10', '1', '1', '0.00');
-INSERT INTO `goods` VALUES ('29', '慕斯蛋糕', '/upload/goods/2017092916420459ce075c42e86.jpg', '2017-09-29 16:42:45', '2017-09-29 17:40:41', '0', '1', '1', '98.00');
-INSERT INTO `goods` VALUES ('30', '新蛋糕', '/upload/goods/2017092921314759ce4b43d7c71.jpg', '2017-09-29 21:32:06', '2017-09-30 14:39:38', '0', '1', '0', '0.00');
+INSERT INTO `goods` VALUES ('28', '奶油蛋糕', '/upload/goods/2017092916332259ce0552ad266.jpg', '2017-09-29 16:36:10', '2017-09-30 09:49:47', '10', '1', '1', '0.00', '1');
+INSERT INTO `goods` VALUES ('29', '慕斯蛋糕', '/upload/goods/2017092916420459ce075c42e86.jpg', '2017-09-29 16:42:45', '2017-09-29 17:40:41', '0', '1', '1', '98.00', '1');
+INSERT INTO `goods` VALUES ('30', '新蛋糕', '/upload/goods/2017092921314759ce4b43d7c71.jpg', '2017-09-29 21:32:06', '2017-09-30 14:39:38', '0', '1', '0', '0.00', '1');
 
 -- ----------------------------
 -- Table structure for goods_content
@@ -200,7 +203,7 @@ CREATE TABLE `orders` (
   `created_at` datetime DEFAULT NULL COMMENT '创建时间',
   `pay_time` datetime DEFAULT NULL COMMENT '支付时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='订单表';
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='订单表';
 
 -- ----------------------------
 -- Records of orders
@@ -213,6 +216,7 @@ INSERT INTO `orders` VALUES ('5', null, '1', '108.00', '0', '0', null, '测试�
 INSERT INTO `orders` VALUES ('6', '20171012112527159dee0a77cff9', '1', '118.00', '0', '0', null, '等我', '213124221', '默认地址', '0', '2017-10-12 11:25:27', '2017-10-12 11:25:27', null);
 INSERT INTO `orders` VALUES ('7', '201710121126336159dee0e951f8e', '1', '98.00', '0', '0', null, '等我', '213124221', '默认地址', '0', '2017-10-12 11:26:33', '2017-10-12 11:26:33', null);
 INSERT INTO `orders` VALUES ('8', 'f06920fcaa0456e5316207984cbd07a9', '1', '98.00', '0', '0', null, '等我', '213124221', '默认地址', '0', '2017-10-12 11:27:24', '2017-10-12 11:27:24', null);
+INSERT INTO `orders` VALUES ('9', '201710131801363117', '1', '108.00', '0', '0', null, '等我', '213124221', '默认地址', '0', '2017-10-13 18:01:36', '2017-10-13 18:01:36', null);
 
 -- ----------------------------
 -- Table structure for orders_detail
@@ -228,7 +232,7 @@ CREATE TABLE `orders_detail` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='订单详情表';
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COMMENT='订单详情表';
 
 -- ----------------------------
 -- Records of orders_detail
@@ -242,6 +246,7 @@ INSERT INTO `orders_detail` VALUES ('6', '5', '28', '63', '108.00', '1', '2017-1
 INSERT INTO `orders_detail` VALUES ('7', '6', '29', '65', '118.00', '1', '2017-10-12 11:25:27', null);
 INSERT INTO `orders_detail` VALUES ('8', '7', '29', '64', '98.00', '1', '2017-10-12 11:26:33', null);
 INSERT INTO `orders_detail` VALUES ('9', '8', '29', '64', '98.00', '1', '2017-10-12 11:27:24', null);
+INSERT INTO `orders_detail` VALUES ('10', '9', '29', '65', '108.00', '1', '2017-10-13 18:01:36', null);
 
 -- ----------------------------
 -- Table structure for price

@@ -37,7 +37,7 @@
 										{{$sku_price->skuValue->value}}&emsp;
 									@endforeach
 								</div>
-								<div><span class="color_pink font_size02 t_price">￥{{number_format($cart_item->price->price * $cart_item->count, 2)}}</span>&emsp;<!-- <del class="font_size01 color_gray">￥109</del>&emsp; --><!-- <span class="color_silver font_size02">x<span id="">{{$cart_item->count}}</span></span> --></div>
+								<div><span class="color_pink font_size02 t_price">￥{{number_format($cart_item->price->getRealPice() * $cart_item->count, 2)}}</span>&emsp;<!-- <del class="font_size01 color_gray">￥109</del>&emsp; --><!-- <span class="color_silver font_size02">x<span id="">{{$cart_item->count}}</span></span> --></div>
 								<!-- <div class="font_size01 color_silver">现货</div> -->
 							</td>
 						</tr>
