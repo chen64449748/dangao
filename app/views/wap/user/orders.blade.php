@@ -60,16 +60,16 @@
             <br class="clear"/>
         </div>
         @foreach ($order->detail as $detail) 
-        <a href="/user/order/detail/{{$order->id}}" style="display: block;">
-            
+        <a href="/detail/{{$detail->goods->id}}" style="display: block;">
+        
             <div class="position_relative paddingbuding02 bdbottom01">
-                    <div class="div_img2 lf"><div class="div_buding"><span><img src="{{$detail->goods_img}}" alt="" width="100%"></span></div></div>
-                    <div class="div_block2 lf">
-                        <div class="gouwu_title" style="margin-top: 10px;">{{$detail->goods_title}}</div>
-                        <div class="color_silver">{{$detail->sku_text}}</div>
-                        <div class="jiage"><label class="color_pink">￥{{$detail->price}}</label><span>×{{$detail->buy_count}}</span></div>
-                    </div>
-                    <div class="clear"></div>
+                <div class="div_img2 lf"><div class="div_buding"><span><img src="{{$detail->goods_img}}" alt="" width="100%"></span></div></div>
+                <div class="div_block2 lf">
+                    <div class="gouwu_title" style="margin-top: 10px;">{{$detail->goods_title}}</div>
+                    <div class="color_silver">{{$detail->sku_text}}</div>
+                    <div class="jiage"><label class="color_pink">￥{{$detail->price}}</label><span>×{{$detail->buy_count}}</span></div>
+                </div>
+                <div class="clear"></div>
 
             </div>
 
@@ -137,7 +137,7 @@ loading('.foot_loding', '/user/order/loading?{{$query}}', {}, function (data) {
         
         for (var j in order.detail) {
             var detail = order.detail[j];
-            order_html_detail += '<a href="/user/order/detail/'+ order.id +'" style="display: block;">\
+            order_html_detail += '<a href="/detail/'+ detail.goods.id +'" style="display: block;">\
                                         <div class="position_relative paddingbuding02 bdbottom01">\
                                                 <div class="div_img2 lf"><div class="div_buding"><span><img src="'+ detail.goods_img +'" alt="" width="100%"></span></div></div>\
                                                 <div class="div_block2 lf">\
