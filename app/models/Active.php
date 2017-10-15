@@ -8,7 +8,7 @@ class Active extends Eloquent
 {
 	protected $table = 'active';
 
-    private $active = null;
+    private static $active = null;
 
 	public function getList($type = array(), $order = array(), $offset = 0, $limit = 0) 
 	{
@@ -34,29 +34,28 @@ class Active extends Eloquent
         return $select->paginate($size);
     }
 
-    function getPrice($price)
+    static function getPrice($price)
     {
-        $active = false;
-
-        if (is_null($this->active)) {
-            $actives = $this->getList(array('now'=> date('Y-m-d H:i:s')), array('created_at', 'desc'));
+        // 静态化方法 为了只查询一次 活动
+        if (is_null(self::$active)) {
+            $ac_m =  new self();
+            $actives = $ac_m->getList(array('now'=> date('Y-m-d H:i:s')), array('created_at', 'desc'));
             if (count($actives)) {
-                $this->active = $actives[0];
+                self::$active = $actives[0];
             } else {
-                $this->active = array(); 
+                self::$active = array(); 
             }
         }
 
-
-        if (!$this->active) {
+        if (!self::$active) {
             $r_price = $price;
         } else {
 
             // 有活动
-            if ($this->active->type == 1) {
-                $r_price = $this->active->discount * $price * 0.01;
-            } elseif ($this->active->type == 2) {
-                $r_price = $price - $this->active->money;
+            if (self::$active->type == 1) {
+                $r_price = self::$active->discount * $price * 0.01;
+            } elseif (self::$active->type == 2) {
+                $r_price = $price - self::$active->money;
                 if ($r_price < 0) {
                     $r_price = $price;
                 }

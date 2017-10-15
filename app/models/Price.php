@@ -20,11 +20,10 @@ class Price extends Eloquent
 		return $this->belongsTo('Goods', 'goods_id', 'id');
 	}
 
-	public function getRealPice()
+	public function getRealPrice()
 	{
 		if ($this->goods->is_active == 1) {
-			$active_m = new Active();
-			return $active_m->getPrice($this->price);
+			return Active::getPrice($this->price);
 		} else {
 			return $this->price;
 		}
@@ -32,8 +31,6 @@ class Price extends Eloquent
 
 	public function getPrice($goods_id, $sku_value_ids)
 	{
-		$active_m = new Active();
-
 		$price_ids = $this->where('goods_id', $goods_id)->where('is_show', 1)->lists('id');
 		
 		if (!$price_ids) {
@@ -61,11 +58,6 @@ class Price extends Eloquent
 
 		$price = $this->find($price_id);
 
-		// 检测活动
-		if ($price->goods->is_active == 1) {
-			$price->price = $active_m->getPrice($price->price);
-		}
-		
 		return $price;
 
 	}
@@ -73,7 +65,6 @@ class Price extends Eloquent
 	// 选择sku方法
 	public function getPriceSkuList($goods_id)
 	{
-		$active_m = new Active();
 		$return_arr = array();
 		$price_list = $this->where('goods_id', $goods_id)->where('is_show', 1)->get();
 
@@ -131,7 +122,7 @@ class Price extends Eloquent
 			$combine_key = substr($combine_key, 1);
 			// 读取是否有活动{}
 
-			$return_arr['price_list'][$combine_key] = $value->goods->is_active == 1 ? $active_m->getPrice($value->price) : $value->price;
+			$return_arr['price_list'][$combine_key] = $value->goods->is_active == 1 ? $value->getRealPrice($value->price) : $value->price;
 
 			$value->sku_value_ids = $sku_value_ids;
 		}

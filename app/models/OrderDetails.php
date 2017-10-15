@@ -21,6 +21,7 @@ class OrderDetails extends Eloquent
     {
         $select = $this->select($fetch ? $fetch : array('orders_detail.*'));
 
+        $this->with('goods');
         $this->_where($select, $type);
 
         return $select->get();

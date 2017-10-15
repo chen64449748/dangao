@@ -10,9 +10,9 @@
 		
 		<a href="javascript:history.back(-1);" class="marginleft10 lf"><img src="/wap/images/icon/back.png" style="position:relative; top: 6px;" alt="" height="16"></a>
 
-		<div class="searches2 lf" style="margin-left: 10px; "><img src="/wap/images/icon/search.png"  alt="" height="12">
-            <input type="text"/>
-        </div>
+		<form method="get" id="search_form" action="/goods?{{$query}}" class="searches2 lf" style="margin-left: 10px; "><img id="search" src="/wap/images/icon/search.png"  alt="" height="12">
+            <input name="k" type="text" value="{{$k}}"/>
+        </form>
 
 		<a href="/" class="margintop05 rt"><img src="/wap/images/icon/home.png" style="position:relative; right: 8px;" alt="" height="16"></a>
 		<br class="clear" />
@@ -60,12 +60,13 @@
 		            <div class="div_buding"><a href="/detail/{{$item->id}}" style="height: 100%;display: block;"><img src="{{$item->goods_img}}" alt="{{$item->goods_title}}" width="100%"></a></div>
 		            <div class="font_size01 div02">{{$item->goods_title}}</div>
 		            <div class="div01">
-
-		            	<span  style="background-color: #fc5e1f;color: #fff;font-size: 8px;border-radius: 10px;padding:0 5px;">配送</span>
+						@if (!$item->is_active)
+		            	<span  style="background-color: #fc5e1f;color: #fff;font-size: 8px;border-radius: 10px;padding:0 5px;">不参与活动</span>
+		            	@endif
 		            	<span class="color_pink font_size00">￥{{$item->show_price}}</span>
-		            	<!-- <del class=" color_silver" style="font-size: 9px;">￥109</del> -->
+		            	<span class=" color_silver" style="font-size: 9px;">销量{{$item->sale_num}}</span>
 		            	@if ($item->is_hot)
-	                    <span style="background-color: #d50000;padding:2px 6px;color: #fff;font-size: 12px;position: absolute;left: 0;top: 0;max-width: 56px;text-align: left;line-height: 14px;">优惠活动</span>
+	                    <span style="background-color: #d50000;padding:2px 6px;color: #fff;font-size: 12px;position: absolute;left: 0;top: 0;max-width: 56px;text-align: left;line-height: 14px;">热门推荐</span>
 	                    @endif
 		            </div>
 	            </div>
@@ -133,6 +134,9 @@
 				$(this).parent().siblings().find('.moren').children('img').attr('src','/wap/images/icon/ok3.png');
 			})
 
+    		$('#search').click(function () {
+    			$('#search_form').submit();
+    		});
 
             loading('.foot_loding', '/goods/loading?{{$query}}', {}, function (goods) {
             	// home_ul01

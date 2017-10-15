@@ -13,7 +13,22 @@
 <div class="active" style="padding: 50px 0;">
 	@if (count($actives))
 	@foreach ($actives as $item)
-	<div class="active_item"><a href="/active/detail/{{$item->id}}" class="dsp_blk"><img src="{{$item->active_img}}" width="100%"></a></div>
+	<div class="active_item"><a href="javascript:void(0)" class="dsp_blk"><img style="width: 640px; height: 300px;" src="{{$item->active_img}}" width="100%"></a></div>
+	<div class="paddingbuding02">活动说明: 
+		<span class="color_pink">
+			<div>
+				时间范围：{{$item->begin_time}} --- {{$item->end_time}}
+			</div>
+			<div>
+				优惠 
+				@if ($item->type == 1)
+				折扣 {{$item->discount}}
+				@elseif ($item->type == 2)
+				减价 ￥{{$item->money}}
+				@endif 
+			</div>
+		</span>
+	</div>
 	@endforeach
 	@else
 	<div class="align_center">

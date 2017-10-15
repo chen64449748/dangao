@@ -28,7 +28,7 @@
             <img class="moren_img" src="/wap/images/icon/ok3.png" alt="" height="16">&nbsp;默认地址
             @endif
         </a>
-        <a href="javascript:void(0);" class="rt" style="margin-right: 10px;" onclick="deleteadd(<!--{$list.address_id}-->,'<!--{$type}-->');">
+        <a href="javascript:void(0);" class="rt" style="margin-right: 10px;" onclick="deleteaddress(this, {{$address->id}});">
             <img src="/wap/images/icon/delete.png" alt="" height="16">
         </a>
 
@@ -50,6 +50,25 @@
 </div>
 
 <script type="text/javascript">
+	function deleteaddress(obj, address_id)
+	{
+		confirm('确定删除？', function (res) {
+			if (!res) return;
+
+			$.post('/user/address/delete', {address_id: address_id}, function (data) {
+				alert(data.message);
+
+				if (data.status == 1) {
+					$(obj).parents('.address').remove();
+					if (data.is_default == 1) {
+						window.location.reload();
+					}
+				}
+			});
+		});
+		
+	}
+
 	$('.moren').click(function () {
 		var address_id = $(this).data('id');
 

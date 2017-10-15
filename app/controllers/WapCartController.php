@@ -14,7 +14,7 @@ class WapCartController extends WapController
 		$cart_m = new Cart();
 		$type = array('user_id'=> $user_id);
 		$active_m = new Active();
-		$carts = $cart_m->gets($type, array(), 0, 0);
+		$carts = $cart_m->getList($type, array(), 0, 0);
 
 		$view_data = array(
 			'active' => 'cart',
@@ -144,12 +144,17 @@ class WapCartController extends WapController
 		$user_id = Session::get('user_id');
 		$order_m = new Orders();
 		$active_m = new Active();
+		$cart_m = new Cart();
 
 		$now_date = date('Y-m-d H:i:s');
 		DB::beginTransaction();
 		try {
-			
-			$carts = Cart::whereIn('id', $cart_ids)->where('user_id', $user_id)->get();
+			if (!$cart_ids) {
+				throw new Exception("请勾选要结算的商品");
+			}
+
+			// $carts = Cart::whereIn('id', $cart_ids)->where('user_id', $user_id)->get();
+			$carts = $cart_m->getList(array('ids'=> $cart_ids, 'user_id'=> $user_id), array(), 0, 0);
 
 			if (!isset($carts[0])) {
 				throw new Exception("必须勾选一个购物内容");
@@ -167,11 +172,17 @@ class WapCartController extends WapController
 			$delete_cart_ids = array();
 
 			foreach ($carts as $key => $cart) {
+
+				if (!$cart->goods->is_onsale) {
+					throw new Exception("已下架商品不可购买");
+				}
+
 				$delete_cart_ids[] = $cart->id;
 
 				$order_detail[$key]['goods_id'] = $cart->goods_id;
 				$order_detail[$key]['price_id'] = $cart->price_id;
-				$order_detail[$key]['price'] = $cart->goods->is_active == 1 ? $active_m->getPrice($cart->price->price) : $cart->price->price;
+				$order_detail[$key]['price'] = $cart->price->getRealPrice();
+				$order_detail[$key]['old_price'] = $cart->price->price;
 				$order_detail[$key]['created_at'] = $now_date;
 				$order_detail[$key]['buy_count'] = $cart->count;
 			}

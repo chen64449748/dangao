@@ -15,13 +15,22 @@
 			<li><div class="div_buding"><span><img src="{{$goods->goods_img}}" alt="" width="100%"></span></div></li>
 		</ul>
         
+        @if (count($actives))
         <div style="position: absolute;bottom: 0;z-index: 10;width: 100%;height: 35px;background-color: #099;padding:0 2%;overflow: hidden;">
             <div style="line-height: 35px;color: #fff;">
                 <!-- <span class="font_size03">￥68.00</span>&nbsp;
                 <del class="font_size01 color_gray">￥125.00 </del>&nbsp; -->
-                <span class="font_size01">优惠活动中</span>&nbsp;
+                <span class="font_size01">
+                	优惠活动中
+					@if ($actives[0]->type == 1)
+					折扣 {{$actives[0]->discount}}%
+					@elseif ($actives[0]->type == 2)
+					优惠减价 {{$actives[0]->money}}
+					@endif
+                </span>&nbsp;
             </div>
         </div>
+        @endif
         
 	</div>
 	<div class="bg01 paddingbuding01 bdbottom01">
@@ -32,8 +41,16 @@
 		
 			<span class="font_size04 color_red lf sku_sale_price">￥{{$goods->show_price}}</span>
 			<!-- <del class="font_size01 color_silver marginleft08 lf">市场价:￥299</del> -->
-			<span style="font-size: 10px;color: #e71d36;border-radius: 2px;border:1px #e71d36 solid;padding:2px 6px;margin-left: 5px;">运费：60元包邮</span>  </span>
-			<span class="marginleft10 font_size01"><span class="color_red">预售</span>现货<span class="color_red">缺货</span></span>
+			@if (!$goods->is_active)
+			<span style="font-size: 10px;color: #e71d36;border-radius: 2px;border:1px #e71d36 solid;padding:2px 6px;margin-left: 5px;">不参与活动</span>  </span>
+			@endif
+			<span class="marginleft10 font_size01">
+				@if ($goods->is_onsale)
+				<span class="color_red">销售中</span>
+				@else
+				<span class="color_silver">已下架</span>
+				@endif
+			</span>
 			<br class="clear" />
 	</div>
 	
@@ -41,9 +58,13 @@
 	
 	<table cellpadding="0" cellspacing="5" width="100%" class="bg01 bdbottom01 font_size01 imgbuding" style="border-collapse: separate;padding: 5px 0;">
 		<tr>
-			<td width="33.3%" align="center"><span style="background-color: #fc5e1f;width: 50px;color: #fff;font-size: 12px;text-align: center;border-radius: 10px;padding:2px 12px;">配送</span><!--{/if}-->   <span class="rt">|</span><br class="clear" /></td>
+			<td width="33.3%" align="center"><span style="background-color: #fc5e1f;width: 50px;color: #fff;font-size: 12px;text-align: center;border-radius: 10px;padding:2px 12px;">配送</span>  <span class="rt">|</span><br class="clear" /></td>
 			<td width="33.3%" align="center">销量:<span class="goods_used">{{$goods->sale_num}}</span>件<span class="rt">|</span><br class="clear" /></td>
-			<td align="center">库存:<span class="good_usable">10</span>件 充足</td>
+			@if ($goods->is_onsale)
+			<td align="center">库存:充足</td>
+			@else
+			<td align="center">已下架</td>
+			@endif
 		</tr>
 	</table>
 <!-- 	<table cellpadding="0" cellspacing="5" width="100%" class="bg01 font_size01 imgbuding" style="border-collapse: separate;">
@@ -161,12 +182,16 @@
 	<table cellspacing="0" cellpadding="0" width="100%" class="menu02">
 		<tr>
 			<td align="center" width="10%">
-				<a href="/cart" class="position_relative"><img src="/wap/images/icon/menu_gouwu.png" alt="" height="24"><span class="gouwuche_count" >1</span></a>
+				<a href="/cart" class="position_relative"><img src="/wap/images/icon/menu_gouwu.png" alt="" height="24"><span class="gouwuche_count" >{{$cart_count}}</span></a>
 
 			</td>
 			<td align="center" width="70%">
+				@if ($goods->is_onsale)
                 <a href="javascript:;" data-id="{{$goods->id}}" class="anniu08 marginright10 rt gm buy"  >立即购买</a>
 				<a href="javascript:;" data-id="{{$goods->id}}" class="anniu07 marginright10 addproduct rt cart" >加入购物车</a>
+				@else
+				<a href="javascript:;" data-id="{{$goods->id}}" style="background: rgb(221,221,221);" class="anniu08 marginright10 rt gm disabled"  >已下架</a>
+				@endif
 				<br class="clear" />
 			</td>
 		</tr>

@@ -4,8 +4,10 @@
 <!-- 搜索 -->
 <div class="box_fix1">
     <div class="md_search">
-        <a href="goods"><img src="/wap/images/mdimages/icon/search.png" height="12" class="ic_sc"></a>
-        <input type="text" placeholder="搜索" class="mgt_10" />
+        <form action="/goods">
+            <a href="javascript:viod(0)" id="sch"><img src="/wap/images/mdimages/icon/search.png" height="12" class="ic_sc"></a>
+            <input name="k" type="text" placeholder="搜索" class="mgt_10" />
+        </form>
     </div>
 </div>
 
@@ -121,7 +123,9 @@
 
 </script>
 <script type="text/javascript">
-    $(".md_nav a").eq(0).addClass('hv');
+    $('#sch').click(function () {
+        $(this).parent('form').submit();
+    });
     numberBox();
     shoppingcart_add();
     shoppingcart_min();

@@ -341,4 +341,36 @@ class WapUserController extends WapController
     		return Response::json(array('status'=> 0, 'message'=> '修改失败'));
     	}
     }
+
+    // 删除地址
+    function addressDelete()
+    {
+        $address_id = Input::get('address_id');
+        $user_id = Session::get('user_id');
+        
+        $is_default = 0;
+        DB::beginTransaction();
+
+        try {
+            $address = DB::table('user_address')->where('user_id', $user_id)->where('id', $address_id)->first();
+
+            if (!$address) {
+                throw new Exception("没有找到地址详情，请重试");
+            }
+
+            $res = DB::table('user_address')->where('user_id', $user_id)->where('id', $address_id)->delete();
+            
+            if ($address->is_default) {
+                $is_default = 1;
+                DB::table('user_address')->where('user_id', $user_id)->take(1)->update(array('is_default'=> 1));
+            }
+
+            DB::commit();
+            return Response::json(array('status'=> 1, 'message'=> '删除成功', 'is_default'=> $is_default));
+        } catch (Exception $e) {
+            DB::rollback();
+            return Response::json(array('status'=> 0, 'message'=> '删除失败'));
+        }
+
+    }
 }

@@ -10,9 +10,9 @@ class Orders extends Eloquent
     protected $table = 'orders';
 
     public function order_detail()
-  {
-    return $this->hasOne('orders_detail','oid', 'id');
-  }
+    {
+        return $this->hasOne('orders_detail','oid', 'id');
+    }
     function getList($type = array(), $order = array(), $fetch = array(), $offset = 0, $limit = 0)
     {
         $select = $this->select($fetch ? $fetch : array('orders.*'));
@@ -29,12 +29,12 @@ class Orders extends Eloquent
     }
     function getListPage($type = array(), $size = 15, $order = array(), $fetch = array())
     {
-      $select = $this->select($fetch ? $fetch : array('orders.*'));
+        $select = $this->select($fetch ? $fetch : array('orders.*'));
 
-      $this->_where($select, $type);
-      $this->_order($select, $order);
+        $this->_where($select, $type);
+        $this->_order($select, $order);
 
-      return $select->paginate($size);
+        return $select->paginate($size);
     }
 
 

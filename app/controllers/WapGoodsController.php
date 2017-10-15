@@ -12,13 +12,15 @@ class WapGoodsController extends WapController
 		$show_price_order = Input::get('show_price_order', '');
 		$sale_num_order = Input::get('sale_num_order', '');
 		$category_id = Input::get('category_id', '');
+		$k = Input::get('k', '');
 
 		$type = array();
 		$order = array();
 
+		$type['is_onsale'] = 1;
 		$show_price_order && $order['show_price'] = $show_price_order;
 		$sale_num_order && $order['sale_num'] = $sale_num_order;
-
+		$k && $type['k'] = $k;
 		$category_id && $type['category_id'] = $category_id;
 
 		$is_default = 1;
@@ -53,6 +55,7 @@ class WapGoodsController extends WapController
 			'sale_num_order' => $sale_num_order,
 			'sale_num_order_t' => $sale_num_order_t,
 
+			'k' => $k,
 			'show_price_order' => $show_price_order,
 			'show_price_order_t' => $show_price_order_t,
 			'is_default' => $is_default,
@@ -74,6 +77,7 @@ class WapGoodsController extends WapController
 		$type = array();
 		$order = array();
 
+		$type['is_onsale'] = 1;
 		$show_price_order && $order['show_price'] = $show_price_order;
 		$sale_num_order && $order['sale_num'] = $sale_num_order;
 
@@ -102,13 +106,21 @@ class WapGoodsController extends WapController
 	// 商品详情
 	function detail($goods_id)
 	{
-		$goods_m = new Goods(); 
+		$user_id = Session::get('user_id');
 
+		$goods_m = new Goods(); 
+		$active_m = new Active();
 		$goods = $goods_m->fetch(array('id'=> $goods_id));
 		$hot = $goods_m->getHot();
+
+
+		$actives = $active_m->getList(array('now'=> date('Y-m-d H:i:s')), array('created_at', 'desc'));
+		$cart_count = Cart::where('user_id', $user_id)->count();
 		$view_data = array(
 			'goods' => $goods,
+			'actives' => $actives,
 			'hot' => $hot,
+			'cart_count' => $cart_count
 		);
 
 		return View::make('wap.goods.detail', $view_data);
@@ -134,6 +146,10 @@ class WapGoodsController extends WapController
 				throw new Exception("没有找到商品");
 			}
 
+			if (!$goods->is_onsale) {
+				throw new Exception("商品已下架");
+			}
+
 			$order = array();
 			$order_detail = array();
 
@@ -147,7 +163,8 @@ class WapGoodsController extends WapController
 
 			$order_detail[0]['goods_id'] = $goods_id;
 			$order_detail[0]['price_id'] = $price->id;
-			$order_detail[0]['price'] = $price->price;
+			$order_detail[0]['price'] = $price->getRealPrice();
+			$order_detail[0]['old_price'] = $price->price;
 			$order_detail[0]['created_at'] = date('Y-m-d H:i:s');
 			$order_detail[0]['buy_count'] = $count;
 

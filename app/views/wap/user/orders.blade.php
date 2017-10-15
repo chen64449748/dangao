@@ -27,7 +27,19 @@
     </tr>
 </table>
 <div style="height: 35px;"></div>
-
+<style>
+    .pay_alert {
+        width: 100%;
+        height: 100%;
+        max-width: 640px;
+        background-color: #000;
+        opacity: 0.75;
+        position: fixed;
+        top: 0;
+        z-index: 105;
+    }
+</style>
+<div class="pay_alert" style="display: none"></div>
 <div id="user_order" @if ($orders)  style="background: #e8e8e8;" @endif>
 	@if ($orders) 
 	@foreach ($orders as $order)
@@ -54,7 +66,7 @@
                     <div class="div_img2 lf"><div class="div_buding"><span><img src="{{$detail->goods_img}}" alt="" width="100%"></span></div></div>
                     <div class="div_block2 lf">
                         <div class="gouwu_title" style="margin-top: 10px;">{{$detail->goods_title}}</div>
-                        <div class="color_gray">{{$detail->sku_text}}</div>
+                        <div class="color_silver">{{$detail->sku_text}}</div>
                         <div class="jiage"><label class="color_pink">￥{{$detail->price}}</label><span>×{{$detail->buy_count}}</span></div>
                     </div>
                     <div class="clear"></div>
@@ -130,7 +142,7 @@ loading('.foot_loding', '/user/order/loading?{{$query}}', {}, function (data) {
                                                 <div class="div_img2 lf"><div class="div_buding"><span><img src="'+ detail.goods_img +'" alt="" width="100%"></span></div></div>\
                                                 <div class="div_block2 lf">\
                                                     <div class="gouwu_title" style="margin-top: 10px;">'+ detail.goods_title +'</div>\
-                                                    <div class="color_gray">'+ detail.sku_text +'</div>\
+                                                    <div class="color_silver">'+ detail.sku_text +'</div>\
                                                     <div class="jiage"><label class="color_pink">￥'+ detail.price +'</label><span>×'+ detail.buy_count +'</span></div>\
                                                 </div>\
                                                 <div class="clear"></div>\
@@ -166,7 +178,21 @@ loading('.foot_loding', '/user/order/loading?{{$query}}', {}, function (data) {
 
 function orderCancel(order_id)
 {
-    alert(order_id)
+    confirm('确定取消？', function (res) {
+        if (!res) {return;}
+        $('.pay_alert').show();
+        $.post('/user/order/status/update', {status: 'cancel', order_id: order_id}, function (data) {
+            $('.pay_alert').hide();
+        
+            alert(data.message, function () {
+
+                if (data.status == 1) {
+                    window.location.reload();
+                }
+
+            });
+        })
+    });
 }
 </script>
 @stop

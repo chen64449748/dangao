@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : lzh
-Source Server Version : 50553
+Source Server         : local
+Source Server Version : 50540
 Source Host           : localhost:3306
 Source Database       : cake
 
 Target Server Type    : MYSQL
-Target Server Version : 50553
+Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2017-10-13 18:01:53
+Date: 2017-10-15 23:39:37
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -37,7 +37,7 @@ CREATE TABLE `active` (
 -- ----------------------------
 -- Records of active
 -- ----------------------------
-INSERT INTO `active` VALUES ('1', 'ces ', null, '/upload/active/2017101311022959e02cc5c75d7.jpg', '2017-10-13 06:00:00', '2017-10-13 23:00:00', '80.00', '10.00', '1', '2', '2017-10-13 17:42:18');
+INSERT INTO `active` VALUES ('1', 'ces ', null, '/upload/active/2017101311022959e02cc5c75d7.jpg', '2017-10-13 06:00:00', '2017-10-13 23:00:00', '80.00', '10.00', '1', '1', '2017-10-13 21:31:31');
 
 -- ----------------------------
 -- Table structure for active_goods
@@ -54,6 +54,27 @@ CREATE TABLE `active_goods` (
 
 -- ----------------------------
 -- Records of active_goods
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for active_price
+-- ----------------------------
+DROP TABLE IF EXISTS `active_price`;
+CREATE TABLE `active_price` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `active_id` int(11) DEFAULT NULL,
+  `goods_id` int(11) DEFAULT NULL,
+  `price_id` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `price` decimal(10,2) DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `begin_time` datetime DEFAULT NULL,
+  `end_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of active_price
 -- ----------------------------
 
 -- ----------------------------
@@ -84,10 +105,28 @@ CREATE TABLE `cart` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Records of cart
+-- ----------------------------
+INSERT INTO `cart` VALUES ('8', '1', '28', '63', '1', '2017-10-13 21:22:45', '2017-10-15 22:28:08');
+
+-- ----------------------------
+-- Table structure for cart_sku
+-- ----------------------------
+DROP TABLE IF EXISTS `cart_sku`;
+CREATE TABLE `cart_sku` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `goods_id` int(11) NOT NULL COMMENT '组套时 多个商品id',
+  `sku_value_id` int(11) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- ----------------------------
+-- Records of cart_sku
 -- ----------------------------
 
 -- ----------------------------
@@ -126,15 +165,16 @@ CREATE TABLE `goods` (
   `is_hot` tinyint(4) DEFAULT '0' COMMENT '是否热销 1 是 0 不是',
   `show_price` decimal(10,2) DEFAULT NULL COMMENT '缩略图显示价格',
   `is_active` tinyint(1) DEFAULT NULL COMMENT '是否要参与活动， 1 是   0 否  适用于价格比较低的商品',
+  `is_onsale` tinyint(1) DEFAULT '1' COMMENT '1  上架 0 不上架',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of goods
 -- ----------------------------
-INSERT INTO `goods` VALUES ('28', '奶油蛋糕', '/upload/goods/2017092916332259ce0552ad266.jpg', '2017-09-29 16:36:10', '2017-09-30 09:49:47', '10', '1', '1', '0.00', '1');
-INSERT INTO `goods` VALUES ('29', '慕斯蛋糕', '/upload/goods/2017092916420459ce075c42e86.jpg', '2017-09-29 16:42:45', '2017-09-29 17:40:41', '0', '1', '1', '98.00', '1');
-INSERT INTO `goods` VALUES ('30', '新蛋糕', '/upload/goods/2017092921314759ce4b43d7c71.jpg', '2017-09-29 21:32:06', '2017-09-30 14:39:38', '0', '1', '0', '0.00', '1');
+INSERT INTO `goods` VALUES ('28', '奶油蛋糕', '/upload/goods/2017092916332259ce0552ad266.jpg', '2017-09-29 16:36:10', '2017-10-15 23:20:30', '10', '1', '1', '0.00', '1', '1');
+INSERT INTO `goods` VALUES ('29', '慕斯蛋糕', '/upload/goods/2017092916420459ce075c42e86.jpg', '2017-09-29 16:42:45', '2017-10-15 23:20:01', '0', '1', '1', '98.00', '1', '0');
+INSERT INTO `goods` VALUES ('30', '新蛋糕', '/upload/goods/2017092921314759ce4b43d7c71.jpg', '2017-09-29 21:32:06', '2017-10-15 23:39:11', '0', '1', '1', '0.00', '0', '1');
 
 -- ----------------------------
 -- Table structure for goods_content
@@ -203,20 +243,25 @@ CREATE TABLE `orders` (
   `created_at` datetime DEFAULT NULL COMMENT '创建时间',
   `pay_time` datetime DEFAULT NULL COMMENT '支付时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='订单表';
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COMMENT='订单表';
 
 -- ----------------------------
 -- Records of orders
 -- ----------------------------
-INSERT INTO `orders` VALUES ('1', null, '1', '119.00', '0', '0', null, '炒菜', '12321412', '炒菜', '0', '2017-10-12 09:49:42', '2017-10-11 09:44:24', null);
-INSERT INTO `orders` VALUES ('2', null, '1', '108.00', '0', '0', null, '测试的', '18329042977', '陈文越', '0', '2017-10-11 10:06:47', '2017-10-11 10:06:47', null);
-INSERT INTO `orders` VALUES ('3', null, '1', '98.00', '0', '0', null, '测试的', '18329042977', '陈文越', '0', '2017-10-11 13:24:40', '2017-10-11 13:24:40', null);
-INSERT INTO `orders` VALUES ('4', null, '1', '88.00', '0', '0', null, '测试的', '18329042977', '陈文越', '0', '2017-10-11 13:24:58', '2017-10-11 13:24:58', null);
-INSERT INTO `orders` VALUES ('5', null, '1', '108.00', '0', '0', null, '测试的', '18329042977', '陈文越', '0', '2017-10-11 13:38:27', '2017-10-11 13:38:27', null);
-INSERT INTO `orders` VALUES ('6', '20171012112527159dee0a77cff9', '1', '118.00', '0', '0', null, '等我', '213124221', '默认地址', '0', '2017-10-12 11:25:27', '2017-10-12 11:25:27', null);
-INSERT INTO `orders` VALUES ('7', '201710121126336159dee0e951f8e', '1', '98.00', '0', '0', null, '等我', '213124221', '默认地址', '0', '2017-10-12 11:26:33', '2017-10-12 11:26:33', null);
-INSERT INTO `orders` VALUES ('8', 'f06920fcaa0456e5316207984cbd07a9', '1', '98.00', '0', '0', null, '等我', '213124221', '默认地址', '0', '2017-10-12 11:27:24', '2017-10-12 11:27:24', null);
-INSERT INTO `orders` VALUES ('9', '201710131801363117', '1', '108.00', '0', '0', null, '等我', '213124221', '默认地址', '0', '2017-10-13 18:01:36', '2017-10-13 18:01:36', null);
+INSERT INTO `orders` VALUES ('1', null, '1', '119.00', '0', '1', null, '炒菜', '12321412', '炒菜', '0', '2017-10-13 22:17:57', '2017-10-11 09:44:24', null);
+INSERT INTO `orders` VALUES ('2', null, '1', '108.00', '0', '1', null, '测试的', '18329042977', '陈文越', '0', '2017-10-13 22:17:57', '2017-10-11 10:06:47', null);
+INSERT INTO `orders` VALUES ('3', null, '1', '98.00', '0', '1', null, '测试的', '18329042977', '陈文越', '0', '2017-10-13 22:17:57', '2017-10-11 13:24:40', null);
+INSERT INTO `orders` VALUES ('4', null, '1', '88.00', '0', '1', null, '测试的', '18329042977', '陈文越', '0', '2017-10-13 22:17:57', '2017-10-11 13:24:58', null);
+INSERT INTO `orders` VALUES ('5', null, '1', '108.00', '0', '1', null, '测试的', '18329042977', '陈文越', '0', '2017-10-13 22:17:57', '2017-10-11 13:38:27', null);
+INSERT INTO `orders` VALUES ('6', '20171012112527159dee0a77cff9', '1', '118.00', '0', '1', null, '等我', '213124221', '默认地址', '0', '2017-10-13 22:17:57', '2017-10-12 11:25:27', null);
+INSERT INTO `orders` VALUES ('7', '201710121126336159dee0e951f8e', '1', '98.00', '0', '1', null, '等我', '213124221', '默认地址', '0', '2017-10-13 22:17:57', '2017-10-12 11:26:33', null);
+INSERT INTO `orders` VALUES ('8', 'f06920fcaa0456e5316207984cbd07a9', '1', '98.00', '0', '1', null, '等我', '213124221', '默认地址', '0', '2017-10-13 22:17:57', '2017-10-12 11:27:24', null);
+INSERT INTO `orders` VALUES ('9', '201710131801363117', '1', '108.00', '0', '1', null, '等我', '213124221', '默认地址', '0', '2017-10-13 22:17:57', '2017-10-13 18:01:36', null);
+INSERT INTO `orders` VALUES ('10', '201710132112527809', '1', '88.00', '0', '1', null, '等我', '213124221', '默认地址', '0', '2017-10-13 22:17:57', '2017-10-13 21:12:52', null);
+INSERT INTO `orders` VALUES ('11', '201710132130383020', '1', '98.00', '0', '1', null, '等我', '213124221', '默认地址', '0', '2017-10-13 22:17:57', '2017-10-13 21:30:38', null);
+INSERT INTO `orders` VALUES ('12', '201710132131464075', '1', '69.12', '0', '1', null, '等我', '213124221', '默认地址', '0', '2017-10-13 22:17:57', '2017-10-13 21:31:46', null);
+INSERT INTO `orders` VALUES ('13', '201710132134342121', '1', '86.40', '0', '3', null, '炒菜', '12321412', '炒菜', '0', '2017-10-13 22:18:57', '2017-10-13 21:34:34', null);
+INSERT INTO `orders` VALUES ('14', '201710152255476039', '1', '3.00', '0', '3', null, '测试的', '18329042977', '陈文越', '0', '2017-10-15 23:02:25', '2017-10-15 22:55:47', null);
 
 -- ----------------------------
 -- Table structure for orders_detail
@@ -231,22 +276,28 @@ CREATE TABLE `orders_detail` (
   `buy_count` int(11) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
+  `old_price` decimal(10,2) DEFAULT NULL COMMENT '原价',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COMMENT='订单详情表';
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COMMENT='订单详情表';
 
 -- ----------------------------
 -- Records of orders_detail
 -- ----------------------------
-INSERT INTO `orders_detail` VALUES ('1', '1', '30', '70', '1.00', '1', '2017-10-11 09:44:23', null);
-INSERT INTO `orders_detail` VALUES ('2', '1', '29', '65', '118.00', '2', '2017-10-11 09:44:23', null);
-INSERT INTO `orders_detail` VALUES ('3', '2', '28', '63', '108.00', '1', '2017-10-11 10:06:47', null);
-INSERT INTO `orders_detail` VALUES ('4', '3', '29', '64', '98.00', '1', '2017-10-11 13:24:40', null);
-INSERT INTO `orders_detail` VALUES ('5', '4', '28', '62', '88.00', '2', '2017-10-11 13:24:58', null);
-INSERT INTO `orders_detail` VALUES ('6', '5', '28', '63', '108.00', '1', '2017-10-11 13:38:27', null);
-INSERT INTO `orders_detail` VALUES ('7', '6', '29', '65', '118.00', '1', '2017-10-12 11:25:27', null);
-INSERT INTO `orders_detail` VALUES ('8', '7', '29', '64', '98.00', '1', '2017-10-12 11:26:33', null);
-INSERT INTO `orders_detail` VALUES ('9', '8', '29', '64', '98.00', '1', '2017-10-12 11:27:24', null);
-INSERT INTO `orders_detail` VALUES ('10', '9', '29', '65', '108.00', '1', '2017-10-13 18:01:36', null);
+INSERT INTO `orders_detail` VALUES ('1', '1', '30', '70', '1.00', '1', '2017-10-11 09:44:23', null, null);
+INSERT INTO `orders_detail` VALUES ('2', '1', '29', '65', '118.00', '2', '2017-10-11 09:44:23', null, null);
+INSERT INTO `orders_detail` VALUES ('3', '2', '28', '63', '108.00', '1', '2017-10-11 10:06:47', null, null);
+INSERT INTO `orders_detail` VALUES ('4', '3', '29', '64', '98.00', '1', '2017-10-11 13:24:40', null, null);
+INSERT INTO `orders_detail` VALUES ('5', '4', '28', '62', '88.00', '2', '2017-10-11 13:24:58', null, null);
+INSERT INTO `orders_detail` VALUES ('6', '5', '28', '63', '108.00', '1', '2017-10-11 13:38:27', null, null);
+INSERT INTO `orders_detail` VALUES ('7', '6', '29', '65', '118.00', '1', '2017-10-12 11:25:27', null, null);
+INSERT INTO `orders_detail` VALUES ('8', '7', '29', '64', '98.00', '1', '2017-10-12 11:26:33', null, null);
+INSERT INTO `orders_detail` VALUES ('9', '8', '29', '64', '98.00', '1', '2017-10-12 11:27:24', null, null);
+INSERT INTO `orders_detail` VALUES ('10', '9', '29', '65', '108.00', '1', '2017-10-13 18:01:36', null, null);
+INSERT INTO `orders_detail` VALUES ('11', '10', '29', '64', '88.00', '1', '2017-10-13 21:12:52', null, null);
+INSERT INTO `orders_detail` VALUES ('12', '11', '29', '65', '98.00', '1', '2017-10-13 21:30:38', null, '108.00');
+INSERT INTO `orders_detail` VALUES ('13', '12', '28', '63', '69.12', '1', '2017-10-13 21:31:46', null, '86.40');
+INSERT INTO `orders_detail` VALUES ('14', '13', '28', '63', '86.40', '1', '2017-10-13 21:34:34', null, '108.00');
+INSERT INTO `orders_detail` VALUES ('15', '14', '30', '70', '1.00', '3', '2017-10-15 22:55:46', null, '1.00');
 
 -- ----------------------------
 -- Table structure for price
@@ -392,8 +443,4 @@ CREATE TABLE `user_address` (
 -- ----------------------------
 -- Records of user_address
 -- ----------------------------
-INSERT INTO `user_address` VALUES ('1', '1', '测试的', '陈文越', '18329042977', '0', '2017-10-10 14:50:19', null);
-INSERT INTO `user_address` VALUES ('2', '1', '炒菜', '炒菜', '12321412', '0', '2017-10-10 14:50:56', null);
-INSERT INTO `user_address` VALUES ('5', '1', '等我', '默认地址', '213124221', '1', null, null);
-INSERT INTO `user_address` VALUES ('3', '1', 'deceive', '吃你', '123214214', '0', null, null);
-INSERT INTO `user_address` VALUES ('4', '1', '21321胜达', '测试默认', '18329042977', '0', null, null);
+INSERT INTO `user_address` VALUES ('1', '1', '测试的', '陈文越', '18329042977', '1', '2017-10-10 14:50:19', null);

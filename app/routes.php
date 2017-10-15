@@ -33,11 +33,14 @@ Route::get('user/address/detail', array('as'=> 'user.address.detail', 'uses'=> '
 Route::post('user/address/save', array('as'=> 'user.address.save', 'uses'=> 'WapUserController@addressSave'));
 Route::post('user/addAddress', array('as'=> 'user.addAddress', 'uses'=> 'WapUserController@addAddress'));
 Route::post('user/address/default', array('as'=> 'user.address.default', 'uses'=> 'WapUserController@updateDefault'));
+Route::post('user/address/delete', array('as'=> 'user.address.delete', 'uses'=> 'WapUserController@addressDelete'));
 Route::get('user/orders', array('as'=> 'user.orders', 'uses'=> 'WapUserController@orders'));
 Route::get('user/order/loading', array('as'=> 'user.orders.loading', 'uses'=> 'WapUserController@orderLoading'));
 
+
 Route::get('buy/{order_id}', array('as'=> 'buy', 'uses'=> 'WapOrderController@buy'));
-Route::get('/order/addressSelect/{order_id}', array('as'=> 'order.addressSelect', 'uses'=> 'WapOrderController@addressSelect'));
+Route::get('order/addressSelect/{order_id}', array('as'=> 'order.addressSelect', 'uses'=> 'WapOrderController@addressSelect'));
+Route::post('user/order/status/update', array('as'=> 'user.order.status.update', 'uses'=> 'WapOrderController@orderStatusUpdate'));
 
 //登陆
 Route::get('admin/login', array('as'=> 'admin.login', 'uses'=> 'LoginController@login'));
@@ -60,7 +63,7 @@ Route::get('/logout', array('as'=> 'admin.logout', 'uses'=> 'LoginController@log
 	Route::post('goods/get', array('as'=> 'goods.list', 'uses'=> 'GoodsController@goodsGet'));
 	Route::get('goods/add', array('as'=> 'goods.add', 'uses'=> 'GoodsController@goodsAdd'));
 	Route::post('goods/imageUpload', array('goods.imageUpload', 'uses'=> 'GoodsController@imageUpload'));
-	Route::post('goods/goodsHot', array('goods.goodsHot', 'uses'=> 'GoodsController@goodsHot'));
+	Route::post('goods/goodsAttr', array('goods.goodsAttr', 'uses'=> 'GoodsController@goodsAttr'));
 	Route::post('goods/add/data', array('as'=> 'goods.add.data', 'uses'=> 'GoodsController@goodsAddData'));
 	Route::post('goods/add/order', array('as'=> 'goods.add.order', 'uses'=> 'GoodsController@goodsAddOrder'));
 	Route::get('goods/detail', array('as'=> 'goods.detail', 'uses'=> 'GoodsController@goodsDetail'));

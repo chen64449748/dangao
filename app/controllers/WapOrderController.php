@@ -46,15 +46,17 @@ class WapOrderController extends WapController
 		$order_detail = $order_detail_m->getList($d_type);
 
 		$total_price = 0;
-
+		$old_total_price = 0;
 		foreach ($order_detail as $value) {
 			$total_price += $value->price * $value->buy_count;
+			$old_total_price += $value->old_price * $value->buy_count; 
 		}
 
 		$view_data = array(
 			'order' => $order[0],
 			'order_detail' => $order_detail,
 			'total_price' => $total_price,
+			'old_total_price' => $old_total_price,
 		);
 
 		return View::make('wap.order.buy', $view_data);
@@ -82,5 +84,51 @@ class WapOrderController extends WapController
 
 		return View::make('wap.order.address', $view_data);
 
+	}
+
+	function orderStatusUpdate()
+	{
+		$user_id = Session::get('user_id');
+		$order_m = new Orders();
+
+		$status = Input::get('status');
+		$order_id = Input::get('order_id');
+
+		DB::beginTransaction();
+		try {
+			switch ($status) {
+				case 'cancel':
+					$order = $order_m->find($order_id);
+					
+					if (!$order) {
+						throw new Exception("没有找到订单");
+					}
+
+					if ($order->status != 0 && $order->status != 1) {
+						throw new Exception("订单不可修改，请联系商家取消");
+					}
+
+					if ($order->pay == 1) {
+						throw new Exception("订单已支付，请联系商家取消");
+					}
+
+					$order_m->where('id', $order->id)->update(array(
+						'status' => 3,
+					));
+
+					break;
+				
+				default:
+					throw new Exception("参数错误");
+					break;
+			}
+
+			DB::commit();
+			return Response::json(array('status'=> 1, 'message'=> '修改成功'));
+		} catch (Exception $e) {
+			DB::rollback();
+			return Response::json(array('status'=> 0, 'message'=> $e->getMessage()));
+		}
+		
 	}
 }
