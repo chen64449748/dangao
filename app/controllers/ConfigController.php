@@ -75,4 +75,22 @@ class ConfigController extends BaseController
 
 	}
 
+	// 店铺设置
+
+	// banner设置
+	function adminBanner()
+	{
+		$banners = Banner::get();
+
+		$view_data = array(
+			'banners' => $banners
+		);
+		return View::make('admin.config.banner', $banners);
+	}
+
+
+	function adminBannerSave()
+	{
+
+	}
 }

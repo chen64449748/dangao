@@ -83,7 +83,13 @@ Route::get('/logout', array('as'=> 'admin.logout', 'uses'=> 'LoginController@log
 	Route::post('config/sku/value/add', array('as'=> 'config.sku.value.add', 'uses'=> 'ConfigController@skuValueAdd'));
 	Route::post('config/sku/add', array('as'=> 'config.sku.add', 'uses'=> 'ConfigController@skuAdd'));
 
+	// 分类
+	Route::get('category/list', array('as'=> 'category.list', 'uses'=> 'CategoryController@categoryList'));
+	Route::post('category/save', array('as'=> 'category.save', 'uses'=> 'CategoryController@categorySave'));
 
+	// 页面设施
+	Route::get('admin/banner', array('as'=> 'admin.banner', 'uses'=> 'ConfigController@adminBanner'));
+	Route::post('admin/banner/save', array('as'=> 'admin.banner.save', 'uses'=> 'ConfigController@adminBannerSave'));
 	// 库存
 	Route::get('stock/order/list', array('as'=> 'stock.order.list', 'uses'=> 'StockController@stockOrderList'));
 	Route::get('stock/add', array('as'=> 'stock.order', 'uses'=> 'StockController@stockAdd'));

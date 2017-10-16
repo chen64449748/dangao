@@ -11,7 +11,7 @@
 
 <div class="divs" style="margin-bottom: 10px;">
     
-	<div><img src="/wap/1467603508.jpg" style="width: 640px; height: 300px;" alt="" width="100%"></div>
+	<div><img src="{{$active->active_img}}" style="width: 640px; height: 300px;" alt="" width="100%"></div>
 
 	<div class="bg01 paddingbuding01">
 	
