@@ -158,7 +158,11 @@ $('#goods_sku').on('click', '.items .sku_check', function () {
     });
 
     // 要选最后个配置时
-    if (select_config.length > 0 && selected.length == (select_config[0].length - 1)) {
+    if (select_config.length > 0) {
+
+        if (selected.length >= 2 && selected.length == select_config[0].length) {
+            selected.splice(selected.length - 2, 1);
+        }
 
         // 做不可选配置
         for (var i in select_config) {
@@ -180,20 +184,24 @@ $('#goods_sku').on('click', '.items .sku_check', function () {
 
                 $('.sku_list').find('.items').find('a[sku_value_id='+ select_config[i][0] +']').addClass('sku_disable');
                 $('.sku_list').find('.items').find('a[sku_value_id='+ select_config[i][0] +']').removeClass('sku_check');
+                $('.sku_list').find('.items').find('a[sku_value_id='+ select_config[i][0] +']').removeClass('checked');
             }
         }
     }
 
-    if (select_config.length > 0 && selected.length == select_config[0].length) {
-        for (var i in select_config) {
-            if (selected.equals(select_config[i])) {
-                alert('没有该规格组合');
-                $('.sku_list').find('.items').find('a').removeClass('checked');
-                $('.sku_list').find('.items').find('a').removeClass('sku_disable');
-                $('.sku_list').find('.items').find('a').addClass('sku_check');
-            }
-        }
-    }
+    // if (select_config.length > 0 && selected.length == select_config[0].length) {
+        
+        
+
+    //     for (var i in select_config) {
+    //         if (selected.equals(select_config[i])) {
+    //             alert('没有该规格组合');
+    //             $('.sku_list').find('.items').find('a').removeClass('checked');
+    //             $('.sku_list').find('.items').find('a').removeClass('sku_disable');
+    //             $('.sku_list').find('.items').find('a').addClass('sku_check');
+    //         }
+    //     }
+    // }
 
     
 
