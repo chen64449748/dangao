@@ -182,6 +182,7 @@
         <input type="hidden" name="ticket_money" id="ticket_money" value="<!--{if $ticket_data.0.money}--><!--{$ticket_data.0.money}--><!--{else}-->0<!--{/if}-->">
         <input type="hidden" name="postage" id="postage" value="<!--{$postage}-->">
         <input type="hidden" name="shipfee" id="shipfee" value="<!--{$is_postage}-->">
+        <input type="hidden" name="order_id" value="{{$order['id']}}">
 		<br class="clear" />
 	</div>
     </form>
@@ -386,6 +387,70 @@
         });
     });
 
+</script>
+<script type="text/javascript">
+    var jsApiParameters='';
+    var id = $('input[name=order_id]').val();
+
+    $('#submit_order').click(function(){
+        $.post('/order/wxpay', {id:id}, function (data) {
+            if (data.status) {
+                jsApiParameters=v.data;
+                wxpay();
+            }else{
+                alert(data.msg);return;
+            }
+        });
+    });
+    function wxpay(){
+        if(typeof WeixinJSBridge != "undefined"){
+            wxpayConditionComplete();
+        }else{
+            if( document.addEventListener ){
+                document.addEventListener('WeixinJSBridgeReady', wxpayConditionComplete, false);
+            }else if (document.attachEvent){
+                document.attachEvent('WeixinJSBridgeReady', wxpayConditionComplete);
+                document.attachEvent('onWeixinJSBridgeReady', wxpayConditionComplete);
+            }
+        }
+    }   
+    //防止页面没有加载完成启动微信支付
+    function wxpayConditionComplete(){
+        if(typeof window._WXPAY_COUNTER == 'undefined'){
+            window._WXPAY_COUNTER = 2;
+        }
+        window._WXPAY_COUNTER = window._WXPAY_COUNTER - 1;
+        if(window._WXPAY_COUNTER <= 0 && jsApiParameters != ''){
+            window.setTimeout(jsApiCall,0);
+        }
+    }
+    function jsApiCall()
+    {
+        $("#submit_order").html("支付中");
+        WeixinJSBridge.invoke(
+            'getBrandWCPayRequest',
+            eval("("+jsApiParameters+")"),
+            function(res){
+                jsApiParameters="";
+
+                if(res.err_msg == "get_brand_wcpay_request:ok" ) {
+                    var whenpayok=function(){
+                       $('.shares').show();
+                                    // window.location.href="/activity_group/detail?oid="+group_oid;
+                    };
+                    isruning=true;
+                    $("#submit_order").html("确认中").addClass("buttondisabled");
+                    $.post('/order/wxpay', {id:id}, function (data) {
+                            whenpayok();
+                    });
+
+                }else{
+                    isruning=false;
+                    $("#submit_order").html("支付").removeClass("buttondisabled");
+                }
+            }
+        );
+    }
 </script>
 
 @stop

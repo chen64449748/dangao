@@ -110,7 +110,7 @@ class Orders extends Eloquent
 
     //统一订单
      public static function create_wxpay($id) {
-        $oinfo =  $this->where('id', $id)->first();
+        $oinfo = DB::table('orders')->where('id',$id)->first();
         if (empty($oinfo)) {
             return array('status'=>flase,'msg'=>'没有订单信息');
         }
@@ -160,69 +160,4 @@ class Orders extends Eloquent
 
     }
 
-
-    /*
-    <script type="text/javascript">
-    var jsApiParameters='';
-    $('#submit_order').click(function(){
-        $.post('/order/wxpay', {id:id}, function (data) {
-            if (data.status) {
-                jsApiParameters=v.data;
-                wxpay();
-            }else{
-                alert(data.msg);return;
-            }
-        });
-    });
-    function wxpay(){
-        if(typeof WeixinJSBridge != "undefined"){
-            wxpayConditionComplete();
-        }else{
-            if( document.addEventListener ){
-                document.addEventListener('WeixinJSBridgeReady', wxpayConditionComplete, false);
-            }else if (document.attachEvent){
-                document.attachEvent('WeixinJSBridgeReady', wxpayConditionComplete);
-                document.attachEvent('onWeixinJSBridgeReady', wxpayConditionComplete);
-            }
-        }
-    }   
-    //防止页面没有加载完成启动微信支付
-    function wxpayConditionComplete(){
-        if(typeof window._WXPAY_COUNTER == 'undefined'){
-            window._WXPAY_COUNTER = 2;
-        }
-        window._WXPAY_COUNTER = window._WXPAY_COUNTER - 1;
-        if(window._WXPAY_COUNTER <= 0 && jsApiParameters != ''){
-            window.setTimeout(jsApiCall,0);
-        }
-    }
-    function jsApiCall()
-    {
-        $("#submit_order").html("支付中");
-        WeixinJSBridge.invoke(
-            'getBrandWCPayRequest',
-            eval("("+jsApiParameters+")"),
-            function(res){
-                jsApiParameters="";
-
-                if(res.err_msg == "get_brand_wcpay_request:ok" ) {
-                    var whenpayok=function(){
-                       $('.shares').show();
-                                    // window.location.href="/activity_group/detail?oid="+group_oid;
-                    };
-                    isruning=true;
-                    $("#submit_order").html("确认中").addClass("buttondisabled");
-                    $.post('/order/wxpay', {id:id}, function (data) {
-                            whenpayok();
-                    });
-
-                }else{
-                    isruning=false;
-                    $("#submit_order").html("支付").removeClass("buttondisabled");
-                }
-            }
-        );
-    }
-</script>
-    */
 }

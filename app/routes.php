@@ -42,12 +42,13 @@ Route::get('user/order/loading', array('as'=> 'user.orders.loading', 'uses'=> 'W
 Route::get('buy/{order_id}', array('as'=> 'buy', 'uses'=> 'WapOrderController@buy'));
 Route::get('order/addressSelect/{order_id}', array('as'=> 'order.addressSelect', 'uses'=> 'WapOrderController@addressSelect'));
 Route::post('user/order/status/update', array('as'=> 'user.order.status.update', 'uses'=> 'WapOrderController@orderStatusUpdate'));
+Route::post('/order/wxpay', array('as'=> 'order.wxpay', 'uses'=> 'WapOrderController@wxpay'));
 
 //登陆
 Route::get('admin/login', array('as'=> 'admin.login', 'uses'=> 'LoginController@login'));
 Route::post('admin/doLogin', array('as'=> 'admin.doLogin', 'uses'=> 'LoginController@doLogin'));
 Route::get('/logout', array('as'=> 'admin.logout', 'uses'=> 'LoginController@logout'));
-// Route::group(array('before'=> 'login'), function() {
+Route::group(array('before'=> 'login'), function() {
 	//管理员
 	Route::get('/admin', array('as'=> 'admin', 'uses'=> 'AdminController@adminList'));
 	Route::get('/admin/add', array('as'=> 'admin.add', 'uses'=> 'AdminController@addadmin'));
@@ -103,7 +104,7 @@ Route::get('/logout', array('as'=> 'admin.logout', 'uses'=> 'LoginController@log
 	Route::post('stock/finance/add', array('as'=> 'stock.finance.add', 'uses'=> 'StockController@addFinance'));
 	Route::post('stock/finance/add/day', array('as'=> 'stock.finance.add.day', 'uses'=> 'StockController@addFinanceDay'));
 
-// });
+});
 
 //yh
 Route::get('/user/login', array('as'=> 'user.login', 'uses'=> 'WapUserController@login'));

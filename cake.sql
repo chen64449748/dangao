@@ -365,6 +365,7 @@ CREATE TABLE `shop` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `shop_name` varchar(60) COLLATE utf8_unicode_ci DEFAULT NULL,
   `shop_phone` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `shop_discrib` text COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)

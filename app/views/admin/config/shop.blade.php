@@ -25,7 +25,14 @@
 			<input type="text" id="shop_phone" value="{{$shop->shop_phone}}">
 		</div>
 	</div>
-
+	<div class="control-group">
+		<label class="control-label">商家介绍</label>
+		<div class="controls">
+			<textarea id="shop_discrib" style="width:200px;height:100px;">
+				{{$shop->shop_discrib}}
+			</textarea> 
+		</div>
+	</div>
 	<div class="control-group">
 		<label class="control-label"></label>
 		<div class="controls">
@@ -41,7 +48,7 @@
 	$('#save').click(function () {
 		var shop_phone = $('#shop_phone').val();
 		var shop_name = $('#shop_name').val();
-
+		var shop_discrib = $('#shop_discrib').val();
 		if (!shop_name) {
 			return window.wxc.xcConfirm('请填写店铺名', window.wxc.xcConfirm.typeEnum.info);
 		}
@@ -50,7 +57,7 @@
             return window.wxc.xcConfirm('请填写正确的手机号', window.wxc.xcConfirm.typeEnum.info);
         }
 
-        var send_data = {shop_name: shop_name, shop_phone: shop_phone};
+        var send_data = {shop_name: shop_name, shop_phone: shop_phone,shop_discrib:$.trim(shop_discrib)};
         var txt= "确定修改？";
 		var option = {
 			title: "修改店铺",

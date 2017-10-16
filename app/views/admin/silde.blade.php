@@ -30,7 +30,7 @@
 	</ul>
 </li>
 
-<li><a href="#"><i class="fa fa-list-alt"></i><span>属性设置</span></a>
+<li><a href="#"><i class="fa fa-list-alt"></i><span>分类设置</span></a>
 	<ul class="sub-menu">
 		<li @if ($action == 'category/list') class="active" @endif><a href="/category/list">分类设置</a></li>
 	</ul>

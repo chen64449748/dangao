@@ -86,16 +86,12 @@ class WapOrderController extends WapController
 
 	}
 
-<<<<<<< HEAD
 	public function wxpay(){
-		//生成订单
-		order::create_order($data);
-		//代做
         $id=isset($_POST['id'])?intval($_POST['id']):0;
-        $re=order_web::create_wxpay($id);
-        echo json_encode($re);
+        $re=Orders::create_wxpay($id);
+        return Response::json($re);
+        // echo json_encode($re);
     }
-=======
 	function orderStatusUpdate()
 	{
 		$user_id = Session::get('user_id');
@@ -141,5 +137,4 @@ class WapOrderController extends WapController
 		}
 		
 	}
->>>>>>> ce74b2a079ec987a8a1341ea325a68685db77ebd
 }

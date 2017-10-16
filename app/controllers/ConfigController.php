@@ -143,6 +143,7 @@ class ConfigController extends BaseController
 			$shop = new StdClass();
 			$shop->shop_name = '';
 			$shop->shop_phone = '';
+			$shop->shop_discrib='';
 		}
 
 
@@ -158,6 +159,7 @@ class ConfigController extends BaseController
 
 		$shop_phone = Input::get('shop_phone');
 		$shop_name = Input::get('shop_name');
+		$shop_discrib = Input::get('shop_discrib');
 
 		if (!$shop_phone || !$shop_name) {
 			return Response::json(array('status'=> 0, 'message'=> '店铺名和手机号必填'));
@@ -168,6 +170,7 @@ class ConfigController extends BaseController
 			Shop::insert(array(
 				'shop_phone'=> $shop_phone,
 				'shop_name' => $shop_name,
+				'shop_discrib'=>$shop_discrib,
 				'created_at' => date('Y-m-d H:i:s'),
 			));
 
@@ -175,6 +178,7 @@ class ConfigController extends BaseController
 			Shop::where('id', $shop->id)->update(array(
 				'shop_name' => $shop_name,
 				'shop_phone' => $shop_phone,
+				'shop_discrib'=>$shop_discrib
 			));
 		}
 
