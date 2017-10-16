@@ -100,8 +100,8 @@
 		<img src="/wap/images/icon/arrow02.png" alt="" height="12" class="margintop10 rt">
 		<br class="clear">
 	</a>
-	<a href="tel:18329042977" class="paddingbuding01 bg01 display_block">
-		<div class="font_size03 paddingbuding02 lf">客服电话(18329042977)</div>
+	<a href="tel:{{$shop->shop_phone}}" class="paddingbuding01 bg01 display_block">
+		<div class="font_size03 paddingbuding02 lf">客服电话({{$shop->shop_phone}})</div>
 		<img src="/wap/images/icon/arrow02.png" alt="" height="12" class="margintop10 rt">
 		<br class="clear">
 	</a>

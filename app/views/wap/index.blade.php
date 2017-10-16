@@ -14,9 +14,10 @@
 <!--==================轮播图====================-->
 <div class="flexslider fix_patch1">
     <ul class="slides">
-        <li><a href="<!--{$sv.url}-->"><img src="/wap/20170623091904111.jpg" alt="" width="100%"></a></li>
-        <li><a href="<!--{$sv.url}-->"><img src="/wap/20170623091904111.jpg" alt="" width="100%"></a></li>
-        <li><a href="<!--{$sv.url}-->"><img src="/wap/1467603508.jpg" alt="" width="100%"></a></li>
+        @foreach ($banners as $banner)
+        <li><a href="{{$banner->banner_url}}"><img src="{{$banner->banner_img}}" style="widht: 640px; height: 290px;" alt="" width="100%"></a></li>
+        @endforeach
+
     </ul>
 </div>
 

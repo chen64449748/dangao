@@ -264,7 +264,7 @@
 
 
 </style>
-<title>蛋糕</title>
+<title>{{$shop->shop_name}}</title>
 </head>
 
 <body>

@@ -116,11 +116,14 @@ class WapGoodsController extends WapController
 
 		$actives = $active_m->getList(array('now'=> date('Y-m-d H:i:s')), array('created_at', 'desc'));
 		$cart_count = Cart::where('user_id', $user_id)->count();
+		$shop = Shop::get();
+
 		$view_data = array(
 			'goods' => $goods,
 			'actives' => $actives,
 			'hot' => $hot,
-			'cart_count' => $cart_count
+			'cart_count' => $cart_count,
+			'shop' => $shop,
 		);
 
 		return View::make('wap.goods.detail', $view_data);

@@ -22,13 +22,16 @@ class WapUserController extends WapController
         $close_count = $count_arr[3];
         $ok_count = $count_arr[4];
 
+        $shop = Shop::get();
+
 		$view_data = array(
 			'active' => 'user',
             'waiting_count' => $waiting_count,
             'payed_count' => $payed_count,
             'close_count' => $close_count,
             'ok_count' => $ok_count,
-		);
+		    'shop'     => $shop,
+        );
 
 		return View::make('wap.user.index', $view_data);
 	}

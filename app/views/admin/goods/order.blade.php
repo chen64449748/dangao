@@ -31,7 +31,6 @@
 		<label class="control-label">图片</label>
 		<div class="controls">
 			<img src="/wap/wu.jpg" width="640" height="640" class="img-polaroid">
-
 		</div>
 	</div>
 

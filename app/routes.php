@@ -90,6 +90,8 @@ Route::get('/logout', array('as'=> 'admin.logout', 'uses'=> 'LoginController@log
 	// 页面设施
 	Route::get('admin/banner', array('as'=> 'admin.banner', 'uses'=> 'ConfigController@adminBanner'));
 	Route::post('admin/banner/save', array('as'=> 'admin.banner.save', 'uses'=> 'ConfigController@adminBannerSave'));
+	Route::get('admin/shop', array('as'=> 'admin.shop', 'uses'=> 'ConfigController@adminShop'));
+	Route::post('admin/shop/save', array('as'=> 'admin.shop.save', 'uses'=> 'ConfigController@adminShopSave'));
 	// 库存
 	Route::get('stock/order/list', array('as'=> 'stock.order.list', 'uses'=> 'StockController@stockOrderList'));
 	Route::get('stock/add', array('as'=> 'stock.order', 'uses'=> 'StockController@stockAdd'));

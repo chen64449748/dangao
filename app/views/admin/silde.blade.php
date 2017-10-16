@@ -1,7 +1,7 @@
 <li><a href="#"><i class="fa fa-list-alt"></i><span>页面设置</span></a>
     <ul class="sub-menu">
         <li @if ($action == 'admin/banner') class="active" @endif><a href="/admin/banner">滚动广告</a></li>
-        <li @if ($action == 'shop/list') class="active" @endif><a href="/shop/list">店铺</a></li>
+        <li @if ($action == 'admin/shop') class="active" @endif><a href="/admin/shop">店铺</a></li>
     </ul>
 </li>
 

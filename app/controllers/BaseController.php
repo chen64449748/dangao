@@ -12,7 +12,9 @@ class BaseController extends Controller {
 	{
 
 		$action = Request::path();
+		$shop = Shop::get();
 		View::share('action', $action);		
+		View::share('shop', $shop);
 	}
 	protected function setupLayout()
 	{

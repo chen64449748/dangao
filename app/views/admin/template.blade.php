@@ -9,7 +9,7 @@
     <meta name="author" content="">
     <link rel="shortcut icon" href="/images/favicon.png">
     
-    <title>伊丽文管理系统</title>
+    <title>{{$shop->shop_name}}管理系统</title>
     <!-- Bootstrap core CSS -->
     <link href="/css/bootstrap.min.css" rel="stylesheet">
 	
@@ -50,12 +50,12 @@
           <div class="side-user">
             <div class="avatar"><img src="/images/avatar1_50.jpg" alt="Avatar" /></div>
             <div class="info">
-              <a href="#">伊丽文</a>
+              <a href="#">{{$shop->shop_name}}</a>
               <img src="/images/state_online.png" alt="Status" /> <span>线上办公</span>
             </div>
           </div>
           <ul class="cl-vnavigation">
-            @include('admin.silde')     
+            @include('admin.silde')
           </ul>
         </div>
       </div>

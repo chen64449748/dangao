@@ -101,11 +101,11 @@
 
 
 
-	<a href="javascript:void(0)" class="home_title02">
+	<a href="tel:{{$shop->shop_phone}}" class="home_title02">
 		<div class="lf" style="width: 40px;height: 40px;border-radius:2px;overflow:hidden;margin-right: 4px;"><img src="/wap/images/icon/shu.png" alt="" style="width: 40px;height: 40px;"></div>
 		<span class="lf" href="tel:95105940">
-			<span class="line_height20">terentia</span><br style="height: 0;">
-			<span class="font_size01 color_silver line_height20">客服热线:16464481654</span>
+			<span class="line_height20">{{$shop->shop_name}}</span><br style="height: 0;">
+			<span class="font_size01 color_silver line_height20">客服热线:{{$shop->shop_phone}}</span>
 		</span>
 		<span class="rt">
 			<span><img src="/wap/images/icon/tel.png" alt="" height="12" style="margin-top: 7px;"></span>
