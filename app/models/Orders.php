@@ -114,18 +114,18 @@ class Orders extends Eloquent
         if (empty($oinfo)) {
             return array('status'=>flase,'msg'=>'没有订单信息');
         }
-        $cinfo = DB::table('user')->where('id',$oinfo['uid'])->first();
-        if (empty($cinfo) || empty($cinfo['weixin_openid'])) {
+        $cinfo = DB::table('user')->where('id',$oinfo->user_id)->first();
+        if (empty($cinfo) || empty($cinfo->weixin_openid)) {
             return array('status'=>flase,'msg'=>'没有用户信息');
         }
 
         $data = array(
-            'oid' => $oinfo['id'],
-            'out_trade_no' => $oinfo['out_id'],
+            'oid' => $oinfo->id,
+            'out_trade_no' => $oinfo->out_id,
             'transaction_id' => '',
-            'openid' => $cinfo['weixin_openid'],
-            'body' => $oinfo['title'],
-            'total_fee' => $oinfo['payment'] * 100,
+            'openid' => $cinfo->weixin_openid,
+            'body' => $oinfo->title,
+            'total_fee' => $oinfo->payment * 100,
             'create_time' => date('Y-m-d H:i:s'),
         );
         $jsApiParameters = wxpay::getjsApiParameters($data['out_trade_no'], $data['body'], $data['total_fee'], $data['openid']);
@@ -144,7 +144,7 @@ class Orders extends Eloquent
      public static function checkwxpay($id) {
         $oinfo = $this->where('id',$id)->first();
         //更新状态
-        return wxpay::sysorderpaystatus($oinfo['order_id']);
+        return wxpay::sysorderpaystatus($oinfo->order_id);
     }
 
     //支付成功修改状态

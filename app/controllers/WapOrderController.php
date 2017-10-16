@@ -89,6 +89,7 @@ class WapOrderController extends WapController
 	public function wxpay(){
         $id=isset($_POST['id'])?intval($_POST['id']):0;
         $re=Orders::create_wxpay($id);
+        dd($re);
         return Response::json($re);
         // echo json_encode($re);
     }
