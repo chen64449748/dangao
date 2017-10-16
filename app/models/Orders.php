@@ -112,29 +112,29 @@ class Orders extends Eloquent
      public static function create_wxpay($id) {
         $oinfo = DB::table('orders')->where('id',$id)->first();
         if (empty($oinfo)) {
-            return array('status'=>flase,'msg'=>'没有订单信息');
+            return array('status'=>false,'msg'=>'没有订单信息');
         }
         $cinfo = DB::table('user')->where('id',$oinfo->user_id)->first();
         if (empty($cinfo) || empty($cinfo->weixin_openid)) {
-            return array('status'=>flase,'msg'=>'没有用户信息');
+            return array('status'=>false,'msg'=>'没有用户信息');
         }
 
         $data = array(
             'oid' => $oinfo->id,
-            'out_trade_no' => $oinfo->out_id,
+            'out_trade_no' => $oinfo->wx_pay_order,
             'transaction_id' => '',
             'openid' => $cinfo->weixin_openid,
             'body' => $oinfo->title,
-            'total_fee' => $oinfo->payment * 100,
+            'total_fee' => $oinfo->price * 100,
             'create_time' => date('Y-m-d H:i:s'),
         );
         $jsApiParameters = wxpay::getjsApiParameters($data['out_trade_no'], $data['body'], $data['total_fee'], $data['openid']);
         if (empty($jsApiParameters)) {
-            return array('status'=>flase,'msg'=>'无法联络到微信支付网关，请稍候再试！');
+            return array('status'=>false,'msg'=>'无法联络到微信支付网关，请稍候再试！');
         }
         $jsObj = json_decode($jsApiParameters, true);
         if (empty($jsObj) || strlen($jsObj['package']) < 20) {
-            return array('status'=>flase,'msg'=>'无法联络到微信支付网关，请稍候再试！');
+            return array('status'=>false,'msg'=>'无法联络到微信支付网关，请稍候再试！');
         }
         $update_order['status'] = 1;
         $this->where('id', $id)->update($update_order);
@@ -150,9 +150,9 @@ class Orders extends Eloquent
     //支付成功修改状态
     public static  function payok($order_id){
         $update_order['status'] = 2;
-        $this->where('order_id', $order_id)->update($update_order);
+        $this->where('id', $order_id)->update($update_order);
         //销量添加
-        $order = $this->where('order_id',$order_id)->first();
+        $order = $this->where('id',$order_id)->first();
         $order_detail = DB::table('orders_detail')->where('oid',$order['id'])->get();
         foreach ($order_detail as $key => $value) {
             DB::update("update goods set sale_num = sale_num + ".$value['num']." where id = ".$value['pid']);

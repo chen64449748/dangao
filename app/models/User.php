@@ -59,7 +59,7 @@ class User extends Eloquent{
         if (empty($openid)) {
             die('lose openid');
         }
-        $user = User::where('openid',$openid)->first();
+        $user = User::where('weixin_openid',$openid)->first();
         $time = date('Y-m-d H:i:s');
         if($user){
             

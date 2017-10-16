@@ -251,6 +251,7 @@ INSERT INTO `goods_sku` VALUES ('120', '30', '48', '2017-10-16 17:33:27', '0');
 DROP TABLE IF EXISTS `orders`;
 CREATE TABLE `orders` (
   `id` int(9) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(1000) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '订单名称',
   `wx_pay_order` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '订单号微信支付',
   `user_id` int(9) unsigned NOT NULL COMMENT '用户id',
   `price` decimal(10,2) DEFAULT NULL COMMENT '交易金额',

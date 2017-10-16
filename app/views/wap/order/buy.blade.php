@@ -400,7 +400,7 @@
             }else{
                 alert(data.msg);return;
             }
-        });
+        },'json');
     });
     function wxpay(){
         if(typeof WeixinJSBridge != "undefined"){
@@ -426,6 +426,7 @@
     }
     function jsApiCall()
     {
+        var id = $('input[name=order_id]').val();
         $("#submit_order").html("支付中");
         WeixinJSBridge.invoke(
             'getBrandWCPayRequest',
