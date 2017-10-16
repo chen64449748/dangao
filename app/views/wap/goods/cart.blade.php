@@ -50,7 +50,7 @@
 								<div style="margin-top: 10px;">
 									<div class="count lf">
 										<a href="javascript:void(0);" id="" @if ($cart_item->count == 1) style="color: rgb(221, 221, 221);" @endif class="sub lf shoppingcart_min" >-</a>
-		                                <input type="text" value="{{$cart_item->count}}" price="{{$cart_item->price->price}}" cart_id="{{$cart_item->id}}" class="text lf number_box">
+		                                <input type="text" value="{{$cart_item->count}}" price="{{$cart_item->price->getRealPrice()}}" cart_id="{{$cart_item->id}}" class="text lf number_box">
 										<a href="javascript:void(0);" id="" class="add rt shoppingcart_add" >+</a>
 										<br class="clear" />
 									</div>
