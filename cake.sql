@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : lzh
-Source Server Version : 50553
+Source Server         : local
+Source Server Version : 50540
 Source Host           : localhost:3306
 Source Database       : cake
 
 Target Server Type    : MYSQL
-Target Server Version : 50553
+Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2017-10-16 17:59:44
+Date: 2017-10-16 21:11:53
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -356,6 +356,66 @@ INSERT INTO `price` VALUES ('75', '15.00', '30', '2017-10-16 17:33:27', '0');
 INSERT INTO `price` VALUES ('76', '16.00', '30', '2017-10-16 17:33:27', '0');
 INSERT INTO `price` VALUES ('77', '17.00', '30', '2017-10-16 17:33:27', '1');
 INSERT INTO `price` VALUES ('78', '18.00', '30', '2017-10-16 17:33:27', '0');
+
+-- ----------------------------
+-- Table structure for red_packet
+-- ----------------------------
+DROP TABLE IF EXISTS `red_packet`;
+CREATE TABLE `red_packet` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
+  `money` decimal(10,2) DEFAULT NULL COMMENT '红包金额',
+  `min_money` decimal(10,2) DEFAULT NULL COMMENT '订单最低金额可用',
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `end_time` datetime DEFAULT NULL COMMENT '最后时间可用',
+  `state` tinyint(4) DEFAULT '1' COMMENT '1 可用 2 已使用 ',
+  PRIMARY KEY (`id`),
+  KEY `idx_user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- ----------------------------
+-- Records of red_packet
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for red_packet_task
+-- ----------------------------
+DROP TABLE IF EXISTS `red_packet_task`;
+CREATE TABLE `red_packet_task` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '红包任务  为了生成ID 没有别的用处',
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `state` tinyint(1) DEFAULT '1' COMMENT '1 进行中 2 已抢完',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- ----------------------------
+-- Records of red_packet_task
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for red_packet_task_detail
+-- ----------------------------
+DROP TABLE IF EXISTS `red_packet_task_detail`;
+CREATE TABLE `red_packet_task_detail` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `task_id` int(11) DEFAULT NULL COMMENT '链接 red_packet_task 为了与user_id 组成唯一 抢红包',
+  `user_id` int(11) DEFAULT NULL,
+  `money` decimal(10,2) DEFAULT NULL,
+  `min_money` decimal(10,2) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `end_time` datetime DEFAULT NULL COMMENT '使用 最后期限',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_user_task_id` (`user_id`,`task_id`) USING BTREE COMMENT '抢红包时  唯一字段'
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- ----------------------------
+-- Records of red_packet_task_detail
+-- ----------------------------
+INSERT INTO `red_packet_task_detail` VALUES ('1', '1', '1', null, null, null, null, null);
+INSERT INTO `red_packet_task_detail` VALUES ('2', '1', null, null, null, null, null, null);
 
 -- ----------------------------
 -- Table structure for shop
