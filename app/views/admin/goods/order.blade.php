@@ -31,7 +31,6 @@
 		<label class="control-label">图片</label>
 		<div class="controls">
 			<img src="/wap/wu.jpg" width="640" height="640" class="img-polaroid">
-
 		</div>
 	</div>
 
@@ -70,6 +69,16 @@
 		</div>
 	</div>
 	
+	<div class="control-group">
+		<label class="control-label">是否参与活动</label>
+		<div class="controls">
+			<select class="is_active">
+				<option value="1">是</option>
+				<option value="0">否</option>
+			</select>
+			当商品价格较低时可以考虑使用否
+		</div>
+	</div>
 
 	<!-- sku -->
 	<div class="control-group">

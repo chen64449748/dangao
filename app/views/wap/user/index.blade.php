@@ -53,167 +53,55 @@
 	</div>
 	
 
-    
-	<table cellpadding="0" cellspacing="0" width="100%" class="table01" style="min-height: 270px;">
-		
-		<tr>
-			<td align="center">
-                <a href="/user/shop/set.php">
-				<table cellspacing="0" cellpadding="0" width="100%">
-					<tr>
-						<td align="right" width="45%"><a href="<!--{$smarty.const.WESHOP_WWW}-->/user/shop/set.php"><img src="/wap/images/icon/shezhi.png" alt="" height="25"></a></td>
-						<td>
-							<div class="color_silver" style="margin-top: 12px;">设置店铺</div>
-							<div class="font_size01 color_gray">店铺资料修改</div>
-						</td>
-					</tr>
-				</table>
-                </a>
-			</td>
-			<td align="center">
-                <a href="/user/shop/invite.php">
-				<table cellspacing="0" cellpadding="0" width="100%">
-					<tr>
-						<td align="right" width="45%">
-                            <img src="/wap/images/icon/yaoqing.png" alt="" height="22">
-                        </td>
-						<td>
-							<div class="color_silver">邀请开店</div>
-						</td>
-					</tr>
-				</table>
-                </a>
-			</td>
-		</tr>
-		<tr>
-			<td width="50%" align="center">
-                <a href="/user/shop/income.php">
-				<table cellspacing="0" cellpadding="0" width="100%">
-					<tr>
-						<td align="right" width="45%">
-                            <img src="/wap/images/icon/shouru.png" alt="" height="22">
-                        </td>
-						<td>
-							<div class="color_silver">收入管理</div>
-						</td>
-					</tr>
-				</table>
-                </a>
-			</td>
-			<td align="center">
-                <a href="/user/shop/orders.php">
-				<table cellspacing="0" cellpadding="0" width="100%">
-					<tr>
-						<td align="right" width="45%">
-                            <img src="/wap/images/icon/dingdan2.png" alt="" height="22">
-                            </td>
-						<td>
-							<div class="color_silver" style="margin-top: 12px;">订单管理</div>
-							<div class="font_size01 color_gray">我的推广订单</div>
-						</td>
-					</tr>
-				</table>
-                </a>
-			</td>
-		</tr>
-		<tr>
-			<td width="50%" align="center">
-                <a href="/user/shop/shopqrcode.php">
-				<table cellspacing="0" cellpadding="0" width="100%">
-					<tr>
-						<td align="right" width="45%">
-                            <img src="/wap/images/icon/erweima.png" alt="" height="22">
-                        </td>
-						<td>
-							<div class="color_silver">我的二维码</div>
-						</td>
-					</tr>
-				</table>
-                </a>
-			</td>
-			<td align="center">
-                <a href="<!--{$my_shop_url}-->">
-				<table cellspacing="0" cellpadding="0" width="100%">
-					<tr>
-						<td align="right" width="45%">
-                            <img src="/wap/images/icon/dianpu.png" alt="" height="22">
-                        </td>
-						<td>
-							<div class="color_silver">我的店铺</div>
-						</td>
-					</tr>
-				</table>
-                </a>
-			</td>
-		</tr>
-		<tr>
-			<td width="50%" align="center">
-                <a href="/help/content.php?id=130">
-				<table cellspacing="0" cellpadding="0" width="100%">
-					<tr>
-						<td align="right" width="45%">
-                            <img src="/wap/images/icon/problem.png" alt="" height="22">
-                        </td>
-						<td>
-							<div class="color_silver" style="margin-top: 12px;">常见问题</div>
-							<div class="font_size01" style="color:#1e88e5;">新手开店必看</div>
-						</td>
-					</tr>
-				</table>
-                </a>
-			</td>
-			<td></td>
-		</tr>
-	</table>
-    <!--{/if}-->
+  
 	<div class="paddingbuding01 margintop10 bg01">
 		<div class="font_size03 paddingbuding02">我的订单</div>
 	</div>
 	<table cellpadding="0" cellspacing="0" width="100%" class="table01">
 		<tr>
 			<td width="25%" align="center">
-				<a href="/user/orders.php?act=wait_pay" style="width: 100%;height: 100%; display: block;">
+				<a href="/user/orders?status=waiting" style="width: 100%;height: 100%; display: block;">
                 <img src="/wap/images/icon/daifukuan.png" alt="" height="15">
 
-				<div class="line_height20 color_gray">1</div>
+				<div class="line_height20 color_gray">{{$waiting_count}}</div>
 				<div class="color_silver line_height20">待付款</div>
                 </a>
 			</td>
 			
 			<td width="25%" align="center">
-				<a href="/user/orders.php?act=been_send" style="width: 100%;height: 100%; display: block;">
+				<a href="/user/orders?status=payed" style="width: 100%;height: 100%; display: block;">
                 <img src="/wap/images/icon/daishouhuo.png" alt="" height="18">
-				<div class="line_height20 color_gray">1</div>
+				<div class="line_height20 color_gray">{{$payed_count}}</div>
 				<div class="color_silver line_height20">已付款</div>
                 </a>
 			</td>
 		</tr>
 		<tr>
 			<td width="25%" align="center">
-				<a href="/user/orders.php?act=close" style="width: 100%;height: 100%; display: block;">
+				<a href="/user/orders?status=close" style="width: 100%;height: 100%; display: block;">
                 <img src="/wap/images/icon/yiguanbi.png" alt="" height="18">
-				<div class="line_height20 color_gray">0</div>
+				<div class="line_height20 color_gray">{{$close_count}}</div>
 				<div class="color_silver">已关闭</div>
                 </a>
 			</td>
 			<td width="25%" align="center">
-				<a href="/user/orders.php?act=all" style="width: 100%;height: 100%; display: block;">
+				<a href="/user/orders?status=ok" style="width: 100%;height: 100%; display: block;">
                 <img src="/wap/images/icon/quanbudingdan.png" alt="" height="15">
-				<div class="line_height20 color_gray">10</div>
-				<div class="color_silver line_height20">全部订单</div>
+				<div class="line_height20 color_gray">{{$ok_count}}</div>
+				<div class="color_silver line_height20">已完成</div>
                 </a>
 			</td>
 			
 		</tr>
 	</table>
 
-	<a href="<!--{$smarty.const.WESHOP_WWW}-->/help/content.php?id=120" class="paddingbuding01 bg01 display_block margintop10 bdbottom01">
-		<div class="font_size03 paddingbuding02 lf">关于我们</div>
+	<a href="/user/address" class="paddingbuding01 bg01 display_block margintop10 bdbottom01">
+		<div class="font_size03 paddingbuding02 lf">收货地址</div>
 		<img src="/wap/images/icon/arrow02.png" alt="" height="12" class="margintop10 rt">
 		<br class="clear">
 	</a>
-	<a href="<!--{$smarty.const.WESHOP_WWW}-->/help/" class="paddingbuding01 bg01 display_block">
-		<div class="font_size03 paddingbuding02 lf">帮助中心</div>
+	<a href="tel:{{$shop->shop_phone}}" class="paddingbuding01 bg01 display_block">
+		<div class="font_size03 paddingbuding02 lf">客服电话({{$shop->shop_phone}})</div>
 		<img src="/wap/images/icon/arrow02.png" alt="" height="12" class="margintop10 rt">
 		<br class="clear">
 	</a>

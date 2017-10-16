@@ -12,24 +12,50 @@ class GoodsController extends BaseController
 
 		$goods_id = Input::get('goods_id', '');
 		$goods_title = Input::get('goods_title', '');
+		$category_id = Input::get('category_id');
+		$is_active = Input::get('is_active', '');
+		$is_onsale = Input::get('is_onsale', '');
+		$is_hot = Input::get('is_onsale', '');
 
 		$id && $type['id'] = $id;
 		$goods_id && $type['id'] = $goods_id;
 		$goods_title && $type['goods_title'] = $goods_title;
+		$category_id && $type['category_id'] = $category_id;
 
+		if ($is_active !== '') {
+			$type['is_active'] = $is_active;
+		}
 
-		//读取在合作的公司
+		if ($is_onsale !== '') {
+			$type['is_onsale'] = $is_onsale;
+		}
+
+		if ($is_hot !== '') {
+			$type['is_hot'] = $is_hot;
+		}
+
 		$goods = $goods_m->getListPage($type);
+
+		$categorys = Category::get();
 
 		$view_data = array(
 			'goods' => $goods,
+			'categorys' => $categorys,
 			'goods_id' => $goods_id,
 			'goods_title' => $goods_title,
+			'category_id' => $category_id,
+			'is_hot' => $is_hot,
+			'is_onsale' => $is_onsale,
+			'is_active' => $is_active,
 		);
 
 		$append = array(
 			'goods_id' => $goods_id,
 			'goods_title' => $goods_title,
+			'category_id' => $category_id,
+			'is_hot' => $is_hot,
+			'is_onsale' => $is_onsale,
+			'is_active' => $is_active,
 		);
 
 		$goods->appends($append);
@@ -62,18 +88,40 @@ class GoodsController extends BaseController
 		return View::make('admin.goods.order', $view_data);
 	}
 	// 修改推荐 
-	function goodsHot()
+	function goodsAttr()
 	{
 		$goods_id = Input::get('goods_id');
-
+		$act = Input::get('act', '');
 		$goods = Goods::find($goods_id);
 		
-		if ($goods->is_hot) {
-			Goods::where('id', $goods_id)->update(array('is_hot'=> 0));
-		} else {
-			Goods::where('id', $goods_id)->update(array('is_hot'=> 1));
-		}
+		switch ($act) {
+			case 'hot':
+				if ($goods->is_hot) {
+					Goods::where('id', $goods_id)->update(array('is_hot'=> 0));
+				} else {
+					Goods::where('id', $goods_id)->update(array('is_hot'=> 1));
+				}
 
+				break;
+			case 'onsale':
+				if ($goods->is_onsale) {
+					Goods::where('id', $goods_id)->update(array('is_onsale'=> 0));
+				} else {
+					Goods::where('id', $goods_id)->update(array('is_onsale'=> 1));
+				}
+				break;
+			case 'active':
+				if ($goods->is_active) {
+					Goods::where('id', $goods_id)->update(array('is_active'=> 0));
+				} else {
+					Goods::where('id', $goods_id)->update(array('is_active'=> 1));
+				}
+				break;
+			default:
+				return Response::json(array('status'=> 0, 'message'=> '参数错误'));
+				break;
+		}
+		
 		return Response::json(array('status'=> 1, 'message'=> '修改成功'));
 	}
 

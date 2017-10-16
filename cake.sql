@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2017-10-10 18:02:19
+Date: 2017-10-16 17:59:44
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -26,12 +26,18 @@ CREATE TABLE `active` (
   `active_img` varchar(255) DEFAULT NULL,
   `begin_time` datetime DEFAULT NULL,
   `end_time` datetime DEFAULT NULL,
+  `discount` decimal(10,2) DEFAULT NULL COMMENT '折扣',
+  `money` decimal(10,2) DEFAULT NULL COMMENT '优惠金额',
+  `is_fine` tinyint(1) DEFAULT NULL COMMENT '0 不显示主页  1 显示主页',
+  `type` tinyint(1) DEFAULT NULL COMMENT '1 折扣  2 减价',
+  `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of active
 -- ----------------------------
+INSERT INTO `active` VALUES ('1', 'ces ', null, '/upload/active/2017101311022959e02cc5c75d7.jpg', '2017-10-13 06:00:00', '2017-10-17 23:00:00', '80.00', '10.00', '1', '1', '2017-10-13 21:31:31');
 
 -- ----------------------------
 -- Table structure for active_goods
@@ -43,8 +49,6 @@ CREATE TABLE `active_goods` (
   `goods_id` int(11) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
-  `begin_time` datetime DEFAULT NULL,
-  `end_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -89,6 +93,25 @@ CREATE TABLE `admin` (
 -- ----------------------------
 
 -- ----------------------------
+-- Table structure for banner
+-- ----------------------------
+DROP TABLE IF EXISTS `banner`;
+CREATE TABLE `banner` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `banner_img` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `banner_url` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of banner
+-- ----------------------------
+INSERT INTO `banner` VALUES ('1', '/upload/banner/2017101616143659e46a6c7488b.jpg', '/detail/29', null, '2017-10-16 16:44:59');
+INSERT INTO `banner` VALUES ('2', '/upload/banner/2017101616171759e46b0d349dd.jpg', 'javascript:;', null, '2017-10-16 16:44:59');
+
+-- ----------------------------
 -- Table structure for cart
 -- ----------------------------
 DROP TABLE IF EXISTS `cart`;
@@ -101,14 +124,29 @@ CREATE TABLE `cart` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Records of cart
 -- ----------------------------
-INSERT INTO `cart` VALUES ('4', '1', '30', '70', '1', '2017-10-09 15:26:56', '2017-10-09 16:31:30');
-INSERT INTO `cart` VALUES ('5', '1', '29', '65', '2', '2017-10-09 16:10:42', '2017-10-09 17:21:44');
-INSERT INTO `cart` VALUES ('6', '1', '28', '63', '1', '2017-10-09 17:21:25', null);
+INSERT INTO `cart` VALUES ('8', '1', '28', '63', '1', '2017-10-13 21:22:45', '2017-10-15 22:28:08');
+
+-- ----------------------------
+-- Table structure for cart_sku
+-- ----------------------------
+DROP TABLE IF EXISTS `cart_sku`;
+CREATE TABLE `cart_sku` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `goods_id` int(11) NOT NULL COMMENT '组套时 多个商品id',
+  `sku_value_id` int(11) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- ----------------------------
+-- Records of cart_sku
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for category
@@ -117,12 +155,12 @@ DROP TABLE IF EXISTS `category`;
 CREATE TABLE `category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `pid` int(11) DEFAULT NULL,
-  `category` varchar(60) DEFAULT NULL,
+  `category` varchar(60) CHARACTER SET utf8 DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   `is_parent` smallint(6) DEFAULT '0' COMMENT '1 是父级 2 不是',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Records of category
@@ -145,15 +183,17 @@ CREATE TABLE `goods` (
   `category_id` int(11) DEFAULT NULL,
   `is_hot` tinyint(4) DEFAULT '0' COMMENT '是否热销 1 是 0 不是',
   `show_price` decimal(10,2) DEFAULT NULL COMMENT '缩略图显示价格',
+  `is_active` tinyint(1) DEFAULT NULL COMMENT '是否要参与活动， 1 是   0 否  适用于价格比较低的商品',
+  `is_onsale` tinyint(1) DEFAULT '1' COMMENT '1  上架 0 不上架',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of goods
 -- ----------------------------
-INSERT INTO `goods` VALUES ('28', '奶油蛋糕', '/upload/goods/2017092916332259ce0552ad266.jpg', '2017-09-29 16:36:10', '2017-09-30 09:49:47', '10', '1', '1', '0.00');
-INSERT INTO `goods` VALUES ('29', '慕斯蛋糕', '/upload/goods/2017092916420459ce075c42e86.jpg', '2017-09-29 16:42:45', '2017-09-29 17:40:41', '0', '1', '1', '98.00');
-INSERT INTO `goods` VALUES ('30', '新蛋糕', '/upload/goods/2017092921314759ce4b43d7c71.jpg', '2017-09-29 21:32:06', '2017-09-30 14:39:38', '0', '1', '0', '0.00');
+INSERT INTO `goods` VALUES ('28', '奶油蛋糕', '/upload/goods/2017092916332259ce0552ad266.jpg', '2017-09-29 16:36:10', '2017-10-15 23:20:30', '10', '1', '1', '0.00', '1', '1');
+INSERT INTO `goods` VALUES ('29', '慕斯蛋糕', '/upload/goods/2017092916420459ce075c42e86.jpg', '2017-09-29 16:42:45', '2017-10-15 23:20:01', '0', '1', '1', '98.00', '1', '0');
+INSERT INTO `goods` VALUES ('30', '新蛋糕', '/upload/goods/2017092921314759ce4b43d7c71.jpg', '2017-09-29 21:32:06', '2017-10-16 17:33:27', '0', '1', '1', '0.00', '0', '1');
 
 -- ----------------------------
 -- Table structure for goods_content
@@ -165,7 +205,8 @@ CREATE TABLE `goods_content` (
   `content` text COLLATE utf8_unicode_ci,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `idx_goods_id` (`goods_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
@@ -173,7 +214,7 @@ CREATE TABLE `goods_content` (
 -- ----------------------------
 INSERT INTO `goods_content` VALUES ('1', '28', '<p>				</p><p>				</p><p>				</p><p>				</p><p>				</p><p style=\"text-align: center;\">奶油蛋糕<img src=\"http://dangaox.com/js/umeditor1.2.3/php/upload/20170929/15066740268473.jpg\"/><img src=\"http://dangaox.com/js/umeditor1.2.3/php/upload/20170929/15066740358062.png\"/></p><p></p><p>\n				</p><p>\n				</p><p>\n				</p><p>\n				</p><p>\n				</p>', null, '2017-09-30 09:49:47');
 INSERT INTO `goods_content` VALUES ('2', '29', '<h1 style=\"text-align: center;\">慕斯蛋糕</h1><p><img src=\"http://dangaox.com/js/umeditor1.2.3/php/upload/20170929/15066745434974.jpg\"/>\n			</p>', null, null);
-INSERT INTO `goods_content` VALUES ('3', '30', '<p>				</p><p style=\"text-align: center;\"><img src=\"http://dangaox.com/js/umeditor1.2.3/php/upload/20170930/15067535741247.jpg\"/></p><p>\n				</p>', null, '2017-09-30 14:39:38');
+INSERT INTO `goods_content` VALUES ('3', '30', '<p>				</p><p>				</p><p>				</p><p>				</p><p style=\"text-align: center;\"><img src=\"http://dangaox.com/js/umeditor1.2.3/php/upload/20170930/15067535741247.jpg\"/></p><p>\n				</p><p>\n				</p><p>\n				</p><p>\n				</p>', null, '2017-10-16 17:33:27');
 
 -- ----------------------------
 -- Table structure for goods_sku
@@ -186,7 +227,7 @@ CREATE TABLE `goods_sku` (
   `updated_at` datetime NOT NULL,
   `is_show` int(11) NOT NULL DEFAULT '1' COMMENT '1 显示 0 不显示 当原先已经勾选 之后取消勾选时修改为不显示',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=119 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=121 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of goods_sku
@@ -197,10 +238,12 @@ INSERT INTO `goods_sku` VALUES ('111', '28', '44', '2017-09-30 09:49:47', '1');
 INSERT INTO `goods_sku` VALUES ('112', '29', '41', '2017-09-29 16:42:45', '1');
 INSERT INTO `goods_sku` VALUES ('113', '29', '42', '2017-09-29 16:42:45', '1');
 INSERT INTO `goods_sku` VALUES ('114', '29', '45', '2017-09-29 16:42:45', '1');
-INSERT INTO `goods_sku` VALUES ('115', '30', '41', '2017-09-30 14:39:38', '1');
-INSERT INTO `goods_sku` VALUES ('116', '30', '42', '2017-09-30 14:39:38', '1');
-INSERT INTO `goods_sku` VALUES ('117', '30', '44', '2017-09-30 14:39:38', '1');
-INSERT INTO `goods_sku` VALUES ('118', '30', '45', '2017-09-30 14:39:38', '1');
+INSERT INTO `goods_sku` VALUES ('115', '30', '41', '2017-10-16 17:33:27', '1');
+INSERT INTO `goods_sku` VALUES ('116', '30', '42', '2017-10-16 17:33:27', '1');
+INSERT INTO `goods_sku` VALUES ('117', '30', '44', '2017-10-16 17:33:27', '0');
+INSERT INTO `goods_sku` VALUES ('118', '30', '45', '2017-10-16 17:33:27', '0');
+INSERT INTO `goods_sku` VALUES ('119', '30', '47', '2017-10-16 17:33:27', '0');
+INSERT INTO `goods_sku` VALUES ('120', '30', '48', '2017-10-16 17:33:27', '0');
 
 -- ----------------------------
 -- Table structure for orders
@@ -208,25 +251,39 @@ INSERT INTO `goods_sku` VALUES ('118', '30', '45', '2017-09-30 14:39:38', '1');
 DROP TABLE IF EXISTS `orders`;
 CREATE TABLE `orders` (
   `id` int(9) unsigned NOT NULL AUTO_INCREMENT,
-  `wx_pay_order` varchar(100) DEFAULT NULL COMMENT '订单号',
+  `wx_pay_order` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '订单号微信支付',
   `user_id` int(9) unsigned NOT NULL COMMENT '用户id',
   `price` decimal(10,2) DEFAULT NULL COMMENT '交易金额',
   `pay` tinyint(2) DEFAULT NULL COMMENT '是否支付',
   `status` tinyint(3) unsigned DEFAULT '0' COMMENT '订单状态：0:初始状态;1:未支付;2:已支付;3:取消订单',
-  `mark` varchar(1000) DEFAULT NULL COMMENT '用户留言',
-  `address` varchar(1000) DEFAULT NULL COMMENT '用户地址',
-  `mobile` varchar(50) DEFAULT NULL COMMENT '用户手机号',
-  `name` varchar(50) DEFAULT NULL COMMENT '姓名',
+  `mark` varchar(1000) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '用户留言',
+  `address` varchar(1000) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '用户地址',
+  `mobile` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '用户手机号',
+  `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '姓名',
   `send_status` tinyint(3) unsigned DEFAULT '0' COMMENT '配送状态：0:初始 1：待配送;2:配送中；3:配送完成',
   `updated_at` datetime DEFAULT NULL,
   `created_at` datetime DEFAULT NULL COMMENT '创建时间',
   `pay_time` datetime DEFAULT NULL COMMENT '支付时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='订单表';
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COMMENT='订单表';
 
 -- ----------------------------
 -- Records of orders
 -- ----------------------------
+INSERT INTO `orders` VALUES ('1', null, '1', '119.00', '0', '1', null, '炒菜', '12321412', '炒菜', '0', '2017-10-13 22:17:57', '2017-10-11 09:44:24', null);
+INSERT INTO `orders` VALUES ('2', null, '1', '108.00', '0', '1', null, '测试的', '18329042977', '陈文越', '0', '2017-10-13 22:17:57', '2017-10-11 10:06:47', null);
+INSERT INTO `orders` VALUES ('3', null, '1', '98.00', '0', '1', null, '测试的', '18329042977', '陈文越', '0', '2017-10-13 22:17:57', '2017-10-11 13:24:40', null);
+INSERT INTO `orders` VALUES ('4', null, '1', '88.00', '0', '1', null, '测试的', '18329042977', '陈文越', '0', '2017-10-13 22:17:57', '2017-10-11 13:24:58', null);
+INSERT INTO `orders` VALUES ('5', null, '1', '108.00', '0', '1', null, '测试的', '18329042977', '陈文越', '0', '2017-10-13 22:17:57', '2017-10-11 13:38:27', null);
+INSERT INTO `orders` VALUES ('6', '20171012112527159dee0a77cff9', '1', '118.00', '0', '1', null, '等我', '213124221', '默认地址', '0', '2017-10-13 22:17:57', '2017-10-12 11:25:27', null);
+INSERT INTO `orders` VALUES ('7', '201710121126336159dee0e951f8e', '1', '98.00', '0', '1', null, '等我', '213124221', '默认地址', '0', '2017-10-13 22:17:57', '2017-10-12 11:26:33', null);
+INSERT INTO `orders` VALUES ('8', 'f06920fcaa0456e5316207984cbd07a9', '1', '98.00', '0', '1', null, '等我', '213124221', '默认地址', '0', '2017-10-13 22:17:57', '2017-10-12 11:27:24', null);
+INSERT INTO `orders` VALUES ('9', '201710131801363117', '1', '108.00', '0', '1', null, '等我', '213124221', '默认地址', '0', '2017-10-13 22:17:57', '2017-10-13 18:01:36', null);
+INSERT INTO `orders` VALUES ('10', '201710132112527809', '1', '88.00', '0', '1', null, '等我', '213124221', '默认地址', '0', '2017-10-13 22:17:57', '2017-10-13 21:12:52', null);
+INSERT INTO `orders` VALUES ('11', '201710132130383020', '1', '98.00', '0', '1', null, '等我', '213124221', '默认地址', '0', '2017-10-13 22:17:57', '2017-10-13 21:30:38', null);
+INSERT INTO `orders` VALUES ('12', '201710132131464075', '1', '69.12', '0', '1', null, '等我', '213124221', '默认地址', '0', '2017-10-13 22:17:57', '2017-10-13 21:31:46', null);
+INSERT INTO `orders` VALUES ('13', '201710132134342121', '1', '86.40', '0', '3', null, '炒菜', '12321412', '炒菜', '0', '2017-10-13 22:18:57', '2017-10-13 21:34:34', null);
+INSERT INTO `orders` VALUES ('14', '201710152255476039', '1', '3.00', '0', '3', null, '测试的', '18329042977', '陈文越', '0', '2017-10-15 23:02:25', '2017-10-15 22:55:47', null);
 
 -- ----------------------------
 -- Table structure for orders_detail
@@ -241,12 +298,29 @@ CREATE TABLE `orders_detail` (
   `buy_count` int(11) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='订单详情表';
+  `old_price` decimal(10,2) DEFAULT NULL COMMENT '原价',
+  PRIMARY KEY (`id`),
+  KEY `idx_goods_id` (`goods_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COMMENT='订单详情表';
 
 -- ----------------------------
 -- Records of orders_detail
 -- ----------------------------
+INSERT INTO `orders_detail` VALUES ('1', '1', '30', '70', '1.00', '1', '2017-10-11 09:44:23', null, null);
+INSERT INTO `orders_detail` VALUES ('2', '1', '29', '65', '118.00', '2', '2017-10-11 09:44:23', null, null);
+INSERT INTO `orders_detail` VALUES ('3', '2', '28', '63', '108.00', '1', '2017-10-11 10:06:47', null, null);
+INSERT INTO `orders_detail` VALUES ('4', '3', '29', '64', '98.00', '1', '2017-10-11 13:24:40', null, null);
+INSERT INTO `orders_detail` VALUES ('5', '4', '28', '62', '88.00', '2', '2017-10-11 13:24:58', null, null);
+INSERT INTO `orders_detail` VALUES ('6', '5', '28', '63', '108.00', '1', '2017-10-11 13:38:27', null, null);
+INSERT INTO `orders_detail` VALUES ('7', '6', '29', '65', '118.00', '1', '2017-10-12 11:25:27', null, null);
+INSERT INTO `orders_detail` VALUES ('8', '7', '29', '64', '98.00', '1', '2017-10-12 11:26:33', null, null);
+INSERT INTO `orders_detail` VALUES ('9', '8', '29', '64', '98.00', '1', '2017-10-12 11:27:24', null, null);
+INSERT INTO `orders_detail` VALUES ('10', '9', '29', '65', '108.00', '1', '2017-10-13 18:01:36', null, null);
+INSERT INTO `orders_detail` VALUES ('11', '10', '29', '64', '88.00', '1', '2017-10-13 21:12:52', null, null);
+INSERT INTO `orders_detail` VALUES ('12', '11', '29', '65', '98.00', '1', '2017-10-13 21:30:38', null, '108.00');
+INSERT INTO `orders_detail` VALUES ('13', '12', '28', '63', '69.12', '1', '2017-10-13 21:31:46', null, '86.40');
+INSERT INTO `orders_detail` VALUES ('14', '13', '28', '63', '86.40', '1', '2017-10-13 21:34:34', null, '108.00');
+INSERT INTO `orders_detail` VALUES ('15', '14', '30', '70', '1.00', '3', '2017-10-15 22:55:46', null, '1.00');
 
 -- ----------------------------
 -- Table structure for price
@@ -260,7 +334,7 @@ CREATE TABLE `price` (
   `is_show` int(11) NOT NULL DEFAULT '1' COMMENT '1 显示 0 不显示 修改货品是 如果已经填过的价格 不填  修改为不显示 填了改为显示',
   PRIMARY KEY (`id`),
   KEY `idx_goods_id` (`goods_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of price
@@ -269,11 +343,37 @@ INSERT INTO `price` VALUES ('62', '88.00', '28', '2017-09-30 09:49:47', '1');
 INSERT INTO `price` VALUES ('63', '108.00', '28', '2017-09-30 09:49:47', '1');
 INSERT INTO `price` VALUES ('64', '98.00', '29', '2017-09-29 16:42:45', '1');
 INSERT INTO `price` VALUES ('65', '118.00', '29', '2017-09-29 16:42:45', '1');
-INSERT INTO `price` VALUES ('66', '12.00', '30', '2017-09-30 14:39:38', '0');
-INSERT INTO `price` VALUES ('67', '32.00', '30', '2017-09-30 14:39:38', '0');
-INSERT INTO `price` VALUES ('68', '1.00', '30', '2017-09-30 14:39:38', '1');
-INSERT INTO `price` VALUES ('69', '1.00', '30', '2017-09-30 14:39:38', '1');
-INSERT INTO `price` VALUES ('70', '1.00', '30', '2017-09-30 14:39:38', '1');
+INSERT INTO `price` VALUES ('66', '12.00', '30', '2017-10-16 17:33:27', '0');
+INSERT INTO `price` VALUES ('67', '32.00', '30', '2017-10-16 17:33:27', '0');
+INSERT INTO `price` VALUES ('68', '1.00', '30', '2017-10-16 17:33:27', '0');
+INSERT INTO `price` VALUES ('69', '1.00', '30', '2017-10-16 17:33:27', '0');
+INSERT INTO `price` VALUES ('70', '1.00', '30', '2017-10-16 17:33:27', '0');
+INSERT INTO `price` VALUES ('71', '11.00', '30', '2017-10-16 17:33:27', '0');
+INSERT INTO `price` VALUES ('72', '12.00', '30', '2017-10-16 17:33:27', '0');
+INSERT INTO `price` VALUES ('73', '13.00', '30', '2017-10-16 17:33:27', '0');
+INSERT INTO `price` VALUES ('74', '14.00', '30', '2017-10-16 17:33:27', '1');
+INSERT INTO `price` VALUES ('75', '15.00', '30', '2017-10-16 17:33:27', '0');
+INSERT INTO `price` VALUES ('76', '16.00', '30', '2017-10-16 17:33:27', '0');
+INSERT INTO `price` VALUES ('77', '17.00', '30', '2017-10-16 17:33:27', '1');
+INSERT INTO `price` VALUES ('78', '18.00', '30', '2017-10-16 17:33:27', '0');
+
+-- ----------------------------
+-- Table structure for shop
+-- ----------------------------
+DROP TABLE IF EXISTS `shop`;
+CREATE TABLE `shop` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `shop_name` varchar(60) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `shop_phone` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- ----------------------------
+-- Records of shop
+-- ----------------------------
+INSERT INTO `shop` VALUES ('1', 'terentia蛋糕店', '18329042977', '2017-10-16 17:10:38', '2017-10-16 17:10:44');
 
 -- ----------------------------
 -- Table structure for sku
@@ -283,13 +383,14 @@ CREATE TABLE `sku` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `sku_name` varchar(255) NOT NULL COMMENT '属性名',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sku
 -- ----------------------------
 INSERT INTO `sku` VALUES ('13', '尺寸');
 INSERT INTO `sku` VALUES ('14', '材料');
+INSERT INTO `sku` VALUES ('15', '形状');
 
 -- ----------------------------
 -- Table structure for sku_price
@@ -302,7 +403,7 @@ CREATE TABLE `sku_price` (
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `idx_price_id` (`price_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=183 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=233 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sku_price
@@ -323,6 +424,26 @@ INSERT INTO `sku_price` VALUES ('179', '69', '41', '2017-09-30 14:39:38');
 INSERT INTO `sku_price` VALUES ('180', '69', '45', '2017-09-30 14:39:38');
 INSERT INTO `sku_price` VALUES ('181', '70', '42', '2017-09-30 14:39:38');
 INSERT INTO `sku_price` VALUES ('182', '70', '44', '2017-09-30 14:39:38');
+INSERT INTO `sku_price` VALUES ('189', '73', '41', '2017-10-16 17:31:36');
+INSERT INTO `sku_price` VALUES ('190', '73', '45', '2017-10-16 17:31:36');
+INSERT INTO `sku_price` VALUES ('191', '73', '47', '2017-10-16 17:31:36');
+INSERT INTO `sku_price` VALUES ('204', '78', '42', '2017-10-16 17:31:36');
+INSERT INTO `sku_price` VALUES ('205', '78', '45', '2017-10-16 17:31:36');
+INSERT INTO `sku_price` VALUES ('206', '78', '48', '2017-10-16 17:31:36');
+INSERT INTO `sku_price` VALUES ('213', '71', '41', '2017-10-16 17:32:28');
+INSERT INTO `sku_price` VALUES ('214', '71', '44', '2017-10-16 17:32:28');
+INSERT INTO `sku_price` VALUES ('215', '71', '47', '2017-10-16 17:32:28');
+INSERT INTO `sku_price` VALUES ('216', '72', '41', '2017-10-16 17:32:28');
+INSERT INTO `sku_price` VALUES ('217', '72', '44', '2017-10-16 17:32:28');
+INSERT INTO `sku_price` VALUES ('218', '72', '48', '2017-10-16 17:32:28');
+INSERT INTO `sku_price` VALUES ('222', '75', '42', '2017-10-16 17:32:28');
+INSERT INTO `sku_price` VALUES ('223', '75', '44', '2017-10-16 17:32:28');
+INSERT INTO `sku_price` VALUES ('224', '75', '47', '2017-10-16 17:32:28');
+INSERT INTO `sku_price` VALUES ('225', '76', '42', '2017-10-16 17:32:28');
+INSERT INTO `sku_price` VALUES ('226', '76', '44', '2017-10-16 17:32:28');
+INSERT INTO `sku_price` VALUES ('227', '76', '48', '2017-10-16 17:32:28');
+INSERT INTO `sku_price` VALUES ('231', '74', '41', '2017-10-16 17:33:27');
+INSERT INTO `sku_price` VALUES ('232', '77', '42', '2017-10-16 17:33:27');
 
 -- ----------------------------
 -- Table structure for sku_value
@@ -333,7 +454,7 @@ CREATE TABLE `sku_value` (
   `sku_id` int(11) NOT NULL,
   `value` varchar(255) NOT NULL COMMENT '属性值',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sku_value
@@ -344,6 +465,9 @@ INSERT INTO `sku_value` VALUES ('42', '13', '10寸');
 INSERT INTO `sku_value` VALUES ('43', '14', '无');
 INSERT INTO `sku_value` VALUES ('44', '14', '奶油');
 INSERT INTO `sku_value` VALUES ('45', '14', '慕斯');
+INSERT INTO `sku_value` VALUES ('46', '15', '无');
+INSERT INTO `sku_value` VALUES ('47', '15', '圆形');
+INSERT INTO `sku_value` VALUES ('48', '15', '方形');
 
 -- ----------------------------
 -- Table structure for stock
@@ -357,7 +481,7 @@ CREATE TABLE `stock` (
   `price_id` int(11) NOT NULL,
   `is_show` int(11) NOT NULL DEFAULT '1' COMMENT '1显示 0 不显示  如果 货品修改时 已经填过的库存 不填那就不显示',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=93 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of stock
@@ -366,11 +490,19 @@ INSERT INTO `stock` VALUES ('28', '10', '2017-09-30 09:49:47', '76', '62', '1');
 INSERT INTO `stock` VALUES ('28', '10', '2017-09-30 09:49:47', '77', '63', '1');
 INSERT INTO `stock` VALUES ('29', '10', '2017-09-29 16:42:45', '78', '64', '1');
 INSERT INTO `stock` VALUES ('29', '12', '2017-09-29 16:42:45', '79', '65', '1');
-INSERT INTO `stock` VALUES ('30', '12', '2017-09-30 14:39:38', '80', '66', '0');
-INSERT INTO `stock` VALUES ('30', '32', '2017-09-30 14:39:38', '81', '67', '0');
-INSERT INTO `stock` VALUES ('30', '1', '2017-09-30 14:39:38', '82', '68', '1');
-INSERT INTO `stock` VALUES ('30', '1', '2017-09-30 14:39:38', '83', '69', '1');
-INSERT INTO `stock` VALUES ('30', '1', '2017-09-30 14:39:38', '84', '70', '1');
+INSERT INTO `stock` VALUES ('30', '12', '2017-10-16 17:33:27', '80', '66', '0');
+INSERT INTO `stock` VALUES ('30', '32', '2017-10-16 17:33:27', '81', '67', '0');
+INSERT INTO `stock` VALUES ('30', '1', '2017-10-16 17:33:27', '82', '68', '0');
+INSERT INTO `stock` VALUES ('30', '1', '2017-10-16 17:33:27', '83', '69', '0');
+INSERT INTO `stock` VALUES ('30', '1', '2017-10-16 17:33:27', '84', '70', '0');
+INSERT INTO `stock` VALUES ('30', '1', '2017-10-16 17:33:27', '85', '71', '0');
+INSERT INTO `stock` VALUES ('30', '1', '2017-10-16 17:33:27', '86', '72', '0');
+INSERT INTO `stock` VALUES ('30', '1', '2017-10-16 17:33:27', '87', '73', '0');
+INSERT INTO `stock` VALUES ('30', '1', '2017-10-16 17:33:27', '88', '74', '1');
+INSERT INTO `stock` VALUES ('30', '1', '2017-10-16 17:33:27', '89', '75', '0');
+INSERT INTO `stock` VALUES ('30', '1', '2017-10-16 17:33:27', '90', '76', '0');
+INSERT INTO `stock` VALUES ('30', '1', '2017-10-16 17:33:27', '91', '77', '1');
+INSERT INTO `stock` VALUES ('30', '1', '2017-10-16 17:33:27', '92', '78', '0');
 
 -- ----------------------------
 -- Table structure for user_address
@@ -387,10 +519,9 @@ CREATE TABLE `user_address` (
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `idx_user_id` (`user_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user_address
 -- ----------------------------
 INSERT INTO `user_address` VALUES ('1', '1', '测试的', '陈文越', '18329042977', '1', '2017-10-10 14:50:19', null);
-INSERT INTO `user_address` VALUES ('2', '1', '炒菜', '炒菜', '12321412', '0', '2017-10-10 14:50:56', null);

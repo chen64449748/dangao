@@ -10,22 +10,22 @@
 <div style="height: 50px;"></div>
 
 <div>
-
+@foreach ($addresses as $address)
 <div class="address">
 	<div class="font_size03">
         
-        @foreach ($addresses as $address)
-		<div style="border-bottom: 1px solid #c9c9c9">
+        
+		<div >
 			<a href="/buy/{{$order_id}}?address_id={{$address->id}}" >
 				<span class="line_height30">{{$address->name}}&emsp;&emsp;{{$address->phone}}</span>
 		        <div class="color_silver">{{$address->address}}</div>
 		        <br class="clear" />
 			</a>
 		</div>
-		@endforeach
+		
 		
 	</div>
 </div>
-
+@endforeach
 </div>
 @stop

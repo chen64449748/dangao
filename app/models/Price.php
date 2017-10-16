@@ -20,6 +20,15 @@ class Price extends Eloquent
 		return $this->belongsTo('Goods', 'goods_id', 'id');
 	}
 
+	public function getRealPrice()
+	{
+		if ($this->goods->is_active == 1) {
+			return Active::getPrice($this->price);
+		} else {
+			return $this->price;
+		}
+	}
+
 	public function getPrice($goods_id, $sku_value_ids)
 	{
 		$price_ids = $this->where('goods_id', $goods_id)->where('is_show', 1)->lists('id');
@@ -49,8 +58,6 @@ class Price extends Eloquent
 
 		$price = $this->find($price_id);
 
-		// 检测活动
-		
 		return $price;
 
 	}
@@ -113,7 +120,9 @@ class Price extends Eloquent
 			}
 
 			$combine_key = substr($combine_key, 1);
-			$return_arr['price_list'][$combine_key] = $value->price;
+			// 读取是否有活动{}
+
+			$return_arr['price_list'][$combine_key] = $value->goods->is_active == 1 ? $value->getRealPrice($value->price) : $value->price;
 
 			$value->sku_value_ids = $sku_value_ids;
 		}

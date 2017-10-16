@@ -10,30 +10,37 @@ class Orders extends Eloquent
     protected $table = 'orders';
 
     public function order_detail()
-  {
-    return $this->hasOne('orders_detail','oid', 'id');
-  }
-    function getList($type = array(), $fetch = array())
+    {
+        return $this->hasOne('orders_detail','oid', 'id');
+    }
+    function getList($type = array(), $order = array(), $fetch = array(), $offset = 0, $limit = 0)
     {
         $select = $this->select($fetch ? $fetch : array('orders.*'));
 
         $this->_where($select, $type);
+        $this->_order($select, $order);
+
+        if ($limit > 0) {
+            $select->skip($offset)->take($limit);
+        }
 
         return $select->get();
 
     }
-    function getListPage($type = array(), $size = 15, $fetch = array())
+    function getListPage($type = array(), $size = 15, $order = array(), $fetch = array())
     {
-      $select = $this->select($fetch ? $fetch : array('orders.*'));
+        $select = $this->select($fetch ? $fetch : array('orders.*'));
 
-      $this->_where($select, $type);
+        $this->_where($select, $type);
+        $this->_order($select, $order);
 
-      return $select->paginate($size);
+        return $select->paginate($size);
     }
 
 
     function add($user_id, $order, $detail, $address_id = null)
     {
+        $order['wx_pay_order'] = date('YmdHis').mt_rand(1000, 9999);
 
         $order_id = $this->insertGetId($order);
 
@@ -42,7 +49,7 @@ class Orders extends Eloquent
 
         foreach ($detail as $key => $value) {
             $detail[$key]['order_id'] = $order_id;
-            $total_price += $value['price'];
+            $total_price += $value['price'] * $value['buy_count'];
           
             // 检测活动 修改活动价
         }
@@ -79,7 +86,23 @@ class Orders extends Eloquent
                 case 'user_id':
                     $select->where('orders.user_id', (int)$value);
                     break;
+                case 'status':
+                // dd($value);
+                    $select->whereIn('orders.status', $value);
+                    break;
               
+            }
+        }
+
+    }
+
+    private function _order(&$select, $order) {
+
+        foreach ($order as $key => $value) {
+            switch ($key) {
+                case 'created_at':
+                    $select->orderBy('orders.created_at', $value);
+                    break;
             }
         }
 

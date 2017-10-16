@@ -3,7 +3,7 @@
 @section('content')
 	<div class="top">
 		<span>订单确认</span>
-		<a href="/cart" class="lf marginleft10"><img src="/wap/images/icon/back.png" style="position: relative; top: 18px;" alt="" height="16"></a>
+		<a href="javascript:history.go(-1)" class="lf marginleft10"><img src="/wap/images/icon/back.png" style="position: relative; top: 18px;" alt="" height="16"></a>
 		<a href="/" class="rt marginright10"><img style="position: relative; top: 16px;" src="/wap/images/icon/home.png" alt="" height="16"></a>
 		<br class="clear" />
 	</div>
@@ -64,9 +64,16 @@
                             {{$sku_price->skuValue->value}}&nbsp;
                         @endforeach
                     </div>
-					<div><a class="color_pink">￥{{$item->price}}</a><span>×{{$item->buy_count}}</span></div>
-					<div class="color_red font_size01"><span class="color_gray marginright10">现货</span></div>
-					<br class="clear">
+					<div>
+                        @if ($item->old_price != $item->price)
+                        <del class="color_silver">￥{{$item->old_price}}</del>
+                        @endif
+                        <a class="color_pink">￥{{$item->price}}</a><span>×{{$item->buy_count}}</span>
+                    </div>
+                    @if (!$item->goods->is_active)
+					<div class="color_red font_size01"><span class="color_pink marginright10">不参与活动</span></div>
+					@endif
+                    <br class="clear">
 				</div>
 			</div>
             <div class="clear"></div>
@@ -78,6 +85,7 @@
 	
  <!--{if $activity_arr}-->
     <div class="paddingbuding03 bg01 bdbottom01 margintop10">
+        @if ($old_total_price - $total_price)
         <table cellspacing="0" cellpadding="0" width="100%" class="bg01 paddingbuding02 ">
             <tr>
                 <td width="20%" class="font_size03">促销优惠</td>
@@ -86,10 +94,11 @@
         <div class="font_size02" id="txt">
             <table cellspacing="0" cellpadding="0" width="100%" class="bg01 bdbottom01">
                 <tr>
-                    <td><div class="color_blue font_size01 paddingbuding02">活动商品已满<!--{$v.detail.price}-->元，已优惠<!--{$v.detail.detail.money}-->元</div></td>
+                    <td><div class="color_blue font_size01 paddingbuding02">活动商品，已优惠{{$old_total_price - $total_price}}元</div></td>
                 </tr>
             </table>
         </div>
+        @endif
     </div>
     <!--{/if}-->
 

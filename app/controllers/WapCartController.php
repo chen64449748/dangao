@@ -13,8 +13,8 @@ class WapCartController extends WapController
 		$user_id = Session::get('user_id');
 		$cart_m = new Cart();
 		$type = array('user_id'=> $user_id);
-
-		$carts = $cart_m->gets($type, array(), 0, 0);
+		$active_m = new Active();
+		$carts = $cart_m->getList($type, array(), 0, 0);
 
 		$view_data = array(
 			'active' => 'cart',
@@ -143,12 +143,18 @@ class WapCartController extends WapController
 		$cart_ids = Input::get('cart_id');
 		$user_id = Session::get('user_id');
 		$order_m = new Orders();
+		$active_m = new Active();
+		$cart_m = new Cart();
 
 		$now_date = date('Y-m-d H:i:s');
 		DB::beginTransaction();
 		try {
-			
-			$carts = Cart::whereIn('id', $cart_ids)->where('user_id', $user_id)->get();
+			if (!$cart_ids) {
+				throw new Exception("请勾选要结算的商品");
+			}
+
+			// $carts = Cart::whereIn('id', $cart_ids)->where('user_id', $user_id)->get();
+			$carts = $cart_m->getList(array('ids'=> $cart_ids, 'user_id'=> $user_id), array(), 0, 0);
 
 			if (!isset($carts[0])) {
 				throw new Exception("必须勾选一个购物内容");
@@ -166,10 +172,17 @@ class WapCartController extends WapController
 			$delete_cart_ids = array();
 
 			foreach ($carts as $key => $cart) {
+
+				if (!$cart->goods->is_onsale) {
+					throw new Exception("已下架商品不可购买");
+				}
+
 				$delete_cart_ids[] = $cart->id;
+
 				$order_detail[$key]['goods_id'] = $cart->goods_id;
 				$order_detail[$key]['price_id'] = $cart->price_id;
-				$order_detail[$key]['price'] = $cart->price->price;
+				$order_detail[$key]['price'] = $cart->price->getRealPrice();
+				$order_detail[$key]['old_price'] = $cart->price->price;
 				$order_detail[$key]['created_at'] = $now_date;
 				$order_detail[$key]['buy_count'] = $cart->count;
 			}
@@ -180,7 +193,7 @@ class WapCartController extends WapController
 			Cart::whereIn('id', $delete_cart_ids)->where('user_id', $user_id)->delete();
 
 			DB::commit();
-			return Response::json(array('status'=> 1, 'order_id'=> $order_id));
+			return Response::json(array('status'=> 1, 'message'=> '结算成功', 'order_id'=> $order_id));
 		} catch (Exception $e) {
 			DB::rollback();
 			return Response::json(array('status'=> 0, 'message'=> '下单失败'.$e->getMessage()));

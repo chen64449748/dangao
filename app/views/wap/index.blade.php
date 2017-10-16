@@ -4,17 +4,20 @@
 <!-- 搜索 -->
 <div class="box_fix1">
     <div class="md_search">
-        <a href="goods"><img src="/wap/images/mdimages/icon/search.png" height="12" class="ic_sc"></a>
-        <input type="text" placeholder="搜索" class="mgt_10" />
+        <form action="/goods">
+            <a href="javascript:viod(0)" id="sch"><img src="/wap/images/mdimages/icon/search.png" height="12" class="ic_sc"></a>
+            <input name="k" type="text" placeholder="搜索" class="mgt_10" />
+        </form>
     </div>
 </div>
 
 <!--==================轮播图====================-->
 <div class="flexslider fix_patch1">
     <ul class="slides">
-        <li><a href="<!--{$sv.url}-->"><img src="/wap/20170623091904111.jpg" alt="" width="100%"></a></li>
-        <li><a href="<!--{$sv.url}-->"><img src="/wap/20170623091904111.jpg" alt="" width="100%"></a></li>
-        <li><a href="<!--{$sv.url}-->"><img src="/wap/1467603508.jpg" alt="" width="100%"></a></li>
+        @foreach ($banners as $banner)
+        <li><a href="{{$banner->banner_url}}"><img src="{{$banner->banner_img}}" style="widht: 640px; height: 290px;" alt="" width="100%"></a></li>
+        @endforeach
+
     </ul>
 </div>
 
@@ -52,14 +55,28 @@
 
 <!--==================精选活动====================-->
 <div class="bgcl_wt pdb_10">
+
+    
     <a href="/active" class="mgt_10 a_lk">
         <span class="fl spr"></span>
-        <span class="fl fs_15" style="position: relative; top : -6px;">精选活动</span>
+        <span class="fl fs_15" style="position: relative; top : -6px;">活动精选</span>
         <img src="/wap/images/mdimages/icon/more.png" alt="" height="12" class="fr" style="margin-top: 4px;">
         <div class="cl"></div>
     </a>
+   
+    
 
-    <div class="pdlr_02 mgt_10"><a href="" class="dsp_blk"><img src="/wap/1467603508.jpg" width="100%"></a></div>
+    @if (count($fines))
+    @foreach ($fines as $fine)
+    <div class="pdlr_02 mgt_10"><a href="/active/detail/{{$fine->id}}" class="dsp_blk"><img src="{{$fine->active_img}}" height="300" width="100%"></a></div>
+    @endforeach
+
+    @else
+    <div class="align_center">
+        <img src="/wap/images/icon/wudingdan.png" alt="" height="48" style="margin: 50px 0 10px 0;">
+        <div class="color_gray font_size02">暂无活动</div>
+    </div>
+    @endif
 </div>
 
 <!--==================热销TOP10===================-->
@@ -72,7 +89,7 @@
         </a>
     </div>
     <div class="md_block3">
-
+        @if (count($hot))
         @foreach ($hot as $hot_goods) 
         <div class="div_img fl">
             <div class="div_buding pd_08"><a href="detail/{{$hot_goods->id}}" class="dsp_blk"><img src="{{$hot_goods->goods_img}}" width="100%"></a></div>
@@ -86,6 +103,12 @@
             </div>
         </div>
         @endforeach
+        @else
+        <div class="align_center">
+            <img src="/wap/images/icon/wudingdan.png" alt="" height="48" style="margin: 50px 0 10px 0;">
+            <div class="color_gray font_size02">暂无热销推荐</div>
+        </div>
+        @endif
         <div class="cl"></div>
     </div>
 </div>
@@ -101,7 +124,12 @@
 
 </script>
 <script type="text/javascript">
-    $(".md_nav a").eq(0).addClass('hv');
+    $('#sch').click(function () {
+        $(this).parent('form').submit();
+    });
+    numberBox();
+    shoppingcart_add();
+    shoppingcart_min();
 
     function openshop(){
         $.getJSON("/index.php",{act:'openshop'},

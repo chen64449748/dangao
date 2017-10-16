@@ -75,4 +75,110 @@ class ConfigController extends BaseController
 
 	}
 
+	// 店铺设置
+
+	// banner设置
+	function adminBanner()
+	{
+		$banners = Banner::get();
+
+		$view_data = array(
+			'banners' => $banners
+		);
+		return View::make('admin.config.banner', $view_data);
+	}
+
+
+	function adminBannerSave()
+	{
+		$act = Input::get('act', '');
+		$banner_img = Input::get('banner_img');
+		$banner_url = Input::get('banner_url');
+
+		if ($banner_url == '') {
+			$banner_url = 'javascript:;';
+		}
+
+		try {
+			switch ($act) {
+				case 'add':
+					
+					Banner::insert(array(
+						'banner_img'=> $banner_img,
+						'banner_url'=> $banner_url,
+						'created_at'=> date('Y-m-d H:i:s'),
+					));
+					break;
+				case 'update':
+					
+					$data = Input::get('data');
+
+					foreach ($data as $key => $value) {
+						if ($value['banner_url'] == '') {
+							$value['banner_url'] = 'javascript:;';
+						}
+
+						Banner::where('id', $value['banner_id'])->update(array(
+							'banner_url'=> $value['banner_url'],
+							'banner_img'=> $value['banner_img'],
+						));
+					}
+
+					break;
+				default:
+					throw new Exception("参数错误");
+					break;
+			}
+			return Response::json(array('status'=> 1, 'message'=> '修改成功'));
+		} catch (Exception $e) {
+			return Response::json(array('status'=> 0, 'message'=> '修改失败:'. $e->getMessage()));
+		}
+	}
+
+	function adminShop()
+	{
+		$shop = Shop::first();
+
+		if (!$shop) {
+			$shop = new StdClass();
+			$shop->shop_name = '';
+			$shop->shop_phone = '';
+		}
+
+
+		$view_data = array(
+			'shop' => $shop
+		);
+		return View::make('admin.config.shop', $view_data);
+	}
+
+	function adminShopSave()
+	{
+		$shop = Shop::first();
+
+		$shop_phone = Input::get('shop_phone');
+		$shop_name = Input::get('shop_name');
+
+		if (!$shop_phone || !$shop_name) {
+			return Response::json(array('status'=> 0, 'message'=> '店铺名和手机号必填'));
+		}
+
+		if (!$shop) {
+
+			Shop::insert(array(
+				'shop_phone'=> $shop_phone,
+				'shop_name' => $shop_name,
+				'created_at' => date('Y-m-d H:i:s'),
+			));
+
+		} else {
+			Shop::where('id', $shop->id)->update(array(
+				'shop_name' => $shop_name,
+				'shop_phone' => $shop_phone,
+			));
+		}
+
+		return Response::json(array('status'=> 1, 'message'=> '保存成功'));
+	}
+
 }

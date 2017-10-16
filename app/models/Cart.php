@@ -17,10 +17,11 @@ class Cart extends Eloquent
 		return $this->belongsTo('Price', 'price_id', 'id');
 	}
 
-	function gets($type = array(), $order = array(), $offset = 0, $limit = 20)
+	function getList($type = array(), $order = array(), $offset = 0, $limit = 20)
 	{
 		$select = $this->select(array('cart.*'));
 
+		$this->with('goods');
 		$this->_where($select, $type);
 
 		$this->_order($select, $order);
@@ -89,6 +90,9 @@ class Cart extends Eloquent
 					break;
 				case 'user_id':
 					$select->where('cart.user_id', (int)$value);
+					break;
+				case 'ids':
+					$select->where('cart.id', $value);
 					break;
 			}
 		}

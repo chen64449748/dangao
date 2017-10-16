@@ -34,7 +34,7 @@ class Goods extends Eloquent
 	function getList($type = array(), $fetch = array())
 	{
 		$select = $this->select($fetch ? $fetch : array('goods.*'));
-
+		
 		$this->_where($select, $type);
 
 		return $select->get();
@@ -76,7 +76,7 @@ class Goods extends Eloquent
 	// 获取推荐
 	function getHot()
 	{
-		return $this->where('is_hot', 1)->get();
+		return $this->where('is_hot', 1)->where('is_onsale', 1)->get();
 	}
 
 	function add($goods_data)
@@ -230,6 +230,18 @@ class Goods extends Eloquent
 					break;
 				case 'category_id':
 					$select->where('goods.category_id', (int)$value);
+					break;
+				case 'k':
+					$select->where('goods.goods_title', 'like', '%'.$value.'%');
+					break;
+				case 'is_onsale':
+					$select->where('goods.is_onsale', (int)$value);
+					break;
+				case 'is_hot':
+					$select->where('goods.is_hot', (int)$value);
+					break;
+				case 'is_active':
+					$select->where('goods.is_active', (int)$value);
 					break;
 			}
 		}

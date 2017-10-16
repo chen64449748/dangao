@@ -21,6 +21,7 @@ class OrderDetails extends Eloquent
     {
         $select = $this->select($fetch ? $fetch : array('orders_detail.*'));
 
+        $this->with('goods');
         $this->_where($select, $type);
 
         return $select->get();
@@ -37,7 +38,9 @@ class OrderDetails extends Eloquent
                 case 'order_id':
                     $select->where('orders_detail.order_id', (int)$value);
                     break;
-              
+                case 'ids':
+                    $select->whereIn('orders_detail.order_id', $value);
+                    break;
             }
         }
 
