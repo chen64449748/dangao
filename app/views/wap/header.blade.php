@@ -18,7 +18,7 @@
 
     <script type="text/javascript" src="/wap/js/jweixin-1.0.0.js"></script>
     <script type="text/javascript" src="/wap/js/weixin.js"></script>
-
+    <script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 <meta name="description" content="<!--{$describe[0].title}-->" />
 <meta name="keywords" content="<!--{$shopinfo.shop_name}-->-<!--{$shopName.val}-->"/>
 <meta name="imguri" content="<!--{$shop_signs_url}-->" />

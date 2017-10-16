@@ -77,4 +77,13 @@ class WapOrderController extends WapController
 		return View::make('wap.order.address', $view_data);
 
 	}
+
+	public function wxpay(){
+		//生成订单
+		order::create_order($data);
+		//代做
+        $id=isset($_POST['id'])?intval($_POST['id']):0;
+        $re=order_web::create_wxpay($id);
+        echo json_encode($re);
+    }
 }

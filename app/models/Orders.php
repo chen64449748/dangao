@@ -91,7 +91,7 @@ class Orders extends Eloquent
         if (empty($oinfo)) {
             return array('status'=>flase,'msg'=>'没有订单信息');
         }
-        $cinfo = DB::getRow('select weixin_openid from customer where id=' . intval($oinfo['cid']));
+        $cinfo = DB::table('user')->where('id',$oinfo['uid'])->first();
         if (empty($cinfo) || empty($cinfo['weixin_openid'])) {
             return array('status'=>flase,'msg'=>'没有用户信息');
         }
@@ -106,14 +106,100 @@ class Orders extends Eloquent
             'create_time' => date('Y-m-d H:i:s'),
         );
         $jsApiParameters = wxpay::getjsApiParameters($data['out_trade_no'], $data['body'], $data['total_fee'], $data['openid']);
-        //Logs::write($jsApiParameters);
         if (empty($jsApiParameters)) {
-            return M(false, '无法联络到微信支付网关，请稍候再试！1');
+            return array('status'=>flase,'msg'=>'无法联络到微信支付网关，请稍候再试！');
         }
         $jsObj = json_decode($jsApiParameters, true);
         if (empty($jsObj) || strlen($jsObj['package']) < 20) {
-            return M(false, '无法联络到微信支付网关，请稍候再试！2');
+            return array('status'=>flase,'msg'=>'无法联络到微信支付网关，请稍候再试！');
         }
-        return M(true, $jsApiParameters);
+        $update_order['status'] = 1;
+        $this->where('id', $id)->update($update_order);
+        return array('status'=>true,'msg'=>$jsApiParameters);
     }
+
+     public static function checkwxpay($id) {
+        $oinfo = $this->where('id',$id)->first();
+        //更新状态
+        return wxpay::sysorderpaystatus($oinfo['order_id']);
+    }
+
+    //支付成功修改状态
+    public static  function payok($order_id){
+        $update_order['status'] = 2;
+        $this->where('order_id', $order_id)->update($update_order);
+        //销量添加
+        $order = $this->where('order_id',$order_id)->first();
+        $order_detail = DB::table('orders_detail')->where('oid',$order['id'])->get();
+        foreach ($order_detail as $key => $value) {
+            DB::update("update goods set sale_num = sale_num + ".$value['num']." where id = ".$value['pid']);
+        }
+
+    }
+
+
+    /*
+    <script type="text/javascript">
+    var jsApiParameters='';
+    $('#submit_order').click(function(){
+        $.post('/order/wxpay', {id:id}, function (data) {
+            if (data.status) {
+                jsApiParameters=v.data;
+                wxpay();
+            }else{
+                alert(data.msg);return;
+            }
+        });
+    });
+    function wxpay(){
+        if(typeof WeixinJSBridge != "undefined"){
+            wxpayConditionComplete();
+        }else{
+            if( document.addEventListener ){
+                document.addEventListener('WeixinJSBridgeReady', wxpayConditionComplete, false);
+            }else if (document.attachEvent){
+                document.attachEvent('WeixinJSBridgeReady', wxpayConditionComplete);
+                document.attachEvent('onWeixinJSBridgeReady', wxpayConditionComplete);
+            }
+        }
+    }   
+    //防止页面没有加载完成启动微信支付
+    function wxpayConditionComplete(){
+        if(typeof window._WXPAY_COUNTER == 'undefined'){
+            window._WXPAY_COUNTER = 2;
+        }
+        window._WXPAY_COUNTER = window._WXPAY_COUNTER - 1;
+        if(window._WXPAY_COUNTER <= 0 && jsApiParameters != ''){
+            window.setTimeout(jsApiCall,0);
+        }
+    }
+    function jsApiCall()
+    {
+        $("#submit_order").html("支付中");
+        WeixinJSBridge.invoke(
+            'getBrandWCPayRequest',
+            eval("("+jsApiParameters+")"),
+            function(res){
+                jsApiParameters="";
+
+                if(res.err_msg == "get_brand_wcpay_request:ok" ) {
+                    var whenpayok=function(){
+                       $('.shares').show();
+                                    // window.location.href="/activity_group/detail?oid="+group_oid;
+                    };
+                    isruning=true;
+                    $("#submit_order").html("确认中").addClass("buttondisabled");
+                    $.post('/order/wxpay', {id:id}, function (data) {
+                            whenpayok();
+                    });
+
+                }else{
+                    isruning=false;
+                    $("#submit_order").html("支付").removeClass("buttondisabled");
+                }
+            }
+        );
+    }
+</script>
+    */
 }

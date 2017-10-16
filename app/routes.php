@@ -32,7 +32,6 @@ Route::post('user/addAddress', array('as'=> 'user.addAddress', 'uses'=> 'WapUser
 Route::get('buy/{order_id}', array('as'=> 'buy', 'uses'=> 'WapOrderController@buy'));
 Route::get('/order/addressSelect/{order_id}', array('as'=> 'order.addressSelect', 'uses'=> 'WapOrderController@addressSelect'));
 
-Route::group(array('before'=> 'login'), function() {
 
 //登陆
 Route::get('admin/login', array('as'=> 'admin.login', 'uses'=> 'LoginController@login'));
@@ -82,11 +81,10 @@ Route::group(array('before'=> 'login'), function() {
 });
 
 //yh
-Route::post('/user/login', array('as'=> 'user.login', 'uses'=> 'WapUserController@login'));
-
+Route::get('/user/login', array('as'=> 'user.login', 'uses'=> 'WapUserController@login'));
+Route::get('/user/dologin', array('as'=> 'user.dologin', 'uses'=> 'WapUserController@dologin'));
 Route::group(array('before'=> 'userlogin'), function() {
 	Route::post('', array('as'=> 'stock.finance.add.day', 'uses'=> 'StockController@addFinanceDay'));
 });
 
-});
 

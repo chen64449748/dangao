@@ -62,7 +62,7 @@ class WapUserController extends WapController
 	}
     function login()
     {
-        return Redirect::to('https://open.weixin.qq.com/connect/oauth2/authorize?appid='.$this->AppId.'&redirect_uri='.urlencode(URL_BASE.'user/'.$callback.'/').'&response_type=code&scope=snsapi_userinfo&state=#wechat_redirect');
+        return Redirect::to('https://open.weixin.qq.com/connect/oauth2/authorize?appid='.$this->AppId.'&redirect_uri='.urlencode('http://www.terentia.cn/user/dologin/').'&response_type=code&scope=snsapi_userinfo&state=#wechat_redirect');
     }
 
     function dologin(){
@@ -70,7 +70,7 @@ class WapUserController extends WapController
             die('必须授权才能继续！');
         }
         $wxservice = new Wxservice;
-        $token=$wxservice->getaccesstoken($_GET['code']);
+        $token=$wxservice->getaccesst($_GET['code']);
         $uinfo=$wxservice->getUserInfo($token);
         if(user::login($uinfo)){
             return Redirect::to('/');
