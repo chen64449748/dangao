@@ -231,6 +231,11 @@ $('.update_goods').click(function () {
 			return window.wxc.xcConfirm('填了价格必须填库存', window.wxc.xcConfirm.typeEnum.info);
 		}
 
+		if (stock && !price) {
+			sku_price_flag = false;
+			return window.wxc.xcConfirm('填了库存必须填价格', window.wxc.xcConfirm.typeEnum.info);
+		}
+
 		if (isNaN(price)) {
 			sku_price_flag = false;
 			return window.wxc.xcConfirm('价格必须是数字', window.wxc.xcConfirm.typeEnum.info);
