@@ -149,6 +149,10 @@ class WapCartController extends WapController
 		$now_date = date('Y-m-d H:i:s');
 		DB::beginTransaction();
 		try {
+			if (!$this->shop->shop_work) {
+				throw new Exception("店铺已打烊");
+			}
+
 			if (!$cart_ids) {
 				throw new Exception("请勾选要结算的商品");
 			}

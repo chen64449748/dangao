@@ -140,6 +140,10 @@ class WapGoodsController extends WapController
 
 		DB::beginTransaction();
 		try {
+			if (!$this->shop->shop_work) {
+				throw new Exception("店铺已打烊");
+			}
+
 			$order_m = new Orders();
 			$price_m = new Price();
 

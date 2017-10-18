@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : local
-Source Server Version : 50540
+Source Server         : lzh
+Source Server Version : 50553
 Source Host           : localhost:3306
 Source Database       : cake
 
 Target Server Type    : MYSQL
-Target Server Version : 50540
+Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2017-10-16 21:11:53
+Date: 2017-10-18 10:19:57
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -86,11 +86,12 @@ CREATE TABLE `admin` (
   `mobile` varchar(100) DEFAULT NULL COMMENT '手机号',
   `pwd` varchar(50) DEFAULT NULL COMMENT '密码',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='管理员表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='管理员表';
 
 -- ----------------------------
 -- Records of admin
 -- ----------------------------
+INSERT INTO `admin` VALUES ('1', '18329042977', '123');
 
 -- ----------------------------
 -- Table structure for banner
@@ -192,8 +193,8 @@ CREATE TABLE `goods` (
 -- Records of goods
 -- ----------------------------
 INSERT INTO `goods` VALUES ('28', '奶油蛋糕', '/upload/goods/2017092916332259ce0552ad266.jpg', '2017-09-29 16:36:10', '2017-10-15 23:20:30', '10', '1', '1', '0.00', '1', '1');
-INSERT INTO `goods` VALUES ('29', '慕斯蛋糕', '/upload/goods/2017092916420459ce075c42e86.jpg', '2017-09-29 16:42:45', '2017-10-15 23:20:01', '0', '1', '1', '98.00', '1', '0');
-INSERT INTO `goods` VALUES ('30', '新蛋糕', '/upload/goods/2017092921314759ce4b43d7c71.jpg', '2017-09-29 21:32:06', '2017-10-16 17:33:27', '0', '1', '1', '0.00', '0', '1');
+INSERT INTO `goods` VALUES ('29', '慕斯蛋糕', '/upload/goods/2017092916420459ce075c42e86.jpg', '2017-09-29 16:42:45', '2017-10-18 10:16:21', '0', '1', '1', '98.00', '1', '0');
+INSERT INTO `goods` VALUES ('30', '新蛋糕', '/upload/goods/2017092921314759ce4b43d7c71.jpg', '2017-09-29 21:32:06', '2017-10-18 10:19:07', '0', '1', '1', '0.00', '0', '1');
 
 -- ----------------------------
 -- Table structure for goods_content
@@ -214,7 +215,7 @@ CREATE TABLE `goods_content` (
 -- ----------------------------
 INSERT INTO `goods_content` VALUES ('1', '28', '<p>				</p><p>				</p><p>				</p><p>				</p><p>				</p><p style=\"text-align: center;\">奶油蛋糕<img src=\"http://dangaox.com/js/umeditor1.2.3/php/upload/20170929/15066740268473.jpg\"/><img src=\"http://dangaox.com/js/umeditor1.2.3/php/upload/20170929/15066740358062.png\"/></p><p></p><p>\n				</p><p>\n				</p><p>\n				</p><p>\n				</p><p>\n				</p>', null, '2017-09-30 09:49:47');
 INSERT INTO `goods_content` VALUES ('2', '29', '<h1 style=\"text-align: center;\">慕斯蛋糕</h1><p><img src=\"http://dangaox.com/js/umeditor1.2.3/php/upload/20170929/15066745434974.jpg\"/>\n			</p>', null, null);
-INSERT INTO `goods_content` VALUES ('3', '30', '<p>				</p><p>				</p><p>				</p><p>				</p><p style=\"text-align: center;\"><img src=\"http://dangaox.com/js/umeditor1.2.3/php/upload/20170930/15067535741247.jpg\"/></p><p>\n				</p><p>\n				</p><p>\n				</p><p>\n				</p>', null, '2017-10-16 17:33:27');
+INSERT INTO `goods_content` VALUES ('3', '30', '<p>				</p><p>				</p><p>				</p><p>				</p><p>				</p><p style=\"text-align: center;\"><img src=\"http://dangaox.com/js/umeditor1.2.3/php/upload/20170930/15067535741247.jpg\"/></p><p>\n				</p><p>\n				</p><p>\n				</p><p>\n				</p><p>\n				</p>', null, '2017-10-18 10:19:07');
 
 -- ----------------------------
 -- Table structure for goods_sku
@@ -238,12 +239,12 @@ INSERT INTO `goods_sku` VALUES ('111', '28', '44', '2017-09-30 09:49:47', '1');
 INSERT INTO `goods_sku` VALUES ('112', '29', '41', '2017-09-29 16:42:45', '1');
 INSERT INTO `goods_sku` VALUES ('113', '29', '42', '2017-09-29 16:42:45', '1');
 INSERT INTO `goods_sku` VALUES ('114', '29', '45', '2017-09-29 16:42:45', '1');
-INSERT INTO `goods_sku` VALUES ('115', '30', '41', '2017-10-16 17:33:27', '1');
-INSERT INTO `goods_sku` VALUES ('116', '30', '42', '2017-10-16 17:33:27', '1');
-INSERT INTO `goods_sku` VALUES ('117', '30', '44', '2017-10-16 17:33:27', '0');
-INSERT INTO `goods_sku` VALUES ('118', '30', '45', '2017-10-16 17:33:27', '0');
-INSERT INTO `goods_sku` VALUES ('119', '30', '47', '2017-10-16 17:33:27', '0');
-INSERT INTO `goods_sku` VALUES ('120', '30', '48', '2017-10-16 17:33:27', '0');
+INSERT INTO `goods_sku` VALUES ('115', '30', '41', '2017-10-18 10:19:07', '1');
+INSERT INTO `goods_sku` VALUES ('116', '30', '42', '2017-10-18 10:19:07', '1');
+INSERT INTO `goods_sku` VALUES ('117', '30', '44', '2017-10-18 10:19:07', '1');
+INSERT INTO `goods_sku` VALUES ('118', '30', '45', '2017-10-18 10:19:07', '1');
+INSERT INTO `goods_sku` VALUES ('119', '30', '47', '2017-10-18 10:19:07', '1');
+INSERT INTO `goods_sku` VALUES ('120', '30', '48', '2017-10-18 10:19:07', '1');
 
 -- ----------------------------
 -- Table structure for orders
@@ -271,20 +272,6 @@ CREATE TABLE `orders` (
 -- ----------------------------
 -- Records of orders
 -- ----------------------------
-INSERT INTO `orders` VALUES ('1', null, '1', '119.00', '0', '1', null, '炒菜', '12321412', '炒菜', '0', '2017-10-13 22:17:57', '2017-10-11 09:44:24', null);
-INSERT INTO `orders` VALUES ('2', null, '1', '108.00', '0', '1', null, '测试的', '18329042977', '陈文越', '0', '2017-10-13 22:17:57', '2017-10-11 10:06:47', null);
-INSERT INTO `orders` VALUES ('3', null, '1', '98.00', '0', '1', null, '测试的', '18329042977', '陈文越', '0', '2017-10-13 22:17:57', '2017-10-11 13:24:40', null);
-INSERT INTO `orders` VALUES ('4', null, '1', '88.00', '0', '1', null, '测试的', '18329042977', '陈文越', '0', '2017-10-13 22:17:57', '2017-10-11 13:24:58', null);
-INSERT INTO `orders` VALUES ('5', null, '1', '108.00', '0', '1', null, '测试的', '18329042977', '陈文越', '0', '2017-10-13 22:17:57', '2017-10-11 13:38:27', null);
-INSERT INTO `orders` VALUES ('6', '20171012112527159dee0a77cff9', '1', '118.00', '0', '1', null, '等我', '213124221', '默认地址', '0', '2017-10-13 22:17:57', '2017-10-12 11:25:27', null);
-INSERT INTO `orders` VALUES ('7', '201710121126336159dee0e951f8e', '1', '98.00', '0', '1', null, '等我', '213124221', '默认地址', '0', '2017-10-13 22:17:57', '2017-10-12 11:26:33', null);
-INSERT INTO `orders` VALUES ('8', 'f06920fcaa0456e5316207984cbd07a9', '1', '98.00', '0', '1', null, '等我', '213124221', '默认地址', '0', '2017-10-13 22:17:57', '2017-10-12 11:27:24', null);
-INSERT INTO `orders` VALUES ('9', '201710131801363117', '1', '108.00', '0', '1', null, '等我', '213124221', '默认地址', '0', '2017-10-13 22:17:57', '2017-10-13 18:01:36', null);
-INSERT INTO `orders` VALUES ('10', '201710132112527809', '1', '88.00', '0', '1', null, '等我', '213124221', '默认地址', '0', '2017-10-13 22:17:57', '2017-10-13 21:12:52', null);
-INSERT INTO `orders` VALUES ('11', '201710132130383020', '1', '98.00', '0', '1', null, '等我', '213124221', '默认地址', '0', '2017-10-13 22:17:57', '2017-10-13 21:30:38', null);
-INSERT INTO `orders` VALUES ('12', '201710132131464075', '1', '69.12', '0', '1', null, '等我', '213124221', '默认地址', '0', '2017-10-13 22:17:57', '2017-10-13 21:31:46', null);
-INSERT INTO `orders` VALUES ('13', '201710132134342121', '1', '86.40', '0', '3', null, '炒菜', '12321412', '炒菜', '0', '2017-10-13 22:18:57', '2017-10-13 21:34:34', null);
-INSERT INTO `orders` VALUES ('14', '201710152255476039', '1', '3.00', '0', '3', null, '测试的', '18329042977', '陈文越', '0', '2017-10-15 23:02:25', '2017-10-15 22:55:47', null);
 
 -- ----------------------------
 -- Table structure for orders_detail
@@ -335,7 +322,7 @@ CREATE TABLE `price` (
   `is_show` int(11) NOT NULL DEFAULT '1' COMMENT '1 显示 0 不显示 修改货品是 如果已经填过的价格 不填  修改为不显示 填了改为显示',
   PRIMARY KEY (`id`),
   KEY `idx_goods_id` (`goods_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of price
@@ -344,19 +331,21 @@ INSERT INTO `price` VALUES ('62', '88.00', '28', '2017-09-30 09:49:47', '1');
 INSERT INTO `price` VALUES ('63', '108.00', '28', '2017-09-30 09:49:47', '1');
 INSERT INTO `price` VALUES ('64', '98.00', '29', '2017-09-29 16:42:45', '1');
 INSERT INTO `price` VALUES ('65', '118.00', '29', '2017-09-29 16:42:45', '1');
-INSERT INTO `price` VALUES ('66', '12.00', '30', '2017-10-16 17:33:27', '0');
-INSERT INTO `price` VALUES ('67', '32.00', '30', '2017-10-16 17:33:27', '0');
-INSERT INTO `price` VALUES ('68', '1.00', '30', '2017-10-16 17:33:27', '0');
-INSERT INTO `price` VALUES ('69', '1.00', '30', '2017-10-16 17:33:27', '0');
-INSERT INTO `price` VALUES ('70', '1.00', '30', '2017-10-16 17:33:27', '0');
-INSERT INTO `price` VALUES ('71', '11.00', '30', '2017-10-16 17:33:27', '0');
-INSERT INTO `price` VALUES ('72', '12.00', '30', '2017-10-16 17:33:27', '0');
-INSERT INTO `price` VALUES ('73', '13.00', '30', '2017-10-16 17:33:27', '0');
-INSERT INTO `price` VALUES ('74', '14.00', '30', '2017-10-16 17:33:27', '1');
-INSERT INTO `price` VALUES ('75', '15.00', '30', '2017-10-16 17:33:27', '0');
-INSERT INTO `price` VALUES ('76', '16.00', '30', '2017-10-16 17:33:27', '0');
-INSERT INTO `price` VALUES ('77', '17.00', '30', '2017-10-16 17:33:27', '1');
-INSERT INTO `price` VALUES ('78', '18.00', '30', '2017-10-16 17:33:27', '0');
+INSERT INTO `price` VALUES ('66', '12.00', '30', '2017-10-18 10:19:07', '0');
+INSERT INTO `price` VALUES ('67', '32.00', '30', '2017-10-18 10:19:07', '0');
+INSERT INTO `price` VALUES ('68', '1.00', '30', '2017-10-18 10:19:07', '0');
+INSERT INTO `price` VALUES ('69', '1.00', '30', '2017-10-18 10:19:07', '0');
+INSERT INTO `price` VALUES ('70', '1.00', '30', '2017-10-18 10:19:07', '0');
+INSERT INTO `price` VALUES ('71', '31.00', '30', '2017-10-18 10:19:07', '1');
+INSERT INTO `price` VALUES ('72', '4213.00', '30', '2017-10-18 10:19:07', '1');
+INSERT INTO `price` VALUES ('73', '413.00', '30', '2017-10-18 10:19:07', '1');
+INSERT INTO `price` VALUES ('74', '14.00', '30', '2017-10-18 10:19:07', '0');
+INSERT INTO `price` VALUES ('75', '12.00', '30', '2017-10-18 10:19:07', '1');
+INSERT INTO `price` VALUES ('76', '123.00', '30', '2017-10-18 10:19:07', '1');
+INSERT INTO `price` VALUES ('77', '17.00', '30', '2017-10-18 10:19:07', '0');
+INSERT INTO `price` VALUES ('78', '312.00', '30', '2017-10-18 10:19:07', '1');
+INSERT INTO `price` VALUES ('79', '312.00', '30', '2017-10-18 10:19:07', '1');
+INSERT INTO `price` VALUES ('80', '314.00', '30', '2017-10-18 10:19:07', '1');
 
 -- ----------------------------
 -- Table structure for red_packet
@@ -425,17 +414,19 @@ DROP TABLE IF EXISTS `shop`;
 CREATE TABLE `shop` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `shop_name` varchar(60) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `shop_discrib` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '店铺介绍',
+  `shop_work` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1 开店 0 打烊',
   `shop_phone` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `shop_discrib` text COLLATE utf8_unicode_ci DEFAULT NULL,
+  `send_address` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '配送区域',
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Records of shop
 -- ----------------------------
-INSERT INTO `shop` VALUES ('1', 'terentia蛋糕店', '18329042977', '2017-10-16 17:10:38', '2017-10-16 17:10:44');
+INSERT INTO `shop` VALUES ('2', 'terentia蛋糕店', '陈文越', '1', '18329042977', '江苏省南通市', '2017-10-18 10:12:27', '2017-10-18 10:14:02');
 
 -- ----------------------------
 -- Table structure for sku
@@ -465,7 +456,7 @@ CREATE TABLE `sku_price` (
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `idx_price_id` (`price_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=233 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=257 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sku_price
@@ -486,26 +477,32 @@ INSERT INTO `sku_price` VALUES ('179', '69', '41', '2017-09-30 14:39:38');
 INSERT INTO `sku_price` VALUES ('180', '69', '45', '2017-09-30 14:39:38');
 INSERT INTO `sku_price` VALUES ('181', '70', '42', '2017-09-30 14:39:38');
 INSERT INTO `sku_price` VALUES ('182', '70', '44', '2017-09-30 14:39:38');
-INSERT INTO `sku_price` VALUES ('189', '73', '41', '2017-10-16 17:31:36');
-INSERT INTO `sku_price` VALUES ('190', '73', '45', '2017-10-16 17:31:36');
-INSERT INTO `sku_price` VALUES ('191', '73', '47', '2017-10-16 17:31:36');
-INSERT INTO `sku_price` VALUES ('204', '78', '42', '2017-10-16 17:31:36');
-INSERT INTO `sku_price` VALUES ('205', '78', '45', '2017-10-16 17:31:36');
-INSERT INTO `sku_price` VALUES ('206', '78', '48', '2017-10-16 17:31:36');
-INSERT INTO `sku_price` VALUES ('213', '71', '41', '2017-10-16 17:32:28');
-INSERT INTO `sku_price` VALUES ('214', '71', '44', '2017-10-16 17:32:28');
-INSERT INTO `sku_price` VALUES ('215', '71', '47', '2017-10-16 17:32:28');
-INSERT INTO `sku_price` VALUES ('216', '72', '41', '2017-10-16 17:32:28');
-INSERT INTO `sku_price` VALUES ('217', '72', '44', '2017-10-16 17:32:28');
-INSERT INTO `sku_price` VALUES ('218', '72', '48', '2017-10-16 17:32:28');
-INSERT INTO `sku_price` VALUES ('222', '75', '42', '2017-10-16 17:32:28');
-INSERT INTO `sku_price` VALUES ('223', '75', '44', '2017-10-16 17:32:28');
-INSERT INTO `sku_price` VALUES ('224', '75', '47', '2017-10-16 17:32:28');
-INSERT INTO `sku_price` VALUES ('225', '76', '42', '2017-10-16 17:32:28');
-INSERT INTO `sku_price` VALUES ('226', '76', '44', '2017-10-16 17:32:28');
-INSERT INTO `sku_price` VALUES ('227', '76', '48', '2017-10-16 17:32:28');
 INSERT INTO `sku_price` VALUES ('231', '74', '41', '2017-10-16 17:33:27');
 INSERT INTO `sku_price` VALUES ('232', '77', '42', '2017-10-16 17:33:27');
+INSERT INTO `sku_price` VALUES ('233', '75', '42', '2017-10-18 10:19:07');
+INSERT INTO `sku_price` VALUES ('234', '75', '44', '2017-10-18 10:19:07');
+INSERT INTO `sku_price` VALUES ('235', '75', '47', '2017-10-18 10:19:07');
+INSERT INTO `sku_price` VALUES ('236', '76', '42', '2017-10-18 10:19:07');
+INSERT INTO `sku_price` VALUES ('237', '76', '44', '2017-10-18 10:19:07');
+INSERT INTO `sku_price` VALUES ('238', '76', '48', '2017-10-18 10:19:07');
+INSERT INTO `sku_price` VALUES ('239', '79', '42', '2017-10-18 10:19:07');
+INSERT INTO `sku_price` VALUES ('240', '79', '45', '2017-10-18 10:19:07');
+INSERT INTO `sku_price` VALUES ('241', '79', '47', '2017-10-18 10:19:07');
+INSERT INTO `sku_price` VALUES ('242', '78', '42', '2017-10-18 10:19:07');
+INSERT INTO `sku_price` VALUES ('243', '78', '45', '2017-10-18 10:19:07');
+INSERT INTO `sku_price` VALUES ('244', '78', '48', '2017-10-18 10:19:07');
+INSERT INTO `sku_price` VALUES ('245', '71', '41', '2017-10-18 10:19:07');
+INSERT INTO `sku_price` VALUES ('246', '71', '44', '2017-10-18 10:19:07');
+INSERT INTO `sku_price` VALUES ('247', '71', '47', '2017-10-18 10:19:07');
+INSERT INTO `sku_price` VALUES ('248', '72', '41', '2017-10-18 10:19:07');
+INSERT INTO `sku_price` VALUES ('249', '72', '44', '2017-10-18 10:19:07');
+INSERT INTO `sku_price` VALUES ('250', '72', '48', '2017-10-18 10:19:07');
+INSERT INTO `sku_price` VALUES ('251', '73', '41', '2017-10-18 10:19:07');
+INSERT INTO `sku_price` VALUES ('252', '73', '45', '2017-10-18 10:19:07');
+INSERT INTO `sku_price` VALUES ('253', '73', '47', '2017-10-18 10:19:07');
+INSERT INTO `sku_price` VALUES ('254', '80', '41', '2017-10-18 10:19:07');
+INSERT INTO `sku_price` VALUES ('255', '80', '45', '2017-10-18 10:19:07');
+INSERT INTO `sku_price` VALUES ('256', '80', '48', '2017-10-18 10:19:07');
 
 -- ----------------------------
 -- Table structure for sku_value
@@ -543,7 +540,7 @@ CREATE TABLE `stock` (
   `price_id` int(11) NOT NULL,
   `is_show` int(11) NOT NULL DEFAULT '1' COMMENT '1显示 0 不显示  如果 货品修改时 已经填过的库存 不填那就不显示',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=93 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=95 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of stock
@@ -552,19 +549,21 @@ INSERT INTO `stock` VALUES ('28', '10', '2017-09-30 09:49:47', '76', '62', '1');
 INSERT INTO `stock` VALUES ('28', '10', '2017-09-30 09:49:47', '77', '63', '1');
 INSERT INTO `stock` VALUES ('29', '10', '2017-09-29 16:42:45', '78', '64', '1');
 INSERT INTO `stock` VALUES ('29', '12', '2017-09-29 16:42:45', '79', '65', '1');
-INSERT INTO `stock` VALUES ('30', '12', '2017-10-16 17:33:27', '80', '66', '0');
-INSERT INTO `stock` VALUES ('30', '32', '2017-10-16 17:33:27', '81', '67', '0');
-INSERT INTO `stock` VALUES ('30', '1', '2017-10-16 17:33:27', '82', '68', '0');
-INSERT INTO `stock` VALUES ('30', '1', '2017-10-16 17:33:27', '83', '69', '0');
-INSERT INTO `stock` VALUES ('30', '1', '2017-10-16 17:33:27', '84', '70', '0');
-INSERT INTO `stock` VALUES ('30', '1', '2017-10-16 17:33:27', '85', '71', '0');
-INSERT INTO `stock` VALUES ('30', '1', '2017-10-16 17:33:27', '86', '72', '0');
-INSERT INTO `stock` VALUES ('30', '1', '2017-10-16 17:33:27', '87', '73', '0');
-INSERT INTO `stock` VALUES ('30', '1', '2017-10-16 17:33:27', '88', '74', '1');
-INSERT INTO `stock` VALUES ('30', '1', '2017-10-16 17:33:27', '89', '75', '0');
-INSERT INTO `stock` VALUES ('30', '1', '2017-10-16 17:33:27', '90', '76', '0');
-INSERT INTO `stock` VALUES ('30', '1', '2017-10-16 17:33:27', '91', '77', '1');
-INSERT INTO `stock` VALUES ('30', '1', '2017-10-16 17:33:27', '92', '78', '0');
+INSERT INTO `stock` VALUES ('30', '12', '2017-10-18 10:19:07', '80', '66', '0');
+INSERT INTO `stock` VALUES ('30', '32', '2017-10-18 10:19:07', '81', '67', '0');
+INSERT INTO `stock` VALUES ('30', '1', '2017-10-18 10:19:07', '82', '68', '0');
+INSERT INTO `stock` VALUES ('30', '1', '2017-10-18 10:19:07', '83', '69', '0');
+INSERT INTO `stock` VALUES ('30', '1', '2017-10-18 10:19:07', '84', '70', '0');
+INSERT INTO `stock` VALUES ('30', '1', '2017-10-18 10:19:07', '85', '71', '1');
+INSERT INTO `stock` VALUES ('30', '1', '2017-10-18 10:19:07', '86', '72', '1');
+INSERT INTO `stock` VALUES ('30', '1', '2017-10-18 10:19:07', '87', '73', '1');
+INSERT INTO `stock` VALUES ('30', '1', '2017-10-18 10:19:07', '88', '74', '0');
+INSERT INTO `stock` VALUES ('30', '1', '2017-10-18 10:19:07', '89', '75', '1');
+INSERT INTO `stock` VALUES ('30', '1', '2017-10-18 10:19:07', '90', '76', '1');
+INSERT INTO `stock` VALUES ('30', '1', '2017-10-18 10:19:07', '91', '77', '0');
+INSERT INTO `stock` VALUES ('30', '1', '2017-10-18 10:19:07', '92', '78', '1');
+INSERT INTO `stock` VALUES ('30', '1', '2017-10-18 10:19:07', '93', '79', '1');
+INSERT INTO `stock` VALUES ('30', '1', '2017-10-18 10:19:07', '94', '80', '1');
 
 -- ----------------------------
 -- Table structure for user_address

@@ -79,7 +79,11 @@
             <div class="align_right font_size02 line_height20">共<span class="color_red">{{$order->goods_count}}</span>件,总金额:<span class="color_pink">￥{{$order->price}}</span><!-- <span class="color_silver font_size00">(含运费:￥)</span> --></div>
             <div class="paddingbuding02">
                 @if ($order->status == 1 || $order->status == 0)
-                <a href="/buy/{{$order->id}}" class="anniu11 marginleft10 rt" style="background-color: #08a259;color: #fff;">立即付款</a>
+                    @if ($shop->shop_work)
+                    <a href="/buy/{{$order->id}}" class="anniu11 marginleft10 rt" style="background-color: #08a259;color: #fff;">立即付款</a>
+                    @else
+                    <a href="javascript:void(0);" class="anniu11 marginleft10 rt" >店铺已打烊</a>
+                    @endif
                 <a href="javascript:void(0);" onclick="orderCancel({{$order->id}})" class="anniu11 marginleft10 rt">取消订单</a>
                 @elseif ($order->status == 2 || $order->status == 4)
                 <a href="javascript:void(0);" onclick="" class="anniu11 marginleft10 rt">再次购买</a>

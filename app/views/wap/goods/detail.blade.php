@@ -186,18 +186,25 @@
 
 			</td>
 			<td align="center" width="70%">
-				@if ($goods->is_onsale)
-                <a href="javascript:;" data-id="{{$goods->id}}" class="anniu08 marginright10 rt gm buy"  >立即购买</a>
-				<a href="javascript:;" data-id="{{$goods->id}}" class="anniu07 marginright10 addproduct rt cart" >加入购物车</a>
+				@if ($shop->shop_work)
+
+					@if ($goods->is_onsale)
+	                <a href="javascript:;" data-id="{{$goods->id}}" class="anniu08 marginright10 rt gm buy"  >立即购买</a>
+					<a href="javascript:;" data-id="{{$goods->id}}" class="anniu07 marginright10 addproduct rt cart" >加入购物车</a>
+					@else
+					<a href="javascript:;" data-id="{{$goods->id}}" style="background: rgb(221,221,221);" class="anniu08 marginright10 rt gm disabled"  >已下架</a>
+					@endif
+				
 				@else
-				<a href="javascript:;" data-id="{{$goods->id}}" style="background: rgb(221,221,221);" class="anniu08 marginright10 rt gm disabled"  >已下架</a>
+					<a href="javascript:;" style="background: rgb(221,221,221);" class="anniu08 marginright10 rt gm disabled"  >店铺已打烊</a>
 				@endif
+				
 				<br class="clear" />
 			</td>
 		</tr>
 	</table>
 
-	<a href="javascript:scroll(0,0);" class="totop" style="display: inline;"><img src="http://style.v.mfnbook.com/wap/images/icon/totop.png" alt="" height="35"></a>
+	<a href="javascript:scroll(0,0);" class="totop" style="display: inline;"><img src="/wap/images/icon/totop.png" alt="" height="35"></a>
 	
 	<script type="text/javascript">
 

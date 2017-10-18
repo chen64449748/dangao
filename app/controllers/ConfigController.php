@@ -144,6 +144,8 @@ class ConfigController extends BaseController
 			$shop->shop_name = '';
 			$shop->shop_phone = '';
 			$shop->shop_discrib='';
+			$shop->shop_work = '';
+			$shop->send_address = '';
 		}
 
 
@@ -160,7 +162,11 @@ class ConfigController extends BaseController
 		$shop_phone = Input::get('shop_phone');
 		$shop_name = Input::get('shop_name');
 		$shop_discrib = Input::get('shop_discrib');
+		$shop_work = Input::get('shop_work');
+		$send_address = Input::get('send_address');
 
+		$shop_discrib = trim($shop_discrib);
+		
 		if (!$shop_phone || !$shop_name) {
 			return Response::json(array('status'=> 0, 'message'=> '店铺名和手机号必填'));
 		}
@@ -171,6 +177,8 @@ class ConfigController extends BaseController
 				'shop_phone'=> $shop_phone,
 				'shop_name' => $shop_name,
 				'shop_discrib'=>$shop_discrib,
+				'shop_work' => $shop_work,
+				'send_address' => $send_address,
 				'created_at' => date('Y-m-d H:i:s'),
 			));
 
@@ -178,7 +186,9 @@ class ConfigController extends BaseController
 			Shop::where('id', $shop->id)->update(array(
 				'shop_name' => $shop_name,
 				'shop_phone' => $shop_phone,
-				'shop_discrib'=>$shop_discrib
+				'shop_discrib'=>$shop_discrib,
+				'shop_work' => $shop_work,
+				'send_address' => $send_address,
 			));
 		}
 

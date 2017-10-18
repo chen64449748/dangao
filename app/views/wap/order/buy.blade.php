@@ -167,23 +167,13 @@
 		<div class="lf">
 			<div class="font_size02 line_height36 marginleft10">应付总额：<span class="color_pink">￥</span><span class="pay_money color_pink">{{number_format($total_price, 2)}}</span></div>
 		</div>
-		<a href="javascript:void(0)" class="anniu03 rt marginright10" id="submit_order">去支付</a>
-        <input type="hidden" name="id" id="ticket_id" value="<!--{$ticket_data.0.id}-->">
-        <input type="hidden" name="activity_id" id="activity_id" value="<!--{$activity_default.activity_id}-->">
-        <input type="hidden" name="activity_money" id="activity_money" value="<!--{if $activity_money}--><!--{$activity_money}--><!--{else}-->0<!--{/if}-->">
-        <input type="hidden" name="address_id" id="address_id" value="">
-        <input type="hidden" name="sum" id="sum" value="<!--{$goods_price}-->">
-        <input type="hidden" name="act" value="add">
-        <input type="hidden" name="need_receipt" id="need_receipt" value="0">
-        <input type="hidden" name="receipt_type" id="receipt_type" value="0">
-        <input type="hidden" name="receipt_title" id="receipt_title" value="">
-        <input type="hidden" name="duty_paragraph" id="duty_paragraph" value="">
-        <input type="hidden" name="user_remark" id="user_remark" value="">
-        <input type="hidden" name="ticket_money" id="ticket_money" value="<!--{if $ticket_data.0.money}--><!--{$ticket_data.0.money}--><!--{else}-->0<!--{/if}-->">
-        <input type="hidden" name="postage" id="postage" value="<!--{$postage}-->">
-        <input type="hidden" name="shipfee" id="shipfee" value="<!--{$is_postage}-->">
-        <input type="hidden" name="order_id" value="{{$order['id']}}">
-		<br class="clear" />
+		
+        @if ($shop->shop_work) 
+        <a href="javascript:void(0)" class="anniu03 rt marginright10" id="submit_order">去支付</a>
+        @else
+        <a href="javascript:void(0)" class="anniu03 rt marginright10">店铺已打烊</a>
+        @endif
+        <br class="clear" />
 	</div>
     </form>
 	<script type="text/javascript">
