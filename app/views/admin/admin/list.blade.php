@@ -43,13 +43,13 @@
     <div class="control-group">
         <label class="control-label" for="inputold">原密码</label>
         <div class="controls">
-          <input type="text" id="oldpwd" placeholder="原密码">
+          <input type="password" class="input" style="height:30px" id="oldpwd" placeholder="原密码">
         </div>
     </div>
     <div class="control-group">
         <label class="control-label" for="inputnew">新密码</label>
         <div class="controls">
-          <input type="text" id="newpwd" placeholder="新密码">
+          <input type="password" class="input" style="height:30px" id="newpwd" placeholder="新密码">
         </div>
     </div>
 </form>
@@ -99,13 +99,16 @@ $('.change').click(function(){
     var oldpwd =$('#oldpwd').val();
     var newpwd = $('#newpwd').val();
     if(oldpwd==''){
-        alert('原密码不能为空');
+        alert('原密码不能为空');return;
     }
     if(newpwd==''){
-        alert('原密码不能为空');
+        alert('新密码不能为空');return;
+    }
+    if(newpwd.length<6){
+        alert('新密码不能小于6位');return;
     }
     if(admin_id==''){
-        alert('请刷新重试！')
+        alert('请刷新重试！');return;
     }
     $.get('/admin/change', {admin_id:admin_id,old:oldpwd,new:newpwd}, function (data) {   
                 if (data.status == 1) {

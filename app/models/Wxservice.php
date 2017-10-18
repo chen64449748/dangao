@@ -1,10 +1,10 @@
 <?php
 class Wxservice extends Eloquent{
 
-    public $_token     = 'zzcf_fcs';
+    public $_token     = 'token';
 
-    private $appid     = 'wx17a53cfc8631ac51';
-    private $appsecret = 'eb5246635936b887cb6a75f0aaa854c3';
+    private $appid     = 'wx30270429e437180c';
+    private $appsecret = 'd24eb00c51f9fb46f0eafe1738220864';
     // private $appid     = 'wx425f5cea3ace2da5';
     // private $appsecret = 'c2ccae2b5473a496db813b63e24b88a5';
 

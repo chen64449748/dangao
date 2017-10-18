@@ -52,6 +52,9 @@
 
         var mobile = $('input[name=mobile]').val();
         var password = $('input[name=password]').val();
+        if(password.length<6){
+            alert('密码不小于6位');return;
+        }
     
         if (!mobile || !password) {
             return window.wxc.xcConfirm('手机号和密码', window.wxc.xcConfirm.typeEnum.info);
