@@ -35,8 +35,8 @@
             </tr>
             <tr>
                 <td width="20%" class="color_silver">添加地址</td>
-                <td width="45%"><div contenteditable="true" placeholder="只限江苏省 南通市" class="user_address" style="min-height: 16px;padding:8px;" onfocus="true"></div></td>
-                <td width="35%"><span style="font-size: 5px;">江苏 南通</span></td>
+                <td width="45%"><div contenteditable="true" placeholder="只限{{$shop->send_address}}" class="user_address" style="min-height: 16px;padding:8px;" onfocus="true"></div></td>
+                <td width="35%"><span style="font-size: 5px;">{{$shop->send_address}}</span></td>
             </tr>
             <tr>
                 <td width="20%" class="color_silver"></td>

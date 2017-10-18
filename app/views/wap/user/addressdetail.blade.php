@@ -28,7 +28,7 @@
             <td align="left">
                 <a href="javascript:void(0);" class="color_silver buding" style="height: 100%;display: block;">
                    
-                    <span class="lf area_content" style="color: #a9a9a9;">只配江苏省 南京市 启东</span>
+                    <span class="lf area_content" style="color: #a9a9a9;">只配{{$shop->send_address}}</span>
                     
                     <!-- <img src="/wap/images/icon/arrow02.png" alt="" height="12" class="margintop20 rt"> -->
                     <br class="clear">
