@@ -13,8 +13,11 @@ class BaseController extends Controller {
 
 		$action = Request::path();
 		$shop = Shop::get();
+		$manage = Session::get('admin');
+
 		View::share('action', $action);		
 		View::share('shop', $shop);
+		View::share('manage', $manage);
 	}
 	protected function setupLayout()
 	{

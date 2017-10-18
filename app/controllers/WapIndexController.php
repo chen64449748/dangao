@@ -18,7 +18,13 @@ class WapIndexController extends WapController {
 
 		// 获取活动
 		$fines = $active_m->getFine();
-
+		// 发送消息给后台
+		try {
+			Websocket::adminOrderSend(1);
+		} catch (Exception $e) {
+			
+		}
+        
 		// banner
 		$banners = Banner::get();
 

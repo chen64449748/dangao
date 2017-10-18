@@ -151,6 +151,14 @@ class Orders extends Eloquent
     public static  function payok($order_id){
         $update_order['status'] = 2;
         $this->where('id', $order_id)->update($update_order);
+
+        try {
+            // 发送消息给后台
+            Websocket::adminOrderSend($order_id);
+        } catch (Exception $e) {
+            
+        }
+        
         //销量添加
         $order = $this->where('id',$order_id)->first();
         $order_detail = DB::table('orders_detail')->where('oid',$order['id'])->get();

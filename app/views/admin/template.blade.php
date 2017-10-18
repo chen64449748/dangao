@@ -65,16 +65,64 @@
   	</div>
   </div>
   
-  <style>
+    <style>
     #pcont {padding: 0 20px;}
-  </style>
-  <div class="container-fluid" id="pcont">
+    #notify_div * {box-sizing : border-box;}
+    #notify_div {box-sizing : border-box; z-index: 123146487; width: 300px; min-height: 50px; background: white; position: fixed; bottom: -500px; right: 0;
+        box-shadow: 0 0 15px #ccc; border-radius: 6px;
+    }
+    #notify_title_div { width: 100%; height: 50px; border-bottom: 1px solid #ccc; line-height: 50px; font-size: 16px; padding: 0 0 0 30px; }
+    #notify_title {float: left;}
+    #notify_toggle { float: right; padding: 0 20px; height: 50px; cursor: pointer; border-left: 1px solid #ccc;}
+
+    #notify_item_div {height: 450px; width: 100%; overflow-y: scroll;}
+    .notify_item {height: 50px; width: 100%; line-height: 50px; overflow: hidden; padding: 0 16px; }
+    .notify_item:hover {background-color: rgba(0,0,0, 0.1);}
+    .notify_item_title {font-size: 16px;}
+    .notify_item_content {font-size: 10px;  text-overflow:ellipsis;}
+
+    #notify_foot_div {height: 50px; text-align: center; line-height: 50px; font-size: 20px; width: 100%; background: #006dcc; color: white; cursor: pointer;}
+    
+    .notify_alert * {box-sizing: border-box;}
+    .notify_alert {width: 300px; height: 200px; z-index: 1231464871; background: white; position: fixed; bottom: 0; right: -300px; border-radius: 6px; box-shadow: 0 0 15px #ccc;}
+    .notify_alert_title_div {border-bottom: 1px solid #ccc; font-size: 20px;}
+    .notify_alert_title {width: 225px; height: 50px; line-height: 50px; padding-left: 16px; float: left;  overflow: hidden; text-overflow : ellipsis; white-space:nowrap; }
+    .notify_alert_close {width: 75px; float: right; line-height: 50px; padding: 0 16px; border-left: 1px solid #ccc; cursor: pointer;}
+    .notify_alert_content {width: 100%; font-size: 16px; padding: 16px; overflow: hidden; text-overflow : ellipsis;}
+    </style>
+
+    <div class="container-fluid" id="pcont">
 
     	@yield('content')
 
-  </div> 
+    </div> 
 
-  
+    <div id="notify_div">
+        <div id="notify_title_div">
+            <div id="notify_title">消息盒子</div>
+            <div id="notify_toggle">打开</div>
+        </div>
+
+        <div id="notify_item_div">
+            
+        </div>
+
+        <div id="notify_foot_div">
+            清空
+        </div>
+    </div>
+
+    <div class="notify_alert">
+        <div class="notify_alert_title_div">
+            <div class="notify_alert_title">订单提示</div>
+            <div class="notify_alert_close" onclick="notify_alert_close(this)">关闭</div>
+            <div style="clear:both;"></div>
+        </div>
+
+        <div class="notify_alert_content">
+            消息是大大大大阿萨德消息是大大大大阿萨德消息是大大大大阿萨德
+        </div>
+    </div>
 
 </div>  
 </body>
@@ -101,11 +149,70 @@
 
 
 <script type="text/javascript">
-  $(document).ready(function(){
+function notify_alert_close(obj, count)
+{   
+    $(obj).data('flag', '0');
+    $('#notify_item_id'+ count).remove();
+    $(obj).parents('.notify_alert').remove();
+}
+
+function notify_alert(title, content, count)
+{
+    var alert_html = '<div class="notify_alert_title_div">\
+                        <div class="notify_alert_title">'+ title +'</div>\
+                        <div class="notify_alert_close" data-flag="1" onclick="notify_alert_close(this, '+ count +')">关闭</div>\
+                        <div style="clear:both;"></div>\
+                    </div>\
+                    <div class="notify_alert_content">'+ content +'</div>';
+
+    var notify_alert = $('<div class="notify_alert"></div>');
+    notify_alert.html(alert_html);
+    $('body').append(notify_alert);
+    notify_alert.animate({right: '0'}, 500, function () {
+        notify_alert.animate({opacity: 0}, 6000, function () {
+            notify_alert.remove();
+        });
+    });
+}
+
+function notify_item_add(title, content)
+{
+    var count = $('#notify_item_div').size();
+    count = count + 1;
+    var item_html = '<div id="notify_item_id'+ count +'" class="notify_item"><span class="notify_item_title">'+ title +'</span>：<span data-content="'+ content +'" class="notify_item_content">'+ content.substr(0, 10) +'...</span></div>';
+    $('#notify_item_div').append(item_html);
+
+    return count;
+}
+
+$(document).ready(function(){
     //initialize the javascript
     App.init();
+    var flag = 0;
+    $('#notify_toggle').click(function () {
+        if (flag) {
+            flag = 0;
+            $('#notify_toggle').text('打开');
+            $('#notify_div').animate({bottom: '-500px'});
+        } else {
+            flag = 1;
+            $('#notify_toggle').text('收起');
+            $('#notify_div').animate({bottom: '0'});
+        }
+    });
 
-  });
+    $('#notify_foot_div').click(function () {
+        $('#notify_item_div').text('');
+    });
+
+    $('#notify_div').on('click', '.notify_item', function () {
+        var content = $(this).find('.notify_item_content').data('content');
+        var title = $(this).find('.notify_item_title').text();
+        notify_alert(title, content);
+        $(this).remove();
+    })
+
+});
 
 
 </script>
@@ -151,3 +258,100 @@ function del() {
   <!-- <script src="/js/behaviour/voice-commands.js"></script> -->
 <script src="/js/bootstrap/dist/js/bootstrap.min.js"></script>
 @yield('script')
+
+<script type="text/javascript">
+
+    var ws;
+    var lockReconnect = false;//避免重复连接
+    var retime = 0;
+    var heartCheck = {
+            timeout: 60000,//60ms
+            timeoutObj: null,
+            reset: function(){
+                clearTimeout(this.timeoutObj);
+        　　　　 this.start();
+            },
+            start: function(){
+                this.timeoutObj = setTimeout(function(){
+                    var send_data = {action: 'AdminPing', pwd: 'admin', admin_id: {{$manage->id}}};
+                    send_data = JSON.stringify(send_data);
+                    ws.send(send_data);
+                }, this.timeout)
+            }
+        }
+
+    
+
+    function createWebSocket(url) {
+        try {
+            ws = new WebSocket(url);
+            initEventHandle();
+            retime = 0;
+        } catch (e) {
+            reconnect(url);
+        }     
+    }
+
+    function reconnect(url) {
+        if(lockReconnect) return;
+        
+        if (retime > 3000) {
+            return;
+        }
+        retime++;
+        lockReconnect = true;
+        //没连接上会一直重连，设置延迟避免请求过多
+        setTimeout(function () {
+            createWebSocket(url);
+            lockReconnect = false;
+        }, 2000);
+    }
+
+
+    createWebSocket('ws://127.0.0.1:8282');
+
+    function initEventHandle() {
+
+        ws.onopen = function ()
+        {
+            var send_data = {action: 'AdminLogin', pwd: 'admin', admin_id: {{$manage->id}}};
+            send_data = JSON.stringify(send_data);
+            ws.send(send_data);
+
+            heartCheck.start();
+        }
+
+        ws.onmessage = function (evt)
+        {
+            console.log(evt);
+            var data = JSON.parse(evt.data);
+
+            if (data.action == 'OrderAdminSend') {
+                var count = notify_item_add('订单提示', '订单号；'+ data.data.order_id + '<br>'+ data.data.message);
+                notify_alert('订单提示', '订单号；'+ data.data.order_id + '<br>'+ data.data.message, count);
+            } else if (data.action == 'AdminPing') {
+
+                if (data.message == 'pong') {
+                    heartCheck.reset();
+                } else if (data.message == 'fail') {
+                    var send_data = {action: 'AdminLogin', pwd: 'admin', admin_id: {{$manage->id}}};
+                    send_data = JSON.stringify(send_data);
+                    ws.send(send_data);
+                }
+
+                
+            }
+            
+        }
+
+        ws.onerror = function (evnt) {
+           reconnect('ws://127.0.0.1:8282');
+        };
+
+        ws.onclose = function () {
+            reconnect('ws://127.0.0.1:8282');
+        }
+    }
+    
+
+</script>
