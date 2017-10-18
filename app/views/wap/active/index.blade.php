@@ -13,7 +13,7 @@
 <div class="active" style="padding: 50px 0;">
 	@if (count($actives))
 	@foreach ($actives as $item)
-	<div class="active_item"><a href="javascript:void(0)" class="dsp_blk"><img style="width: 640px; height: 300px;" src="{{$item->active_img}}" width="100%"></a></div>
+	<div class="active_item"><a href="javascript:void(0)" class="dsp_blk"><img style="width: 640px; height: 220px;" src="{{$item->active_img}}" width="100%"></a></div>
 	<div class="paddingbuding02">活动说明: 
 		<span class="color_pink">
 			<div>
