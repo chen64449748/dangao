@@ -10,7 +10,13 @@ class OrderController extends BaseController
         $mobile && $type['mobile'] = $mobile;
         $wx_pay_order && $type['wx_pay_order'] = $wx_pay_order;
         $orders = new Orders(); 
-        $orderslist = $orders->getListPage($type);
+        $orderslist = $orders->getListPage($type,15);
+        $append = array(
+            'mobile'=>$mobile,
+            'wx_pay_order'=>$wx_pay_order,
+            'name'=>$name
+        );
+        $orderslist->appends($append);
         $view_data = array(
             'orders' => $orderslist,
             'mobile'=>$mobile,
@@ -18,13 +24,9 @@ class OrderController extends BaseController
             'name'=>$name
         );
 
-        $append = array(
-            'mobile'=>$mobile,
-            'wx_pay_order'=>$wx_pay_order,
-            'name'=>$name
-        );
+        
 
-        // $orders->appends($append);
+        
         return View::make('admin.order.list', $view_data);
     }
 

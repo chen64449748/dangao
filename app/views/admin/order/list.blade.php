@@ -47,7 +47,7 @@
 
 
 </table>
-<div class="pagination fr">
+<div class="pagination">
 {{$orders->links()}}
 </div>
 @stop
