@@ -171,6 +171,7 @@ $('u_btn').click(function () {
 	var file = $('.file_upload');
 	var img = $('.img-polaroid');
 
+
 	if (file[0].files.length == 0) {
 		return window.wxc.xcConfirm('请选择文件', window.wxc.xcConfirm.typeEnum.error);
 	}
