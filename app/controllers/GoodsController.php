@@ -408,7 +408,8 @@ class GoodsController extends BaseController
 				$upload_dir .= '/'.trim($dir, '/');
 			}
 			$ext = $file->getClientOriginalExtension();
-
+			$web_dir = ltrim($upload_dir, '.');
+			
 			$file_name = date('YmdHis').uniqid().'.'.trim($ext);
 			$file_iname = date('YmdHis').uniqid().'ick.'.trim($ext);
 			$file->move($upload_dir, $file_name);
@@ -416,7 +417,7 @@ class GoodsController extends BaseController
 			$upload_filename = public_path().$web_dir.'/'.$file_name;
 			$imageick_filename = public_path().$web_dir.'/'.$file_iname;
 
-			$web_dir = ltrim($upload_dir, '.');
+			
 
 			$image = new Imagick($upload_filename);
 			$image->setImageCompressionQuality(10);
