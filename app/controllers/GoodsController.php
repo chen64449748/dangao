@@ -394,7 +394,6 @@ class GoodsController extends BaseController
 	// 产品图片上传
 	function  imageUpload()
 	{
-		echo public_path();
 		$file = Input::file('img');
 		$dir = Input::get('dir', '');
 		$upload_dir = './upload';
