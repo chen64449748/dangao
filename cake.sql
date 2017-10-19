@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2017-10-19 21:39:30
+Date: 2017-10-20 00:05:16
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -492,6 +492,7 @@ CREATE TABLE `shop` (
   `shop_work` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1 开店 0 打烊',
   `shop_phone` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   `send_address` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '配送区域',
+  `img_quality` int(11) DEFAULT NULL COMMENT '图片品质 默认50',
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -500,7 +501,7 @@ CREATE TABLE `shop` (
 -- ----------------------------
 -- Records of shop
 -- ----------------------------
-INSERT INTO `shop` VALUES ('2', 'terentia蛋糕店', '陈文越', '1', '18329042977', '江苏省南通市', '2017-10-18 10:12:27', '2017-10-18 10:14:02');
+INSERT INTO `shop` VALUES ('2', 'terentia蛋糕店', '陈文越', '1', '18329042977', '江苏省南通市', '53', '2017-10-18 10:12:27', '2017-10-20 00:03:30');
 
 -- ----------------------------
 -- Table structure for sku
