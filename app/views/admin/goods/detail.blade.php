@@ -165,7 +165,7 @@ $('.iCheck-helper').click(function() {
 	$(this).parents('.get_order').find('.sku_table').html('');
 });
 
-$('u_btn').click(function () {
+$('.u_btn').click(function () {
 
 	var form = $('.upload_from');
 	var file = $('.file_upload');
