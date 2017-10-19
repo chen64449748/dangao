@@ -415,7 +415,7 @@ class GoodsController extends BaseController
 
 			$web_dir = ltrim($upload_dir, '.');
 
-			$image = new Imagick(app_public().$web_dir.'/'.$file_name);
+			$image = new Imagick(public_path().$web_dir.'/'.$file_name);
 			$image->setImageCompressionQuality(70);
 			$image->writeImage($web_dir.'/'.$file_name);
 
