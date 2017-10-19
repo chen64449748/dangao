@@ -415,9 +415,9 @@ class GoodsController extends BaseController
 
 			$web_dir = ltrim($upload_dir, '.');
 
-			$image = new Imagick($file_name);
+			$image = new Imagick($web_dir.'/'.$file_name);
 			$image->setImageCompressionQuality(70);
-			$image->writeImage($file_name);
+			$image->writeImage($web_dir.'/'.$file_name);
 
 			return Response::json(array('status'=> 1, 'url'=> $web_dir.'/'.$file_name));
 		} catch (Exception $e) {
