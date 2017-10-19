@@ -165,6 +165,33 @@ $('.iCheck-helper').click(function() {
 	$(this).parents('.get_order').find('.sku_table').html('');
 });
 
+$('u_btn').click(function () {
+
+	var form = $('.upload_from');
+	var file = $('.file_upload');
+	var img = $('.img-polaroid');
+
+	if (file[0].files.length == 0) {
+		return window.wxc.xcConfirm('请选择文件', window.wxc.xcConfirm.typeEnum.error);
+	}
+
+	uploadImage(file[0].files[0], 'goods', function (status, data) {
+		if (status == 200) {
+			var data = JSON.parse(data);
+			if (data.status == 1) {
+				//修改图片
+				img.attr('src', data.url);
+				file.val('');
+
+			} else {
+				return window.wxc.xcConfirm('上传失败' + data.message, window.wxc.xcConfirm.typeEnum.error);
+			}
+		} else {
+			return window.wxc.xcConfirm('请求失败'+ status, window.wxc.xcConfirm.typeEnum.error);
+		}
+	});
+
+});
 
 $('.update_goods').click(function () {
 	var goods_id = '{{$goods->id}}';
