@@ -219,6 +219,10 @@ $('.update_goods').click(function () {
 			return window.wxc.xcConfirm('标题必须填', window.wxc.xcConfirm.typeEnum.info);
 		}
 
+		if (!show_price) {
+			return window.wxc.xcConfirm('展示价格必须填', window.wxc.xcConfirm.typeEnum.info);
+		}
+
 
 	goods.goods_title = goods_title;
 	goods.goods_img = goods_img;
