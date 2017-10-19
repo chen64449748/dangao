@@ -115,4 +115,5 @@ Route::group(array('before'=> 'userlogin'), function() {
 
 Route::get('/user/test', array('as'=> 'user.test', 'uses'=> 'WapUserController@test'));
 
-
+//wx
+ Route::any('/wx/index',['as'=>'wx.index','uses'=>'WxController@index']);
