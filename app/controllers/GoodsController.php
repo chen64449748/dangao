@@ -410,16 +410,21 @@ class GoodsController extends BaseController
 			$ext = $file->getClientOriginalExtension();
 
 			$file_name = date('YmdHis').uniqid().'.'.trim($ext);
-
+			$file_iname = date('YmdHis').uniqid().'ick.'.trim($ext);
 			$file->move($upload_dir, $file_name);
+
+			$upload_filename = public_path().$web_dir.'/'.$file_name;
+			$imageick_filename = public_path().$web_dir.'/'.$file_iname;
 
 			$web_dir = ltrim($upload_dir, '.');
 
-			$image = new Imagick(public_path().$web_dir.'/'.$file_name);
-			$image->setImageCompressionQuality(70);
-			$image->writeImage(public_path().$web_dir.'/'.$file_name);
+			$image = new Imagick($upload_filename);
+			$image->setImageCompressionQuality(10);
+			$image->writeImage($imageick_filename);
+			// 删除上传文件
+			unlink($upload_filename);
 
-			return Response::json(array('status'=> 1, 'url'=> $web_dir.'/'.$file_name));
+			return Response::json(array('status'=> 1, 'url'=> $web_dir.'/'.$file_iname));
 		} catch (Exception $e) {
 			return Response::json(array('status'=> 0, 'message'=> '上传失败:'.$e->getMessage()));
 		}
