@@ -414,6 +414,10 @@ class GoodsController extends BaseController
 			$file->move($upload_dir, $file_name);
 
 			$web_dir = ltrim($upload_dir, '.');
+
+			$image = new Imagick();
+			$image->setImageCompressionQuality(70);
+
 			return Response::json(array('status'=> 1, 'url'=> $web_dir.'/'.$file_name));
 		} catch (Exception $e) {
 			return Response::json(array('status'=> 0, 'message'=> '上传失败:'.$e->getMessage()));
