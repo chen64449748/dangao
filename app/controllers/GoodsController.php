@@ -396,6 +396,15 @@ class GoodsController extends BaseController
 	{
 		$file = Input::file('img');
 		$dir = Input::get('dir', '');
+
+		$shop = Shop::first();
+
+		if (!$shop) {
+			$pz = 50;
+		} else {
+			$pz = (int)$shop->img_quality;
+		}
+
 		$upload_dir = './upload';
 
 		try {
@@ -409,7 +418,7 @@ class GoodsController extends BaseController
 			}
 			$ext = $file->getClientOriginalExtension();
 			$web_dir = ltrim($upload_dir, '.');
-			
+
 			$file_name = date('YmdHis').uniqid().'.'.trim($ext);
 			$file_iname = date('YmdHis').uniqid().'ick.'.trim($ext);
 			$file->move($upload_dir, $file_name);
@@ -420,7 +429,7 @@ class GoodsController extends BaseController
 			
 
 			$image = new Imagick($upload_filename);
-			$image->setImageCompressionQuality(10);
+			$image->setImageCompressionQuality($pz);
 			$image->writeImage($imageick_filename);
 			// 删除上传文件
 			unlink($upload_filename);

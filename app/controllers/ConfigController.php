@@ -146,6 +146,7 @@ class ConfigController extends BaseController
 			$shop->shop_discrib='';
 			$shop->shop_work = '';
 			$shop->send_address = '';
+			$shop->img_quality = 50;
 		}
 
 
@@ -164,11 +165,16 @@ class ConfigController extends BaseController
 		$shop_discrib = Input::get('shop_discrib');
 		$shop_work = Input::get('shop_work');
 		$send_address = Input::get('send_address');
+		$img_quality = Input::get('img_quality');
 
 		$shop_discrib = trim($shop_discrib);
 		
 		if (!$shop_phone || !$shop_name) {
 			return Response::json(array('status'=> 0, 'message'=> '店铺名和手机号必填'));
+		}
+
+		if (!$img_quality) {
+			$img_quality = 50;
 		}
 
 		if (!$shop) {
@@ -180,6 +186,7 @@ class ConfigController extends BaseController
 				'shop_work' => $shop_work,
 				'send_address' => $send_address,
 				'created_at' => date('Y-m-d H:i:s'),
+				'img_quality' => $img_quality,
 			));
 
 		} else {
@@ -189,6 +196,7 @@ class ConfigController extends BaseController
 				'shop_discrib'=>$shop_discrib,
 				'shop_work' => $shop_work,
 				'send_address' => $send_address,
+				'img_quality' => $img_quality,
 			));
 		}
 

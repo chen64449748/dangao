@@ -49,6 +49,13 @@
 			<input type="text" id="send_address" placeholder="如江苏省 南通市" value="{{$shop->send_address}}">
 		</div>
 	</div>
+	
+	<div class="control-group">
+		<label class="control-label">图片品质</label>
+		<div class="controls">
+			<input type="number" id="img_quality" placeholder="如江苏省 南通市" value="{{$shop->img_quality}}"> 1 - 100 当觉得网站加载慢可能是图片过大将品质设置低点
+		</div>
+	</div>
 
 	<div class="control-group">
 		<label class="control-label"></label>
@@ -68,6 +75,7 @@
 		var shop_discrib = $('#shop_discrib').val();
 		var shop_work = $('#shop_work').find('option:selected').val();
 		var send_address = $('#send_address').val();
+		var img_quality = $('#img_quality').val();
 
 		if (!shop_name) {
 			return window.wxc.xcConfirm('请填写店铺名', window.wxc.xcConfirm.typeEnum.info);
@@ -81,7 +89,7 @@
             return window.wxc.xcConfirm('请填写正确的手机号', window.wxc.xcConfirm.typeEnum.info);
         }
 
-        var send_data = {shop_name: shop_name, shop_phone: shop_phone,shop_discrib:$.trim(shop_discrib), shop_work: shop_work, send_address: send_address};
+        var send_data = {shop_name: shop_name, shop_phone: shop_phone,shop_discrib:$.trim(shop_discrib), shop_work: shop_work, send_address: send_address, img_quality: img_quality};
         var txt= "确定修改？";
 		var option = {
 			title: "修改店铺",
