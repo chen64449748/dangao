@@ -87,10 +87,17 @@ class Orders extends Eloquent
                     $select->where('orders.user_id', (int)$value);
                     break;
                 case 'status':
-                // dd($value);
                     $select->whereIn('orders.status', $value);
                     break;
-              
+                case 'mobile':
+                    $select->where('orders.mobile', $value);
+                    break;
+                case 'wx_pay_order':
+                    $select->where('orders.wx_pay_order',$value);
+                    break;
+                case 'name':
+                    $select->where('orders.name','like', '%'.$value.'%');
+                    break;
             }
         }
 
@@ -167,5 +174,6 @@ class Orders extends Eloquent
         }
 
     }
+
 
 }

@@ -10,40 +10,40 @@
 | and give it the Closure to execute when that URI is requested.
 |
 */
-
-Route::get('/', array('as'=> '/', 'uses'=> 'WapIndexController@index'));
-Route::get('goods', array('as'=> 'goods', 'uses'=> 'WapGoodsController@goods'));
-Route::get('goods/loading', array('as'=> 'goods.loading', 'uses'=> 'WapGoodsController@goodsLoading'));
-Route::get('detail/{goods_id}', array('as'=> 'detail', 'uses'=> 'WapGoodsController@detail'));
-Route::post('goods/buy', array('as'=> 'goods.buy', 'uses'=> 'WapGoodsController@goodsBuy'));
-
-
-Route::get('cart', array('as'=> 'cart', 'uses'=> 'WapCartController@cart'));
-Route::get('cart/getSkuSelect', array('as'=> 'cart.getSkuSelect', 'uses'=> 'WapCartController@getSkuSelect'));
-Route::post('cart/cartCount', array('as'=> 'cart.cartCount', 'uses'=> 'WapCartController@cartCount'));
-Route::post('cart/cartDelete', array('as'=> 'cart.cartDelete', 'uses'=> 'WapCartController@cartDelete'));
-Route::post('cart/cartBuy', array('as'=> 'cart.cartBuy' , 'uses' => 'WapCartController@cartBuy'));
-Route::post('cart/add', array('as'=> 'cart.add', 'uses'=> 'WapCartController@goodsAddCart'));
-Route::get('active', array('as'=> 'active', 'uses'=> 'WapActiveController@index'));
-Route::get('active/detail/{active_id}', array('as'=> 'active.detail', 'uses'=> 'WapActiveController@detail'));
-
-Route::get('user', array('as'=> 'user', 'uses'=> 'WapUserController@index'));
-Route::get('user/address', array('as'=> 'user.address', 'uses'=> 'WapUserController@addressList'));
-Route::get('user/address/detail', array('as'=> 'user.address.detail', 'uses'=> 'WapUserController@addressDetail'));
-Route::post('user/address/save', array('as'=> 'user.address.save', 'uses'=> 'WapUserController@addressSave'));
-Route::post('user/addAddress', array('as'=> 'user.addAddress', 'uses'=> 'WapUserController@addAddress'));
-Route::post('user/address/default', array('as'=> 'user.address.default', 'uses'=> 'WapUserController@updateDefault'));
-Route::post('user/address/delete', array('as'=> 'user.address.delete', 'uses'=> 'WapUserController@addressDelete'));
-Route::get('user/orders', array('as'=> 'user.orders', 'uses'=> 'WapUserController@orders'));
-Route::get('user/order/loading', array('as'=> 'user.orders.loading', 'uses'=> 'WapUserController@orderLoading'));
+Route::group(array('before'=> 'userlogin'), function() {
+	Route::get('/', array('as'=> '/', 'uses'=> 'WapIndexController@index'));
+	Route::get('goods', array('as'=> 'goods', 'uses'=> 'WapGoodsController@goods'));
+	Route::get('goods/loading', array('as'=> 'goods.loading', 'uses'=> 'WapGoodsController@goodsLoading'));
+	Route::get('detail/{goods_id}', array('as'=> 'detail', 'uses'=> 'WapGoodsController@detail'));
+	Route::post('goods/buy', array('as'=> 'goods.buy', 'uses'=> 'WapGoodsController@goodsBuy'));
 
 
+	Route::get('cart', array('as'=> 'cart', 'uses'=> 'WapCartController@cart'));
+	Route::get('cart/getSkuSelect', array('as'=> 'cart.getSkuSelect', 'uses'=> 'WapCartController@getSkuSelect'));
+	Route::post('cart/cartCount', array('as'=> 'cart.cartCount', 'uses'=> 'WapCartController@cartCount'));
+	Route::post('cart/cartDelete', array('as'=> 'cart.cartDelete', 'uses'=> 'WapCartController@cartDelete'));
+	Route::post('cart/cartBuy', array('as'=> 'cart.cartBuy' , 'uses' => 'WapCartController@cartBuy'));
+	Route::post('cart/add', array('as'=> 'cart.add', 'uses'=> 'WapCartController@goodsAddCart'));
+	Route::get('active', array('as'=> 'active', 'uses'=> 'WapActiveController@index'));
+	Route::get('active/detail/{active_id}', array('as'=> 'active.detail', 'uses'=> 'WapActiveController@detail'));
 
-Route::get('buy/{order_id}', array('as'=> 'buy', 'uses'=> 'WapOrderController@buy'));
-Route::get('order/addressSelect/{order_id}', array('as'=> 'order.addressSelect', 'uses'=> 'WapOrderController@addressSelect'));
-Route::post('user/order/status/update', array('as'=> 'user.order.status.update', 'uses'=> 'WapOrderController@orderStatusUpdate'));
-Route::post('/order/wxpay', array('as'=> 'order.wxpay', 'uses'=> 'WapOrderController@wxpay'));
+	Route::get('user', array('as'=> 'user', 'uses'=> 'WapUserController@index'));
+	Route::get('user/address', array('as'=> 'user.address', 'uses'=> 'WapUserController@addressList'));
+	Route::get('user/address/detail', array('as'=> 'user.address.detail', 'uses'=> 'WapUserController@addressDetail'));
+	Route::post('user/address/save', array('as'=> 'user.address.save', 'uses'=> 'WapUserController@addressSave'));
+	Route::post('user/addAddress', array('as'=> 'user.addAddress', 'uses'=> 'WapUserController@addAddress'));
+	Route::post('user/address/default', array('as'=> 'user.address.default', 'uses'=> 'WapUserController@updateDefault'));
+	Route::post('user/address/delete', array('as'=> 'user.address.delete', 'uses'=> 'WapUserController@addressDelete'));
+	Route::get('user/orders', array('as'=> 'user.orders', 'uses'=> 'WapUserController@orders'));
+	Route::get('user/order/loading', array('as'=> 'user.orders.loading', 'uses'=> 'WapUserController@orderLoading'));
 
+
+
+	Route::get('buy/{order_id}', array('as'=> 'buy', 'uses'=> 'WapOrderController@buy'));
+	Route::get('order/addressSelect/{order_id}', array('as'=> 'order.addressSelect', 'uses'=> 'WapOrderController@addressSelect'));
+	Route::post('user/order/status/update', array('as'=> 'user.order.status.update', 'uses'=> 'WapOrderController@orderStatusUpdate'));
+	Route::post('/order/wxpay', array('as'=> 'order.wxpay', 'uses'=> 'WapOrderController@wxpay'));
+});
 //登陆
 Route::get('admin/login', array('as'=> 'admin.login', 'uses'=> 'LoginController@login'));
 Route::post('admin/doLogin', array('as'=> 'admin.doLogin', 'uses'=> 'LoginController@doLogin'));
@@ -112,5 +112,7 @@ Route::get('/user/dologin', array('as'=> 'user.dologin', 'uses'=> 'WapUserContro
 Route::group(array('before'=> 'userlogin'), function() {
 	Route::post('', array('as'=> 'stock.finance.add.day', 'uses'=> 'StockController@addFinanceDay'));
 });
+
+Route::get('/user/test', array('as'=> 'user.test', 'uses'=> 'WapUserController@test'));
 
 

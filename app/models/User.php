@@ -76,7 +76,7 @@ class User extends Eloquent{
             ));
 
         }
-        $uinfo = DB::select("select * from user where weixin_openid = ".$openid);
+        $uinfo = User::where('weixin_openid',$openid)->first();
         Session::set('user',$uinfo);
         return $uinfo; 
     }

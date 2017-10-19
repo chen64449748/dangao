@@ -87,7 +87,7 @@ class WapUserController extends WapController
 	}
     function login()
     {
-        return Redirect::to('https://open.weixin.qq.com/connect/oauth2/authorize?appid='.$this->AppId.'&redirect_uri='.urlencode('http://www.terentia.cn/user/dologin/').'&response_type=code&scope=snsapi_userinfo&state=#wechat_redirect');
+        return Redirect::to('https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx30270429e437180c&redirect_uri='.urlencode('http://www.terentia.cn/user/dologin/').'&response_type=code&scope=snsapi_userinfo&state=#wechat_redirect');
     }
 
     function dologin(){
@@ -375,5 +375,19 @@ class WapUserController extends WapController
             return Response::json(array('status'=> 0, 'message'=> '删除失败'));
         }
 
+    }
+
+    function test(){
+        // $data = array('nickname' =>'用户一',
+        //              'headimgurl' => 'http://abc/a.img',
+        //              'sex' => 1,
+        //              'province' => '江苏',
+        //              'unionid' => '111',
+        //              'city' =>'南通',
+        //              'openid'=>'asdafkasdj1231',
+        //          );
+        // user::login($data);
+        Session::forget('user');
+        dd(Session::get('user'));
     }
 }

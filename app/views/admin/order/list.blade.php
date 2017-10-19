@@ -10,11 +10,20 @@
         <li class="active">列表</li>
     </ol>
 </div>
+<form class="form-inline" method="get">
+    <div class="control-group fl">
 
+        <input type="text" name="wx_pay_order" class="input" placeholder="订单号" style="height:30px" value="{{$wx_pay_order}}">
+        <input type="text" style="width: 200px;height:30px" name="mobile" class="input"  placeholder="手机号" value="{{$mobile}}">
+        <input type="text" style="width: 200px;height:30px" name="name" class="input"  placeholder="姓名" value="{{$name}}">
+
+        <input type="submit" class="btn btn-primary" value="搜索">
+    </div>
+    </form>
 <table class="table table-striped">
     <tr>
         <th>#</th>
-        <th>商品名称</th>
+        <th style="max-width:200px">订单号</th>
         <th>收货人</th>
         <th>下单时间</th>
         <th>订单状态</th>
@@ -25,11 +34,11 @@
     @foreach ($orders as $item)
     <tr>
         <td>{{$item->id}}</td>
-        <td>{{$item->product_name}}</td>
+        <td style="max-width:180px;overflow-x:scroll;">{{$item->wx_pay_order}}</td>
         <td>{{$item->name}}&nbsp;&nbsp;{{$item->mobile}}&nbsp;&nbsp;{{$item->address}}</td>
-        <td>{{$item->create_time}}</td>
-        <th>@if ($item->status == '1')未支付 @elseif($item->status == '2') <span style="color:red">已支付</span> @elseif($item->status =='3') 取消订单 @else  @endif</th>
-        <th>{{$item->pay}}</th>
+        <td>{{$item->created_at}}</td>
+        <th>@if ($item->status == '1')<span style="color:red">未支付</span> @elseif($item->status == '2') <span style="color:green">已支付</span> @elseif($item->status =='3') 取消订单 @else  @endif</th>
+        <th>{{$item->price}}</th>
         <td>
             <a class="btn btn-info btn-sm changepwd"  admin_id="{{$item->id}}" href="/admin/order_detail/?oid={{$item->id}}">查看详情</a>
         </td>
@@ -38,7 +47,7 @@
 
 
 </table>
-<div class="pagination fr">
+<div class="pagination">
 {{$orders->links()}}
 </div>
 @stop

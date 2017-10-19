@@ -1,7 +1,7 @@
 <?php
 class wxpay {
     public static function getjsApiParameters($out_trade_no, $body, $total_fee, $openid, $from = null) {
-        include_once '../wxpay/WxPayPubHelper/WxPayPubHelper.php';
+        include_once getcwd().'/app/wxpay/WxPayPubHelper/WxPayPubHelper.php';
         WxPayConf_pub::init($from);
 
         $jsApi = new JsApi_pub();
@@ -35,8 +35,8 @@ class wxpay {
     }
 
     public static function notify() {
-        include_once constant('APP_PATH') . 'wxpay/log_.php';
-        include_once constant('APP_PATH') . 'wxpay/WxPayPubHelper/WxPayPubHelper.php';
+        include_once getcwd().'/app/wxpay/log_.php';
+        include_once getcwd().'/app/wxpay/WxPayPubHelper/WxPayPubHelper.php';
         WxPayConf_pub::init();
 
         //使用通用通知接口
@@ -119,7 +119,7 @@ class wxpay {
     }
 
     public static function queryorder($out_trade_no) {
-        include_once '../wxpay/WxPayPubHelper/WxPayPubHelper.php';
+        include_once getcwd().'/app/wxpay/WxPayPubHelper/WxPayPubHelper.php';
         WxPayConf_pub::init();
         $queryorder = new OrderQuery_pub();
         $queryorder->setParameter("out_trade_no", $out_trade_no); //商户订单号
