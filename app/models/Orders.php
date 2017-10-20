@@ -9,10 +9,11 @@ class Orders extends Eloquent
 {
     protected $table = 'orders';
 
-    public function order_detail()
+    public function orderDetails()
     {
-        return $this->hasOne('orders_detail','oid', 'id');
+        return $this->hasMany('OrderDetails', 'order_id', 'id');
     }
+
     function getList($type = array(), $order = array(), $fetch = array(), $offset = 0, $limit = 0)
     {
         $select = $this->select($fetch ? $fetch : array('orders.*'));

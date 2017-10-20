@@ -5,23 +5,39 @@ class OrderController extends BaseController
         $mobile = Input::get('mobile', '');
         $wx_pay_order = Input::get('wx_pay_order', '');
         $name = Input::get('name', '');
+        $status = Input::get('status', '');
+
+        $status_arr = array(
+            'waiting' => array(0, 1),
+            'paying' => array(1),
+            'payed' => array(2),
+            'close' => array(3),
+            'ok' => array(4),
+        );
+
         $type = array();
         $name && $type['name'] = $name;
         $mobile && $type['mobile'] = $mobile;
         $wx_pay_order && $type['wx_pay_order'] = $wx_pay_order;
-        $orders = new Orders(); 
-        $orderslist = $orders->getListPage($type,15);
+        isset($status_arr[$status]) && $type['status'] = $status_arr[$status];
+
+
+        $order_m = new Orders(); 
+        $orders = $order_m->getListPage($type,15);
+
         $append = array(
             'mobile'=>$mobile,
             'wx_pay_order'=>$wx_pay_order,
-            'name'=>$name
+            'name'=>$name,
+            'status' => $status,
         );
-        $orderslist->appends($append);
+        $orders->appends($append);
         $view_data = array(
-            'orders' => $orderslist,
+            'orders' => $orders,
             'mobile'=>$mobile,
             'wx_pay_order'=>$wx_pay_order,
-            'name'=>$name
+            'name'=>$name,
+            'status' => $status,
         );
 
         

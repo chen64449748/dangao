@@ -10,8 +10,18 @@
         <li class="active">列表</li>
     </ol>
 </div>
-<form class="form-inline" method="get">
+
+<div class="page-head">
+    <form class="form-inline" method="get">
     <div class="control-group fl">
+
+        <select name="status">
+            <option value="">订单状态</option>
+            <option @if ($status == 'waiting') selected @endif value="waiting">待付款</option>
+            <option @if ($status == 'payed') selected @endif value="payed">已付款</option>
+            <option @if ($status == 'ok') selected @endif value="ok">已完成</option>
+            <option @if ($status == 'close') selected @endif value="close">已取消</option>
+        </select>
 
         <input type="text" name="wx_pay_order" class="input" placeholder="订单号" style="height:30px" value="{{$wx_pay_order}}">
         <input type="text" style="width: 200px;height:30px" name="mobile" class="input"  placeholder="手机号" value="{{$mobile}}">
@@ -20,33 +30,76 @@
         <input type="submit" class="btn btn-primary" value="搜索">
     </div>
     </form>
-<table class="table table-striped">
-    <tr>
-        <th>#</th>
-        <th style="max-width:200px">订单号</th>
-        <th>收货人</th>
-        <th>下单时间</th>
-        <th>订单状态</th>
-        <th>订单金额</th>
-        <th>操作</th>
-    </tr>
+</div>
+
+<div class="page-head">
+
     
+
     @foreach ($orders as $item)
-    <tr>
-        <td>{{$item->id}}</td>
-        <td style="max-width:180px;overflow-x:scroll;">{{$item->wx_pay_order}}</td>
-        <td>{{$item->name}}&nbsp;&nbsp;{{$item->mobile}}&nbsp;&nbsp;{{$item->address}}</td>
-        <td>{{$item->created_at}}</td>
-        <th>@if ($item->status == '1')<span style="color:red">未支付</span> @elseif($item->status == '2') <span style="color:green">已支付</span> @elseif($item->status =='3') 取消订单 @else  @endif</th>
-        <th>{{$item->price}}</th>
-        <td>
-            <a class="btn btn-info btn-sm changepwd"  admin_id="{{$item->id}}" href="/admin/order_detail/?oid={{$item->id}}">查看详情</a>
-        </td>
-    </tr>
+    <div class="finance_order row border9">
+        
+        <div class="row order_title">
+            订单状态: 
+            <span style="color: red; font-size: 20px;">
+            @if ((int)$item->status === 0 || $item->status == 1)
+            待付款
+            @elseif ($item->status == 2)
+            已付款
+            @elseif ($item->status == 3)
+            已关闭
+            @elseif ($item->status == 4)
+            已完成
+            @endif            
+            </span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+            订单编号：{{$item->id}} &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 
+            微信订单号：{{$item->wx_pay_order}} &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 
+            收件人：{{$item->name}};手机号：{{$item->mobile}} &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 
+            地址：{{$item->address}} &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 
+            结算时间：{{$item->created_at}}
+            <button class="prt btn btn-info">打印</button>
+        </div>
+
+        <div>
+            <div class="order_item" style="width: 40%;">
+                商品
+            </div>
+            <div class="order_item" style="width: 20%;">规格</div>
+            <div class="order_item" style="width: 10%;">数量/件</div>
+            <div class="order_item" style="width: 10%;">付款时间</div>
+            <div class="order_item" style="width: 10%;">单价/元</div>
+            <div class="order_item" style="width: 10%;">合计/元</div>
+            <div class="clr"></div>
+        </div>
+        @foreach ($item->orderDetails as $dkey => $ditem)
+        <div>
+            <div class="order_item" style="width: 40%;">
+                <img style="height: 40px;" src="{{$ditem->goods->goods_img}}">
+                {{$ditem->goods->goods_title}}
+            </div>
+
+            <div class="order_item" style="width: 20%;">
+                @foreach ($ditem->p->skuPrices as $sku_price)
+                    {{$sku_price->skuValue->value}}
+                @endforeach
+            </div>
+            <div class="order_item" style="width: 10%;">{{$ditem->buy_count}}件</div>
+            <div class="order_item" style="width: 10%;">{{$item->pay_time}}</div>
+            <div class="order_item" style="width: 10%;">{{$ditem->price}}元</div>
+            <div class="order_item" style="width: 10%;">{{number_format($ditem->price * $ditem->buy_count, 2)}}元</div>
+            <div class="clr"></div>
+        </div>
+        @endforeach
+
+        <div class="order_foot">
+            总计: {{$item->price}}元
+        </div>
+    </div>
     @endforeach
+</div>
 
 
-</table>
+
 <div class="pagination">
 {{$orders->links()}}
 </div>
