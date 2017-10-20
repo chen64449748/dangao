@@ -262,6 +262,7 @@ function del() {
 <script type="text/javascript">
 
     var ws;
+    var ws_url = 'ws://120.27.227.150:8282';
     var lockReconnect = false;//避免重复连接
     var retime = 0;
     var heartCheck = {
@@ -308,7 +309,7 @@ function del() {
     }
 
 
-    createWebSocket('ws://127.0.0.1:8282');
+    createWebSocket(ws_url);
 
     function initEventHandle() {
 
@@ -345,11 +346,11 @@ function del() {
         }
 
         ws.onerror = function (evnt) {
-           reconnect('ws://127.0.0.1:8282');
+           reconnect(ws_url);
         };
 
         ws.onclose = function () {
-            reconnect('ws://127.0.0.1:8282');
+            reconnect(ws_url);
         }
     }
     
