@@ -396,6 +396,15 @@ class GoodsController extends BaseController
 	{
 		$file = Input::file('img');
 		$dir = Input::get('dir', '');
+
+		$shop = Shop::first();
+
+		if (!$shop) {
+			$pz = 50;
+		} else {
+			$pz = (int)$shop->img_quality;
+		}
+
 		$upload_dir = './upload';
 
 		try {
@@ -408,13 +417,24 @@ class GoodsController extends BaseController
 				$upload_dir .= '/'.trim($dir, '/');
 			}
 			$ext = $file->getClientOriginalExtension();
+			$web_dir = ltrim($upload_dir, '.');
 
 			$file_name = date('YmdHis').uniqid().'.'.trim($ext);
-
+			$file_iname = date('YmdHis').uniqid().'ick.'.trim($ext);
 			$file->move($upload_dir, $file_name);
 
-			$web_dir = ltrim($upload_dir, '.');
-			return Response::json(array('status'=> 1, 'url'=> $web_dir.'/'.$file_name));
+			$upload_filename = public_path().$web_dir.'/'.$file_name;
+			$imageick_filename = public_path().$web_dir.'/'.$file_iname;
+
+			
+
+			$image = new Imagick($upload_filename);
+			$image->setImageCompressionQuality($pz);
+			$image->writeImage($imageick_filename);
+			// 删除上传文件
+			unlink($upload_filename);
+
+			return Response::json(array('status'=> 1, 'url'=> $web_dir.'/'.$file_iname));
 		} catch (Exception $e) {
 			return Response::json(array('status'=> 0, 'message'=> '上传失败:'.$e->getMessage()));
 		}

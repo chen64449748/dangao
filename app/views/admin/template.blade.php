@@ -66,7 +66,7 @@
   </div>
   
     <style>
-    #pcont {padding: 0 20px;}
+    #pcont {padding: 0 20px 60px 20px;}
     #notify_div * {box-sizing : border-box;}
     #notify_div {box-sizing : border-box; z-index: 123146487; width: 300px; min-height: 50px; background: white; position: fixed; bottom: -500px; right: 0;
         box-shadow: 0 0 15px #ccc; border-radius: 6px;
@@ -91,6 +91,9 @@
     .notify_alert_content {width: 100%; font-size: 16px; padding: 16px; overflow: hidden; text-overflow : ellipsis;}
     </style>
 
+    
+    
+
     <div class="container-fluid" id="pcont">
 
     	@yield('content')
@@ -99,7 +102,7 @@
 
     <div id="notify_div">
         <div id="notify_title_div">
-            <div id="notify_title">消息盒子</div>
+            <div id="notify_title">消息盒子<input type="checkbox" id="mp3play" checked="checked">语言播报</div>
             <div id="notify_toggle">打开</div>
         </div>
 
@@ -113,6 +116,7 @@
     </div>
 
     <div class="notify_alert">
+
         <div class="notify_alert_title_div">
             <div class="notify_alert_title">订单提示</div>
             <div class="notify_alert_close" onclick="notify_alert_close(this)">关闭</div>
@@ -127,7 +131,9 @@
 </div>  
 </body>
 
-
+<audio id="mp3Btn">
+    <source src="/orderadmin.mp3" type="audio/mpeg" />
+</audio>
 </html>
 <script src="/js/jquery.js"></script>
 <script src="/js/masonry-docs.min.js" type="text/javascript"></script>
@@ -149,6 +155,13 @@
 
 
 <script type="text/javascript">
+
+$('#mp3play').iCheck({
+    checkboxClass: 'icheckbox_square-blue',
+    radioClass: 'iradio_square-blue',
+    increaseArea: '20%' // optional
+});
+
 function notify_alert_close(obj, count)
 {   
     $(obj).data('flag', '0');
@@ -324,12 +337,16 @@ function del() {
 
         ws.onmessage = function (evt)
         {
-            console.log(evt);
             var data = JSON.parse(evt.data);
 
             if (data.action == 'OrderAdminSend') {
                 var count = notify_item_add('订单提示', '订单号；'+ data.data.order_id + '<br>'+ data.data.message);
                 notify_alert('订单提示', '订单号；'+ data.data.order_id + '<br>'+ data.data.message, count);
+                
+                if ($('#mp3play').prop('checked')) {
+                    $('#mp3Btn').get(0).play();
+                }
+                
             } else if (data.action == 'AdminPing') {
 
                 if (data.message == 'pong') {

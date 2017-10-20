@@ -15,6 +15,7 @@ class WapController extends BaseController
 			$shop->shop_discrib='';
 			$shop->shop_work = '';
 			$shop->send_address = '';
+			$shop->img_quality = 50;
 		}
 
 		$this->shop = $shop;

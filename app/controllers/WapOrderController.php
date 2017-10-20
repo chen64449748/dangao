@@ -39,7 +39,7 @@ class WapOrderController extends WapController
 		}
 		
 
-		if ($order[0]->status !== 0 && $order[0]->status != 1) {
+		if ((int)$order[0]->status !== 0 && (int)$order[0]->status != 1) {
 			return Redirect::route('user.orders');
 		}
 

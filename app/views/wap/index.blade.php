@@ -15,7 +15,7 @@
 <div class="flexslider fix_patch1">
     <ul class="slides">
         @foreach ($banners as $banner)
-        <li><a href="{{$banner->banner_url}}"><img src="{{$banner->banner_img}}" style="widht: 640px; height: 290px;" alt="" width="100%"></a></li>
+        <li><a href="{{$banner->banner_url}}"><img src="{{$banner->banner_img}}" style="widht: 640px; height: 220px;" alt="" width="100%"></a></li>
         @endforeach
 
     </ul>
@@ -68,7 +68,7 @@
 
     @if (count($fines))
     @foreach ($fines as $fine)
-    <div class="pdlr_02 mgt_10"><a href="/active/detail/{{$fine->id}}" class="dsp_blk"><img src="{{$fine->active_img}}" height="300" width="100%"></a></div>
+    <div class="pdlr_02 mgt_10"><a href="/active/detail/{{$fine->id}}" class="dsp_blk"><img src="{{$fine->active_img}}" height="220" width="100%"></a></div>
     @endforeach
 
     @else
