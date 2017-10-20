@@ -16,7 +16,7 @@
     <div class="control-group fl">
 
         <select name="status">
-            <option value="">订单状态</option>
+            <option value="">全部订单状态</option>
             <option @if ($status == 'waiting') selected @endif value="waiting">待付款</option>
             <option @if ($status == 'payed') selected @endif value="payed">已付款</option>
             <option @if ($status == 'ok') selected @endif value="ok">已完成</option>
