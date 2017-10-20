@@ -15,7 +15,7 @@ class WapIndexController extends WapController {
 		$active_m = new Active();
 		// 获取推荐
 		$hot = $goods_m->getHot();
-
+		Websocket::adminOrderSend(1);
 		// 获取活动
 		$fines = $active_m->getFine();
         
