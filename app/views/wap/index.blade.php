@@ -23,18 +23,7 @@
 
 
 <!--===================菜单=====================-->
-<div>
-    <div class="md_menu">
-        
-        <a href="<!--{$v.url|replace:'http://md.bookuu.com':$mdwd_www}-->"  class="fl"><img src="/wap/20170926101954.jpg" alt="<!--{$v.title}-->"  height="80"><span><!--{$v.title}--></span></a>
-        
-        <a href="<!--{$v.url|replace:'http://md.bookuu.com':$mdwd_www}-->"  class="fl"><img src="/wap/20170926103230.jpg" alt="<!--{$v.title}-->"  height="80"><span><!--{$v.title}--></span></a>
 
-        <a href="<!--{$v.url|replace:'http://md.bookuu.com':$mdwd_www}-->"  class="fl"><img src="/wap/20170926103506.jpg" alt="<!--{$v.title}-->"  height="80"><span><!--{$v.title}--></span></a>
-
-        <div class="cl"></div>
-    </div>
-</div>
 
 <script>
     $(document).ready(function(){
@@ -51,7 +40,17 @@
     })
 </script>
 
+<div class="bgcl_wt pdb_10">
 
+    
+    <a href="javascript:;" class="mgt_10 a_lk">
+        <span class="fl spr"></span>
+        <span class="fl fs_15" style="position: relative; top : -6px;">店铺介绍</span>
+        <img src="/wap/images/mdimages/icon/more.png" alt="" height="12" class="fr" style="margin-top: 4px;">
+        <div class="cl"></div>
+    </a>
+    <p style="color:red;padding:15px">{{$shop->shop_discrib}}</p>
+</div>
 
 <!--==================精选活动====================-->
 <div class="bgcl_wt pdb_10">

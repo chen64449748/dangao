@@ -87,7 +87,8 @@ class WapUserController extends WapController
 	}
     function login()
     {
-        return Redirect::to('https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx30270429e437180c&redirect_uri='.urlencode('http://www.terentia.cn/user/dologin/').'&response_type=code&scope=snsapi_userinfo&state=#wechat_redirect');
+        $appid = Session::get('appid');
+        return Redirect::to('https://open.weixin.qq.com/connect/oauth2/authorize?appid='.$appid.'&redirect_uri='.urlencode('http://www.terentia.cn/user/dologin/').'&response_type=code&scope=snsapi_userinfo&state=#wechat_redirect');
     }
 
     function dologin(){

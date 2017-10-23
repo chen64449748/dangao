@@ -492,6 +492,9 @@ CREATE TABLE `shop` (
   `shop_work` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1 开店 0 打烊',
   `shop_phone` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   `send_address` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '配送区域',
+  `appid` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '微信appid',
+  `appsecret` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '微信appsecret',
+  `token` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'token',
   `img_quality` int(11) DEFAULT NULL COMMENT '图片品质 默认50',
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
@@ -501,7 +504,7 @@ CREATE TABLE `shop` (
 -- ----------------------------
 -- Records of shop
 -- ----------------------------
-INSERT INTO `shop` VALUES ('2', 'terentia蛋糕店', '陈文越', '1', '18329042977', '江苏省南通市', '53', '2017-10-18 10:12:27', '2017-10-20 00:03:30');
+INSERT INTO `shop` VALUES ('2', 'terentia蛋糕店', '本店已于10月26日正式开业！届时欢迎大家来本店，优惠多多，福利多多。', '1', '18329042977', '江苏省南通市','wx30270429e437180c','d24eb00c51f9fb46f0eafe1738220864','token', '53', '2017-10-18 10:12:27', '2017-10-20 00:03:30');
 
 -- ----------------------------
 -- Table structure for sku

@@ -18,10 +18,8 @@ class WapIndexController extends WapController {
 		
 		// 获取活动
 		$fines = $active_m->getFine();
-        
 		// banner
 		$banners = Banner::get();
-
 		$view_data = array(
 			'active' => 'index',
 			'hot' => $hot,
