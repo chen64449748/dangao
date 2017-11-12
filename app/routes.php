@@ -60,6 +60,7 @@ Route::group(array('before'=> 'login'), function() {
 	//管理员
 	Route::get('/admin/orders', array('as'=> 'admin.orders', 'uses'=> 'OrderController@orders'));
 	Route::get('/admin/order_detail', array('as'=> 'admin.order_detail', 'uses'=>'OrderController@order_detail'));
+	Route::any('orders/change', array('as'=> 'orders.change', 'uses'=> 'OrderController@change'));
 	// 货品
 	Route::get('goods/list', array('as'=> 'goods.list', 'uses'=> 'GoodsController@goodsList'));
 	Route::post('goods/get', array('as'=> 'goods.list', 'uses'=> 'GoodsController@goodsGet'));

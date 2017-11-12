@@ -58,4 +58,18 @@ class OrderController extends BaseController
         return View::make('admin.order.detail', $view_data);
     }
 
+    public function change(){
+        $oid = Input::get('oid');
+        $status = Input::get('status');
+        if (!$oid) {
+            return Response::json(array('status'=> 0, 'message'=> '信息有误，请刷新重试'));
+        }
+        $r = Orders::changestatus($oid,$status);
+        if($r){
+           return Response::json(array('status'=> 1, 'message'=> '修改成功'));  
+        }else{
+            return Response::json(array('status'=> 2, 'message'=> '修改失败，请刷新重试'));
+        }
+    }
+
 }

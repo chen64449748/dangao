@@ -57,7 +57,7 @@
             收件人：{{$item->name}};手机号：{{$item->mobile}} &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 
             地址：{{$item->address}} &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 
             结算时间：{{$item->created_at}}
-            <button class="prt btn btn-info">打印</button>
+            <button class="prt btn btn-info   changestatus" oid="{{$item->id}}" data-toggle="modal" data-target="#changestatus">状态修改</button>
         </div>
 
         <div>
@@ -104,23 +104,22 @@
 {{$orders->links()}}
 </div>
 @stop
-<div class="modal hide fade" id="changepwd">
+<div class="modal hide fade" id="changestatus">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h3>修改密码</h3>
+    <h3>修改状态</h3>
   </div>
   <div class="modal-body">
     <form class="form-horizontal">
     <div class="control-group">
-        <label class="control-label" for="inputold">原密码</label>
+        <label class="control-label" for="inputold">订单状态</label>
         <div class="controls">
-          <input type="text" id="oldpwd" placeholder="原密码">
-        </div>
-    </div>
-    <div class="control-group">
-        <label class="control-label" for="inputnew">新密码</label>
-        <div class="controls">
-          <input type="text" id="newpwd" placeholder="新密码">
+            <select id="choose">
+                <option value="0">未付款</option>
+                <option value="2">已付款</option>
+                <option value="3">已关闭</option>
+                <option value="4">已完成</option>
+            </select>
         </div>
     </div>
 </form>
@@ -163,22 +162,12 @@ $('.updateMake').click(function () {
 
 });
 
-$('.changepwd').click(function () {
-    admin_id = $(this).attr('admin_id');
+$('.changestatus').click(function () {
+    oid = $(this).attr('oid');
 });
 $('.change').click(function(){
-    var oldpwd =$('#oldpwd').val();
-    var newpwd = $('#newpwd').val();
-    if(oldpwd==''){
-        alert('原密码不能为空');
-    }
-    if(newpwd==''){
-        alert('原密码不能为空');
-    }
-    if(admin_id==''){
-        alert('请刷新重试！')
-    }
-    $.get('/admin/change', {admin_id:admin_id,old:oldpwd,new:newpwd}, function (data) {   
+    var status =$('#choose').val();
+    $.get('/orders/change', {oid:oid,status:status}, function (data) {   
                 if (data.status == 1) {
                     window.wxc.xcConfirm(data.message, window.wxc.xcConfirm.typeEnum.success);
                     setTimeout(function () {

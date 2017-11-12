@@ -115,7 +115,12 @@ class Orders extends Eloquent
         }
 
     }
-
+   
+    //修改状态
+    public static  function changestatus($oid,$status){
+       $res = DB::update("update orders set status = '".$status."'  where id = ".$oid);
+       return $res;
+    }
     //统一订单
      public static function create_wxpay($id) {
         $oinfo = DB::table('orders')->where('id',$id)->first();
