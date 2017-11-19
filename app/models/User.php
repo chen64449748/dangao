@@ -64,8 +64,13 @@ class User extends Eloquent{
         if($user){
             
         }else{
+            // Match Emoticons
+            $regexEmoticons = '/[\x{1F600}-\x{1F64F}]/u';
+            $nick = preg_replace($regexEmoticons, '', $data['nickname']);
+
             // $nick= mb_convert_encoding($data['nickname'], 'UTF-8');
-            $nick = preg_replace('/xE0[x80-x9F][x80-xBF]'.'|xED[xA0-xBF][x80-xBF]/S','?', $data['nickname'] );
+            // $nick = preg_replace('/\xEE[\x80-\xBF][\x80-\xBF]|\xEF[\x81-\x83][\x80-\xBF]/', '', $data['nickname']);
+            // $nick = preg_replace('/xE0[x80-x9F][x80-xBF]'.'|xED[xA0-xBF][x80-xBF]/S','?', $data['nickname'] );
             DB::table('user')->insert(
                 array('nick' => $nick,
                      'avatar' => $data['headimgurl'],
