@@ -64,7 +64,7 @@ Route::filter('userlogin', function()
 {
 	if (!Session::get('user')) {
 
-		// return Redirect::to('/user/login');
+		return Redirect::to('/user/login');
 	}
 });
 Route::filter('auth.basic', function()
