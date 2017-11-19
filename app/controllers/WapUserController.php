@@ -97,6 +97,7 @@ class WapUserController extends WapController
         if(!isset($_GET['code'])||empty($_GET['code'])){
             die('必须授权才能继续！');
         }
+        var_dump($_GET['code']);exit();
         $wxservice = new Wxservice;
         $token=$wxservice->getaccesst($_GET['code']);
         $uinfo=$wxservice->getUserInfo($token);
