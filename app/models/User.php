@@ -64,7 +64,8 @@ class User extends Eloquent{
         if($user){
             
         }else{
-            $nick= mb_convert_encoding($data['nickname'], 'UTF-8');
+            // $nick= mb_convert_encoding($data['nickname'], 'UTF-8');
+            $nick = preg_replace('/xE0[x80-x9F][x80-xBF]'.'|xED[xA0-xBF][x80-xBF]/S','?', $ddtea['nickname'] );
             DB::table('user')->insert(
                 array('nick' => $nick,
                      'avatar' => $data['headimgurl'],
