@@ -99,7 +99,6 @@ class WapUserController extends WapController
         }
         $wxservice = new Wxservice;
         $token=$wxservice->getaccesst($_GET['code']);
-        var_dump($token);exit();
         $uinfo=$wxservice->getUserInfo($token);
         if(user::login($uinfo)){
             return Redirect::to('/');

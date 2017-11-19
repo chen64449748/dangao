@@ -34,7 +34,7 @@ class Wxservice extends Eloquent{
         }
         return $data;
     } 
-    private function getUserInfo($token){
+    public function getUserInfo($token){
         $access_token=$token['access_token'];
         $openid=$token['openid'];
         $str=file_get_contents('https://api.weixin.qq.com/sns/userinfo?access_token='.$access_token.'&openid='.$openid.'&lang=zh_CN');
