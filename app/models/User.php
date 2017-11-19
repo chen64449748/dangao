@@ -69,7 +69,6 @@ class User extends Eloquent{
                      'avatar' => $data['headimgurl'],
                      'sex' => $data['sex'] == '1' ? 'm' : ($data['sex'] == '2' ? 'f' : ''),
                      'province' => $data['province'],
-                     'unionid' => $data['unionid'],
                      'city' => $data['city'],
                      'weixin_openid' => $openid,
                      'create_time' => $time,
