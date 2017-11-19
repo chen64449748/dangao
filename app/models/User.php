@@ -64,8 +64,9 @@ class User extends Eloquent{
         if($user){
             
         }else{
+            $nick= mb_convert_encoding($data['nickname'], 'UTF-8');
             DB::table('user')->insert(
-                array('nick' => $data['nickname'],
+                array('nick' => $nick,
                      'avatar' => $data['headimgurl'],
                      'sex' => $data['sex'] == '1' ? 'm' : ($data['sex'] == '2' ? 'f' : ''),
                      'province' => $data['province'],
