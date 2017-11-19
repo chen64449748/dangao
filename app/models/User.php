@@ -88,7 +88,7 @@ class User extends Eloquent{
             DB::table('user')->insert(
                 array('nick' => $nick,
                      'avatar' => $data['headimgurl'],
-                     'sex' => $data['sex'] == '1' ? 'm' : ($data['sex'] == '2' ? 'f' : ''),
+                     'sex' => $data['sex'],
                      'province' => $data['province'],
                      'city' => $data['city'],
                      'weixin_openid' => $openid,
