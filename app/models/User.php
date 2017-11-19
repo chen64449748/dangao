@@ -67,7 +67,21 @@ class User extends Eloquent{
             // Match Emoticons
             $regexEmoticons = '/[\x{1F600}-\x{1F64F}]/u';
             $nick = preg_replace($regexEmoticons, '', $data['nickname']);
+             // Match Miscellaneous Symbols and Pictographs
+            $regexSymbols = '/[\x{1F300}-\x{1F5FF}]/u';
+            $nick = preg_replace($regexSymbols, '', $nick);
 
+            // Match Transport And Map Symbols
+            $regexTransport = '/[\x{1F680}-\x{1F6FF}]/u';
+            $nick = preg_replace($regexTransport, '', $nick);
+
+            // Match Miscellaneous Symbols
+            $regexMisc = '/[\x{2600}-\x{26FF}]/u';
+            $nick = preg_replace($regexMisc, '', $nick);
+
+            // Match Dingbats
+            $regexDingbats = '/[\x{2700}-\x{27BF}]/u';
+            $nick = preg_replace($regexDingbats, '', $nick);
             // $nick= mb_convert_encoding($data['nickname'], 'UTF-8');
             // $nick = preg_replace('/\xEE[\x80-\xBF][\x80-\xBF]|\xEF[\x81-\x83][\x80-\xBF]/', '', $data['nickname']);
             // $nick = preg_replace('/xE0[x80-x9F][x80-xBF]'.'|xED[xA0-xBF][x80-xBF]/S','?', $data['nickname'] );
