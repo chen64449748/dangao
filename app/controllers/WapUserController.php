@@ -392,6 +392,7 @@ class WapUserController extends WapController
         //          );
         // user::login($data);
         Session::forget('user');
+        Session::forget('user_id');
         dd(Session::get('user'));
     }
 }
