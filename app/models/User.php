@@ -98,6 +98,7 @@ class User extends Eloquent{
         }
         $uinfo = User::where('weixin_openid',$openid)->first();
         Session::set('user',$uinfo);
+        Session::set('user_id',$uinfo->id);
         return $uinfo; 
     }
 }
