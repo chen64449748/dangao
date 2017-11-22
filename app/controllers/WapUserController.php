@@ -31,6 +31,7 @@ class WapUserController extends WapController
             'close_count' => $close_count,
             'ok_count' => $ok_count,
 		    'shop'     => $shop,
+            'user'    =>Session::get('user')
         );
 
 		return View::make('wap.user.index', $view_data);

@@ -42,9 +42,9 @@
 		<img src="/wap/images/bg/personal.jpg" alt="" width="100%">
 
             <div class="personal_div02" style="height:42.7%;overflow: hidden;">               
-                <img id="header_img" src="/wap/20170926101954.jpg" alt="" style="position: absolute;right: 0px;top:0;z-index: 9;width: 100%;height: 100%;">
+                <img id="header_img" src="{{$user->avatar}}" alt="" style="position: absolute;right: 0px;top:0;z-index: 9;width: 100%;height: 100%;">
             </div>
-        <div class="personal_div03" style="color: #fff;">182324446</div>
+        <div class="personal_div03" style="color: #fff;">{{$user->nick}}</div>
         
 		<a href="<!--{$my_shop_url}-->" class="personal_div05" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;width: 70%;"><!--{$my_shop_url}--></a>
         
