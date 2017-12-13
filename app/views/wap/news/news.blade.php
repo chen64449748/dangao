@@ -1,6 +1,9 @@
 @extends('wap.header')
 
 @section('content')
+<style>
+	body{background-color: white;}
+</style>
 <div class="top">
 	<span>特云妮亚</span>
 	<br class="clear" />
