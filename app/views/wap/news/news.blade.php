@@ -16,4 +16,14 @@
 <audio id="mp3Btn" loop="loop" autoplay="autoplay">
     <source src="{{$news->bg_mic}}" type="audio/mpeg" />
 </audio>
+
+<script>
+(function audioAutoPlay() {
+     var audio = document.getElementById('mp3Btn');
+        audio.play();
+    document.addEventListener("WeixinJSBridgeReady", function () {
+        audio.play();
+     }, false);
+ })();
+</script>
 @stop
