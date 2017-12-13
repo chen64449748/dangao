@@ -426,3 +426,21 @@ function uploadImage(file, dir, callback)
     xhr.open('POST', '/goods/imageUpload', true);
     xhr.send(form_data)
 }
+
+function uploadMic(file, dir, callback)
+{
+	var form_data = new FormData();
+	form_data.append('mic', file);
+	form_data.append('dir', dir);
+
+	var xhr = new XMLHttpRequest();
+
+	xhr.onreadystatechange = function () {
+        if(xhr.readyState == 4){
+        	callback(xhr.status, xhr.responseText);
+        }
+    }
+
+    xhr.open('POST', '/news/micUpload', true);
+    xhr.send(form_data)
+}

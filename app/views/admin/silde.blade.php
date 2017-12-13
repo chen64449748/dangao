@@ -41,3 +41,9 @@
 		<li @if ($action == 'config/list') class="active" @endif><a href="/config/list">所有属性</a></li>
 	</ul>
 </li>
+
+<li><a href="#"><i class="fa fa-list-alt"></i><span>文章</span></a>
+	<ul class="sub-menu">
+		<li @if ($action == 'news/list') class="active" @endif><a href="/news/list">所有文章</a></li>
+	</ul>
+</li>

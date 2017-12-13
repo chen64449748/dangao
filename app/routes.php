@@ -10,6 +10,7 @@
 | and give it the Closure to execute when that URI is requested.
 |
 */
+Route::get('news', array('as'=> 'news', 'uses'=> 'WapNewsController@news'));
 Route::group(array('before'=> 'userlogin'), function() {
 	Route::get('/', array('as'=> '/', 'uses'=> 'WapIndexController@index'));
 	Route::get('goods', array('as'=> 'goods', 'uses'=> 'WapGoodsController@goods'));
@@ -105,6 +106,12 @@ Route::group(array('before'=> 'login'), function() {
 	Route::post('stock/finance/add', array('as'=> 'stock.finance.add', 'uses'=> 'StockController@addFinance'));
 	Route::post('stock/finance/add/day', array('as'=> 'stock.finance.add.day', 'uses'=> 'StockController@addFinanceDay'));
 
+
+	// 文章 
+	Route::get('news/list', array('as'=> 'news.list', 'uses'=> 'NewsController@newsList'));
+	Route::get('news/detail' , array('as'=> 'news.detail', 'uses' => 'NewsController@detail'));
+	Route::post('news/micUpload', array('as'=> 'news.micUpload', 'uses'=> 'NewsController@micUpload'));
+	Route::post('news/save', array('as'=> 'news.save', 'uses'=> 'NewsController@save'));
 });
 
 //yh
