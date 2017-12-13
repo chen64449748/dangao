@@ -4,7 +4,7 @@ class NewsController extends BaseController
 {
 	public function newsList()
 	{
-		$newses = DB::table('news')->paginate(15);
+		$newses = DB::table('news')->orderBy('id', 'desc')->paginate(15);
 
 		$view_data = array(
 			'newses' => $newses,
